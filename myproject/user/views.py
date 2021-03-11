@@ -72,14 +72,15 @@ def login(request):
             request.session['user_name'] = user[0].Name
             request.session['user_mail'] = user[0].Mail
             #print(request.session['user']+"登入成功")
-            context = {'user':request.session['user_name']}
-            return render(request, 'login_succeed.html',context)
+            #context = {'user':request.session['user_name']}
+            #return render(request, 'user_profile.html',context)
+            return redirect('profile')
         else:
             #print("登入失敗")
             context = {'failed':"帳號或密碼錯誤"}
             return render(request, 'user_login.html', context)
     elif 'user_mail' in request.session:
-        return redirect('index')
+        return redirect('profile')
 
 
     return render(request, 'user_login.html')
@@ -87,6 +88,15 @@ def login(request):
 def logout(request):
     request.session.clear()
     return redirect('index')
+
+def profile(request):
+    context = {}
+    return render(request, 'user_profile.html',context)
+
+
+
+
+
 
 def hashpwd(pwd):
     salt = bcrypt.gensalt()
