@@ -8,7 +8,6 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from .models import Clothes2You_User, UserManager
 
-user_temp = "" #改用session
 
 def index(request):
     return render(request, 'index.html')
@@ -52,7 +51,7 @@ def register(request):
             #member.save()
             return render(request, 'register_succeed.html')
     else:
-        return render(request, 'user_register.html')
+        return redirect('register')
 
 def login(request):
     if request.POST:
@@ -93,9 +92,37 @@ def profile(request):
     context = {}
     return render(request, 'user_profile.html',context)
 
+def changeprofile(request):
+    if request.POST:
+        phone = request.POST['user_phone']
+        address = request.POST['user_address']
+    return redirect('profile')
 
+def changepwd(request):
+    if request.POST:
+        old = request.POST['user_password']
+        new = request.POST['new_user_password']
+        check_new = request.POST['new_password_check']
 
+        email = request.session['user_mail']
+        user = Clothes2You_User.objects.filter(Mail=email)
+        if bcrypt.checkpw(bytes(old, 'utf-8'), user[0].PWD) and check_password(new) and check_pwd_match(new,check_new) :
+            new_salt,new_hashed = hashpwd(new)
+        else:
+            warning_list = []
+            # 密碼格式檢查
+            if check_password(old):
+                warning_list.append("密碼格式不符")
+            if check_pwd_match(new, check_new):
+                warning_list.append("密碼與確認密碼不符")
+            if (not check_password(new)) and (not check_pwd_match(new,check_new)):
+                warning_list.append("舊密碼輸入錯誤")
+            context = {'warn':warning_list}
+            return render()
+    return redirect('profile')
 
+def resetpwd(request):
+    return redirect('profile')
 
 
 def hashpwd(pwd):
