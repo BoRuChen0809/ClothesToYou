@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="col-6 col-12-medium">
                             <h3>使用者資料</h3>
-                            <form action="" method="post">
+                            <form action="{% url 'changeprofile' %}" method="post">{% csrf_token %}
                                 <div> <input readonly type="text" name="user_name" id="user_name" value="" placeholder="使用者姓名"> </div>
                                 <div> <input readonly type="text" name="user_email" id="user_email" value="" placeholder="電子郵件"> </div>
                                 <hr>

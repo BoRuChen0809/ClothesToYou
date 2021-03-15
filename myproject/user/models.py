@@ -33,15 +33,19 @@ class UserManager(Manager):
     def createUser(mail,name,pwd,salt,phone1):
         user = Clothes2You_User(Name=name,Mail=mail,PWD=pwd,Salt=salt,Phone_1=phone1)
         user.save()
-
-    def update(self,mail=None, name=None, phone1=None, phone2=None, address=None):
+        '''
+    def update(self,mail=None, phone1=None, address=None):
         user = Clothes2You_User.objects.filter(Mail=mail)
-        self.update_name(name)
+        self.update_phone(user[0],phone1)
+        self.update_address(user[0],address)
 
-
-    def update_name(user,name):
-        if name is not None:
-            user.update(Name=name)
+    def update_phone(user, phone):
+        if phone is not None:
+            user.update(Phone_1=phone)
+    def update_address(user,address):
+        if address is not None:
+            user.update(Address=address)
+                '''
 
 
 

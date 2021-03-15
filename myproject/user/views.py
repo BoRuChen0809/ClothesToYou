@@ -57,23 +57,25 @@ def login(request):
     if request.POST:
         email = request.POST['user_email']
         pwd = request.POST['user_password']
-        user = Clothes2You_User.objects.filter(Mail=email)
+        #user = Clothes2You_User.objects.filter(Mail=email)
+        user = Clothes2You_User.objects.get(Mail=email)
         '''
-        print(pwd)
-        print(bytes(pwd, 'utf-8'))
-        print(user[0].PWD)
-        print(type(user[0].PWD))
-        print(user[0].Salt)
-        print(type(user[0].Salt))
-        '''
-
-        if bcrypt.checkpw(bytes(pwd, 'utf-8'), user[0].PWD):
-            request.session['user_name'] = user[0].Name
-            request.session['user_mail'] = user[0].Mail
+               if bcrypt.checkpw(bytes(pwd, 'utf-8'), user[0].PWD):
+                   request.session['user_name'] = user[0].Name
+                   request.session['user_mail'] = user[0].Mail
+                   #print(request.session['user']+"登入成功")
+                   #context = {'user':request.session['user_name']}
+                   #return render(request, 'user_profile.html',context)
+                   return redirect('profile')
+               '''
+        if bcrypt.checkpw(bytes(pwd, 'utf-8'), user.PWD):
+            request.session['user_name'] = user.Name
+            request.session['user_mail'] = user.Mail
             #print(request.session['user']+"登入成功")
             #context = {'user':request.session['user_name']}
             #return render(request, 'user_profile.html',context)
             return redirect('profile')
+
         else:
             #print("登入失敗")
             context = {'failed':"帳號或密碼錯誤"}
@@ -95,7 +97,19 @@ def profile(request):
 def changeprofile(request):
     if request.POST:
         phone = request.POST['user_phone']
+        if check_phone(phone):
+            context = {'warn':"電話話碼格式有誤"}
+            return render(request,'user_profile.html',context)
+
         address = request.POST['user_address']
+        mail = request.session['user_mail']
+
+        user = Clothes2You_User.objects.filter(Mail=mail)
+        user[0].Phone1 = phone
+        user[0].Address = address
+        user[0].save()
+        return  redirect('profile')
+
     return redirect('profile')
 
 def changepwd(request):
