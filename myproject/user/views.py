@@ -51,7 +51,7 @@ def register(request):
             #member.save()
             return render(request, 'register_succeed.html')
     else:
-        return redirect('register')
+        return render(request, 'user_register.html')
 
 def login(request):
     if request.POST:
