@@ -49,11 +49,11 @@
                         <div class="col-6 col-12-medium">
                             <h3>使用者資料</h3>
                             <form action="{% url 'changeprofile' %}" method="post">{% csrf_token %}
-                                <div> <input readonly type="text" name="user_name" id="user_name" value="" placeholder="使用者姓名"> </div>
-                                <div> <input readonly type="text" name="user_email" id="user_email" value="" placeholder="電子郵件"> </div>
+                                <div> <input readonly type="text" name="user_name" id="user_name" value={{user.Name}} placeholder="使用者姓名"> </div>
+                                <div> <input readonly type="text" name="user_email" id="user_email" value={{user.Mail}} placeholder="電子郵件"> </div>
                                 <hr>
-                                <div> <input type="text" name="user_phone" id="user_phone" value="" placeholder="電話號碼"> </div>
-                                <div> <input type="text" name="user_address" id="user_address" value="" placeholder="貨運地址"> </div>
+                                <div> <input type="text" name="user_phone" id="user_phone" value={{user.Phone_1}} placeholder="電話號碼"> </div>
+                                <div> <input type="text" name="user_address" id="user_address" value={{user.Address}} placeholder="貨運地址"> </div>
                                 <div class="col-4 col-12-small">
                                     <input type="radio" id="radio-alpha" name="radio">
                                     <label for="radio-alpha">男性</label>
@@ -83,6 +83,7 @@
                     <h3>購物車</h3>
                 </div>
 			</div>
+            </div>
         </section>
         <!-- Footer -->
         <footer id="footer">

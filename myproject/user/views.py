@@ -91,7 +91,8 @@ def logout(request):
     return redirect('index')
 
 def profile(request):
-    context = {}
+    user = Clothes2You_User.objects.get(Mail=request.session['user_mail'])
+    context = {'user':user}
     return render(request, 'user_profile.html',context)
 
 def changeprofile(request):
@@ -100,14 +101,18 @@ def changeprofile(request):
         if check_phone(phone):
             context = {'warn':"電話話碼格式有誤"}
             return render(request,'user_profile.html',context)
-
+        gender = request.POST['radio']
         address = request.POST['user_address']
-        mail = request.session['user_mail']
+        print(gender)
 
-        user = Clothes2You_User.objects.filter(Mail=mail)
-        user[0].Phone1 = phone
-        user[0].Address = address
-        user[0].save()
+
+        mail = request.session['user_mail']
+        user = Clothes2You_User.objects.get(Mail=mail)
+        user.Phone_1 = phone
+        user.Address = address
+
+        user.save()
+
         return  redirect('profile')
 
     return redirect('profile')
