@@ -124,9 +124,14 @@ def changepwd(request):
         check_new = request.POST['new_password_check']
 
         email = request.session['user_mail']
-        user = Clothes2You_User.objects.filter(Mail=email)
+        user = Clothes2You_User.objects.get(Mail=email)
         if bcrypt.checkpw(bytes(old, 'utf-8'), user[0].PWD) and check_password(new) and check_pwd_match(new,check_new) :
             new_salt,new_hashed = hashpwd(new)
+            user.Salt = new_salt
+            user.PWD = new_hashed
+            user.save()
+            logout()
+            #return redirect('profile')
         else:
             warning_list = []
             # 密碼格式檢查
@@ -137,7 +142,7 @@ def changepwd(request):
             if (not check_password(new)) and (not check_pwd_match(new,check_new)):
                 warning_list.append("舊密碼輸入錯誤")
             context = {'warn':warning_list}
-            return render()
+            return render(request, 'user_profile.html',context)
     return redirect('profile')
 
 def resetpwd(request):
