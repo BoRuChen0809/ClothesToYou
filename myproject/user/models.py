@@ -18,14 +18,14 @@ class Clothes2You_User(models):
 '''
 
 class Clothes2You_User(models.Model):
-    Mail = models.EmailField(default="")
-    Name = models.CharField(max_length=50,default="")
+    Mail = models.EmailField(default=None)
+    Name = models.CharField(max_length=50,default=None)
     PWD = models.BinaryField()
     Salt = models.BinaryField()
     Active = models.BooleanField(default=False)
-    Phone_1 = models.CharField(max_length=12, default="")
+    Phone_1 = models.CharField(max_length=12, default=None)
     #Phone_2 = models.CharField(max_length=12, default="")
-    Address = models.CharField(max_length=100, default="")
+    Address = models.CharField(max_length=100, default=None)
     GENDER_CHOICES = (('M','Male'),('F','Female'),('N','Null'),)
     Gender = models.CharField(max_length=1,choices=GENDER_CHOICES,default='N')
 
