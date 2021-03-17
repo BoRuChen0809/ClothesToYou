@@ -24,7 +24,7 @@ class Clothes2You_User(models.Model):
     Salt = models.BinaryField()
     Active = models.BooleanField(default=False)
     Phone_1 = models.CharField(max_length=12, default="")
-    Phone_2 = models.CharField(max_length=12, default="")
+    #Phone_2 = models.CharField(max_length=12, default="")
     Address = models.CharField(max_length=100, default="")
     GENDER_CHOICES = (('M','Male'),('F','Female'),('N','Null'),)
     Gender = models.CharField(max_length=1,choices=GENDER_CHOICES,default='N')

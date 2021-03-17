@@ -55,13 +55,15 @@
                                 <div> <input type="text" name="user_phone" id="user_phone" value={{user.Phone_1}} placeholder="電話號碼"> </div>
                                 <div> <input type="text" name="user_address" id="user_address" value={{user.Address}} placeholder="貨運地址"> </div>
                                 <div class="col-4 col-12-small">
-                                    <input type="radio" id="radio-alpha" name="radio">
+
+                                    <input type="radio" id="radio-alpha" name="radio" value="M" checked>
                                     <label for="radio-alpha">男性</label>
-                                    <input type="radio" id="radio-beta" name="radio">
+                                    <input type="radio" id="radio-beta" name="radio" value="F">
                                     <label for="radio-beta">女性</label>
-                                    <input type="radio" id="radio-gamma" name="radio">
+                                    <input type="radio" id="radio-gamma" name="radio" value="N">
                                     <label for="radio-gamma">不願透漏</label>
                                 </div>
+
                                 <div><input type="submit" value="修改資訊"></div>
                             </form>
                         </div>
