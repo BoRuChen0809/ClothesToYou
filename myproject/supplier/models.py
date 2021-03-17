@@ -12,3 +12,4 @@ class Supplier(models.Model):
     Salt = models.BinaryField()
     Active = models.BooleanField(default=False)
     Address = models.CharField(max_length=100, default=None)
+    Picture = models.ImageField(default=None)
