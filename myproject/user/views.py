@@ -99,7 +99,7 @@ def changeprofile(request):
     if request.POST:
         phone = request.POST['user_phone']
         if check_phone(phone):
-            context = {'warn':"電話話碼格式有誤"}
+            context = {'warn_1':"電話話碼格式有誤"}
             return render(request,'user_profile.html',context)
         gender = request.POST['radio']
         address = request.POST['user_address']
@@ -125,13 +125,18 @@ def changepwd(request):
 
         email = request.session['user_mail']
         user = Clothes2You_User.objects.get(Mail=email)
-        if bcrypt.checkpw(bytes(old, 'utf-8'), user[0].PWD) and check_password(new) and check_pwd_match(new,check_new) :
+
+        print(bcrypt.checkpw(bytes(old, 'utf-8'),user.PWD))
+        print(check_password(new))
+        print(check_pwd_match(new,check_new))
+
+        if bcrypt.checkpw(bytes(old, 'utf-8'), user.PWD) and (not check_password(new)) and (not check_pwd_match(new,check_new)) :
             new_salt,new_hashed = hashpwd(new)
             user.Salt = new_salt
             user.PWD = new_hashed
             user.save()
-            logout()
-            #return redirect('profile')
+
+            return redirect('logout')
         else:
             warning_list = []
             # 密碼格式檢查
@@ -139,9 +144,9 @@ def changepwd(request):
                 warning_list.append("密碼格式不符")
             if check_pwd_match(new, check_new):
                 warning_list.append("密碼與確認密碼不符")
-            if (not check_password(new)) and (not check_pwd_match(new,check_new)):
+            if not bcrypt.checkpw(bytes(old, 'utf-8'),user.PWD):
                 warning_list.append("舊密碼輸入錯誤")
-            context = {'warn':warning_list}
+            context = {'warn_2':warning_list, 'user':user}
             return render(request, 'user_profile.html',context)
     return redirect('profile')
 
@@ -182,10 +187,11 @@ def check_password(str):
             has_Char = True
             break
 
-    if len(str) < 8:
-        eight_char = False
+    if len(str) >= 8:
+        eight_char = True
 
-    return eight_char and has_Char and has_Num
+    return not(eight_char and has_Char and has_Num)
+
 def check_pwd_match(pwd, c_pwd):
     if pwd != c_pwd:
         return True

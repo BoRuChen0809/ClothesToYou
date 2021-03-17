@@ -49,11 +49,11 @@
                         <div class="col-6 col-12-medium">
                             <h3>使用者資料</h3>
                             <form action="{% url 'changeprofile' %}" method="post">{% csrf_token %}
-                                <div> <input readonly type="text" name="user_name" id="user_name" value={{user.Name}} placeholder="使用者姓名"> </div>
-                                <div> <input readonly type="text" name="user_email" id="user_email" value={{user.Mail}} placeholder="電子郵件"> </div>
+                                <div> <input readonly type="text" name="user_name" id="user_name" placeholder="使用者姓名" value={{user.Name}} > </div>
+                                <div> <input readonly type="text" name="user_email" id="user_email" placeholder="電子郵件" value={{user.Mail}}> </div>
                                 <hr>
-                                <div> <input type="text" name="user_phone" id="user_phone" value={{user.Phone_1}} placeholder="電話號碼"> </div>
-                                <div> <input type="text" name="user_address" id="user_address" value={{user.Address}} placeholder="貨運地址"> </div>
+                                <div> <input type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
+                                <div> <input type="text" name="user_address" id="user_address" placeholder="貨運地址" value={{user.Address}}> </div>
                                 <div class="col-4 col-12-small">
 
                                     <input type="radio" id="radio-alpha" name="radio" value="M" checked>
@@ -66,15 +66,17 @@
 
                                 <div><input type="submit" value="修改資訊"></div>
                             </form>
+                            <div>{{warn_1}}</div>
                         </div>
                         <div class="col-6 col-12-medium">
                             <h3>密碼更改</h3>
                             <form action="{% url 'changepwd' %}" method="post">{% csrf_token %}
                                 <div> <input type="password" name="user_password" id="user_password" value="" placeholder="目前密碼"> </div>
-                                <div> <input type="password" name="new_user_password" id="new_user_password" value="" placeholder="請再輸入一次新的密碼"> </div>
-                                <div> <input type="password" name="new_password_check" id="new_password_check" value="" placeholder="新的密碼"> </div>
+                                <div> <input type="password" name="new_user_password" id="new_user_password" value="" placeholder="新的密碼"> </div>
+                                <div> <input type="password" name="new_password_check" id="new_password_check" value="" placeholder="請再輸入一次新的密碼"> </div>
                                 <div> <input type="submit" value="更改密碼"> </div>
                             </form>
+                            <div>{{warn_2}}</div>
                         </div>
                     </div>
                 </div>
