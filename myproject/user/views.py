@@ -15,7 +15,6 @@ def index(request):
 def register(request):
     if request.POST:
         warning_list = []
-
         #姓名不得為空值或""
         name = request.POST['user_name']
         if check_name(name):
@@ -80,6 +79,7 @@ def login(request):
             #print("登入失敗")
             context = {'failed':"帳號或密碼錯誤"}
             return render(request, 'user_login.html', context)
+
     elif 'user_mail' in request.session:
         return redirect('profile')
 
@@ -91,6 +91,8 @@ def logout(request):
     return redirect('index')
 
 def profile(request):
+    if 'user_mail' not in request.session:
+        return redirect('login')
     user = Clothes2You_User.objects.get(Mail=request.session['user_mail'])
     context = {'user':user}
     return render(request, 'user_profile.html',context)
@@ -113,7 +115,7 @@ def changeprofile(request):
 
         user.save()
 
-        return  redirect('profile')
+        return redirect('profile')
 
     return redirect('profile')
 

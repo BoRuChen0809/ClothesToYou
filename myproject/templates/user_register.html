@@ -20,7 +20,7 @@
 
 		<!-- Header -->
 			<header id="header">
-				<a class="logo" href="user/index">Clothes to You</a>
+				<a class="logo" href="{% url 'index' %}">Clothes to You</a>
 				<nav>
 					<a href="#menu">Menu</a>
 				</nav>
@@ -29,8 +29,8 @@
 		<!-- Nav -->
 			<nav id="menu">
 				<ul class="links">
-					<li><a href="/user/index">首頁</a></li>
-					<li><a href="elements.html">會員中心</a></li>
+					<li><a href="{% url 'index' %}">首頁</a></li>
+					<li><a href="{% url 'profile' %}">會員中心</a></li>
 					<li><a href="generic.html">購物中心</a></li>
 				</ul>
 			</nav>
