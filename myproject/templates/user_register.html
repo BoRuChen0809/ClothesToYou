@@ -30,8 +30,8 @@
 			<nav id="menu">
 				<ul class="links">
 					<li><a href="{% url 'index' %}">首頁</a></li>
-					<li><a href="{% url 'profile' %}">會員中心</a></li>
-					<li><a href="generic.html">購物中心</a></li>
+					<li><a href="{% url 'login' %}">會員登入</a></li>
+					<li><a href="{% url 'register' %}">帳號註冊</a></li>
 				</ul>
 			</nav>
 
@@ -81,8 +81,7 @@
 						<section>
 							<h4>其他服務</h4>
 							<ul class="alt">
-								<li><a href="#">購物網站</a></li>
-								<li><a href="#">成為合作夥伴</a></li>
+								<li><a href="{% url 'index' %}">首頁</a></li>
 								<li><a href="#">客服中心</a></li>
 							</ul>
 						</section>
