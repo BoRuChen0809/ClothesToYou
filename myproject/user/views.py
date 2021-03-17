@@ -159,6 +159,8 @@ def hashpwd(pwd):
     hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
     return salt,hashed_pwd
 
+
+#有問題rerturn True
 def check_name(str):
     if str == "":
         return True
@@ -169,10 +171,10 @@ def check_email(str):
 def check_existmail(str):
     try:
         if len(Clothes2You_User.objects.filter(Name=str))>0:
-            return True
-        else: return False
+            return False
+        else: return True
     except:
-        return False
+        return True
 def check_password(str):
     eight_char = False
     has_Num = False
@@ -191,7 +193,6 @@ def check_password(str):
         eight_char = True
 
     return not(eight_char and has_Char and has_Num)
-
 def check_pwd_match(pwd, c_pwd):
     if pwd != c_pwd:
         return True
