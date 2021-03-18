@@ -14,20 +14,22 @@ class Supplier(models.Model):
     Address = models.CharField(max_length=100, default=None)
     Picture = models.ImageField(default=None)
 
-
+'''
 class Product(models.Model):
     ID = models.CharField(max_length=50,default=None)
     Name = models.CharField(max_length=50,default=None)
     Price = models.IntegerField(max_length=5,default=None)
-    Brand = models.ForeignKey(Supplier,default=None,on_delete=models.CASCADE())
+    Brand = models.ForeignKey(Supplier,default=None,on_delete=models.CASCADE)
     Genre = models.CharField(max_length=10,default=None)
     Category = models.CharField(max_length=10,default=None)
     SAle_Category = models.CharField(max_length=10,default=None)
 
 class SKU_Product(models.Model):
     SKU_ID = models.CharField(max_length=100,default=None)
-    Product = models.ForeignKey(Product,default=None)
+    Product = models.ForeignKey(Product,default=None,on_delete=models.CASCADE)
     Size = models.CharField()
     Store = models.IntegerField()
     #Color = models.
     Picture = models.ImageField()
+
+'''
