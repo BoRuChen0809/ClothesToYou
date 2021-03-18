@@ -1,7 +1,7 @@
 import re
 
 import bcrypt
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from .models import Supplier
@@ -15,7 +15,7 @@ def become_partner(request):
         warning_list = []
 
         id = request.POST['company_id']
-        if check_id(id):
+        if check_id(id) or check_exist(id):
             warning_list.append("統編有誤")
 
         c_name = request.POST['company_name']  # 公司名稱****************
@@ -62,6 +62,25 @@ def become_partner(request):
     return render(request, 'supplier_become_partner.html')
 
 def slogin(request):
+    if request.POST:
+
+        c_name = request.POST['company_name']
+        c_id = request.POST['company_id']
+        pwd = request.POST['supplier_password']
+
+        supplier = Supplier.objects.get(S_ID = c_id)
+
+        if bcrypt.checkpw(bytes(pwd, 'utf-8'), supplier.PWD) and supplier.C_Name==c_name :
+            request.session['supplier_id'] = supplier.S_ID
+            return redirect('sprofile')
+        else:
+            # print("登入失敗")
+            context = {'failed': "登入資訊或密碼錯誤"}
+            return render(request, 'supplier_login.html', context)
+
+    elif 'supplier' in request.session:
+        return redirect('profile')
+
     return render(request, 'supplier_login.html')
 
 def sprofile(request):
@@ -106,7 +125,7 @@ def check_name(str):
 def check_email(str):
     mail = re.compile(r"[^@]+@[^@]+\.[^@]+")
     return not mail.match(str)
-def check_existmail(str):
+def check_exist(str):
     try:
         if len(Supplier.objects.filter(ID=str))>0:
             return False

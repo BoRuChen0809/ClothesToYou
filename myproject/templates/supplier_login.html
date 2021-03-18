@@ -43,9 +43,9 @@
             <div class="content">
             <!-- Elements -->
             <h3>請填入登入資訊</h3>
-            <form action="" method="post">
+            <form action="{% url 'slogin' %}" method="post">{% csrf_token %}
                 <div> <input type="text" name="company_name" id="company_name" value="" placeholder="供應商名稱"> </div>
-                <div> <input type="text" name="supplier_phone" id="supplier_phone" value="" placeholder="聯絡人電話"> </div>
+                <div> <input type="text" name="company_id" id="company_id" value="" placeholder="統一編號"> </div>
                 <div> <input type="password" name="supplier_password" id="supplier_password" value="" placeholder="密碼"> </div>
                 <div>
                     <input type="submit" value="登入">  
@@ -53,6 +53,9 @@
                     還沒成為合作夥伴嗎? <a href="{% url 'become_partner'%}">提出聲請</a>
                 </div>
             </form>
+                <div>{{failed}}</div>
+            </div>
+            </div>
         </section>
         <!-- Footer -->
         <footer id="footer">
