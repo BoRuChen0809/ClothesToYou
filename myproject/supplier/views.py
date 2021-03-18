@@ -52,7 +52,7 @@ def become_partner(request):
             return render(request, 'supplier_become_partner.html', context)
         else:
             salt,pwd = hashpwd(pwd)
-            supplier = Supplier(ID=id,C_Name=c_name,Principal=principal,Phone=phone,Mail=mail,PWD=pwd,Salt=salt,Active=False,Address=address)
+            supplier = Supplier(S_ID=id,C_Name=c_name,Principal=principal,Phone=phone,Mail=mail,PWD=pwd,Salt=salt,Active=False,Address=address)
             supplier.save()
 
             return render(request, 'register_succeed.html')
