@@ -127,11 +127,12 @@ def check_email(str):
     return not mail.match(str)
 def check_exist(str):
     try:
-        if len(Supplier.objects.filter(ID=str))>0:
+        if len(Supplier.objects.filter(S_ID=str)) > 0:
+            return True
+        else:
             return False
-        else: return True
     except:
-        return True
+        return False
 def check_password(str):
     eight_char = False
     has_Num = False

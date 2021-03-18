@@ -164,10 +164,10 @@ def check_email(str):
 def check_existmail(str):
     try:
         if len(Clothes2You_User.objects.filter(Mail=str))>0:
-            return False
-        else: return True
+            return True
+        else: return False
     except:
-        return True
+        return False
 def check_password(str):
     eight_char = False
     has_Num = False

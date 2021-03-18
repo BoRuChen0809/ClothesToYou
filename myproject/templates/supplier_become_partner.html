@@ -58,6 +58,9 @@
                     已經是合作夥伴了嗎? <a href="{% url 'slogin' %}">登入</a>
                 </div>
             </form>
+                {% for warn in warning%}
+							<div> {{warn}} </div>
+						{% endfor %}
             </div>
             </div>
         </section>
