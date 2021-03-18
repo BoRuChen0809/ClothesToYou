@@ -17,6 +17,8 @@ def become_partner(request):
         id = request.POST['company_id']
         if check_id(id) or check_exist(id):
             warning_list.append("統編有誤")
+            print(check_id(id))
+            print(check_exist(id))
 
         c_name = request.POST['company_name']  # 公司名稱****************
         if check_name(c_name):
