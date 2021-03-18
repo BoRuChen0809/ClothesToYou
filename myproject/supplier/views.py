@@ -28,6 +28,9 @@ def become_partner(request):
 def slogin(request):
     return render(request, 'supplier_login.html')
 
+def sprofile(request):
+    return render(request, 'supplier_profile.html')
+
 
 
 
