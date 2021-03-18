@@ -42,7 +42,7 @@
             <div class="content">
             <!-- Elements -->
             <h3>請填入必要資訊</h3>
-            <form action="{% url 'become_partner' %}" method="post">
+            <form action="{% url 'become_partner' %}" method="post">{% csrf_token %}
                 <div> <input type="text" name="company_name" id="company_name" value="" placeholder="公司名稱"> </div>
                 <div> <input type="text" name="company_id" id="company_id" value="" placeholder="統一編號"> </div>
                 <div> <input type="text" name="company_address" id="company_address" value="" placeholder="通訊地址"> </div>
