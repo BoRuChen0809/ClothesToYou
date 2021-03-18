@@ -4,8 +4,8 @@ from django.db import models
 
 class Supplier(models.Model):
     ID = models.CharField(max_length=8, default=None)           #統編****************
-    B_Name = models.CharField(max_length=100,default=None)      #公司名稱****************
-    BU_Name = models.CharField(max_length=50,default=None)      #負責人姓名
+    C_Name = models.CharField(max_length=100,default=None)      #公司名稱****************
+    Principal = models.CharField(max_length=50,default=None)      #負責人姓名
     Phone = models.CharField(max_length=12, default=None)
     Mail = models.EmailField(default=None)
     PWD = models.BinaryField()
@@ -13,3 +13,21 @@ class Supplier(models.Model):
     Active = models.BooleanField(default=False)                 #**********************
     Address = models.CharField(max_length=100, default=None)
     Picture = models.ImageField(default=None)
+
+
+class Product(models.Model):
+    ID = models.CharField(max_length=50,default=None)
+    Name = models.CharField(max_length=50,default=None)
+    Price = models.IntegerField(max_length=5,default=None)
+    Brand = models.ForeignKey(Supplier,default=None,on_delete=models.CASCADE())
+    Genre = models.CharField(max_length=10,default=None)
+    Category = models.CharField(max_length=10,default=None)
+    SAle_Category = models.CharField(max_length=10,default=None)
+
+class SKU_Product(models.Model):
+    SKU_ID = models.CharField(max_length=100,default=None)
+    Product = models.ForeignKey(Product,default=None)
+    Size = models.CharField()
+    Store = models.IntegerField()
+    #Color = models.
+    Picture = models.ImageField()

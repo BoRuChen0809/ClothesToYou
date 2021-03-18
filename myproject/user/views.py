@@ -54,25 +54,17 @@ def register(request):
 
 def login(request):
     if request.POST:
+
         email = request.POST['user_email']
         pwd = request.POST['user_password']
         #user = Clothes2You_User.objects.filter(Mail=email)
         user = Clothes2You_User.objects.get(Mail=email)
-        '''
-               if bcrypt.checkpw(bytes(pwd, 'utf-8'), user[0].PWD):
-                   request.session['user_name'] = user[0].Name
-                   request.session['user_mail'] = user[0].Mail
-                   #print(request.session['user']+"登入成功")
-                   #context = {'user':request.session['user_name']}
-                   #return render(request, 'user_profile.html',context)
-                   return redirect('profile')
-               '''
+
         if bcrypt.checkpw(bytes(pwd, 'utf-8'), user.PWD):
             request.session['user_name'] = user.Name
             request.session['user_mail'] = user.Mail
-            #print(request.session['user']+"登入成功")
-            #context = {'user':request.session['user_name']}
-            #return render(request, 'user_profile.html',context)
+            request.session['user'] = user
+
             return redirect('profile')
 
         else:
@@ -80,7 +72,7 @@ def login(request):
             context = {'failed':"帳號或密碼錯誤"}
             return render(request, 'user_login.html', context)
 
-    elif 'user_mail' in request.session:
+    elif 'user' in request.session:
         return redirect('profile')
 
 
@@ -91,13 +83,15 @@ def logout(request):
     return redirect('index')
 
 def profile(request):
-    if 'user_mail' not in request.session:
+    if 'user' not in request.session:
         return redirect('login')
-    user = Clothes2You_User.objects.get(Mail=request.session['user_mail'])
+    user = request.session['user']
     context = {'user':user}
     return render(request, 'user_profile.html',context)
 
 def changeprofile(request):
+    if 'user' not in request.session:
+        return redirect('login')
     if request.POST:
         phone = request.POST['user_phone']
         if check_phone(phone):
@@ -108,13 +102,15 @@ def changeprofile(request):
         print(gender)
 
 
-        mail = request.session['user_mail']
-        user = Clothes2You_User.objects.get(Mail=mail)
-        user.Phone_1 = phone
-        user.Address = address
+        user = request.session['user']
 
-        user.save()
+        change_user = Clothes2You_User.objects.get(Mail=user.Mail)
 
+        change_user.Phone_1 = phone
+        change_user.Address = address
+
+        change_user.save()
+        request.session['user'] = change_user
         return redirect('profile')
 
     return redirect('profile')
@@ -125,19 +121,19 @@ def changepwd(request):
         new = request.POST['new_user_password']
         check_new = request.POST['new_password_check']
 
-        email = request.session['user_mail']
-        user = Clothes2You_User.objects.get(Mail=email)
+        user = request.session['user']
 
-        print(bcrypt.checkpw(bytes(old, 'utf-8'),user.PWD))
-        print(check_password(new))
-        print(check_pwd_match(new,check_new))
+        change_user = Clothes2You_User.objects.get(Mail=user.Mail)
+
+
+
 
         if bcrypt.checkpw(bytes(old, 'utf-8'), user.PWD) and (not check_password(new)) and (not check_pwd_match(new,check_new)) :
             new_salt,new_hashed = hashpwd(new)
-            user.Salt = new_salt
-            user.PWD = new_hashed
-            user.save()
-
+            change_user.Salt = new_salt
+            change_user.PWD = new_hashed
+            change_user.save()
+            request.session['user'] = change_user
             return redirect('logout')
         else:
             warning_list = []
@@ -172,7 +168,7 @@ def check_email(str):
     return not mail.match(str)
 def check_existmail(str):
     try:
-        if len(Clothes2You_User.objects.filter(Name=str))>0:
+        if len(Clothes2You_User.objects.filter(Mail=str))>0:
             return False
         else: return True
     except:
