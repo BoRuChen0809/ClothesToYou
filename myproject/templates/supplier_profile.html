@@ -61,14 +61,10 @@
                             <div>{{warn_1}}</div>
                         </div>
                         <div class="col-6 col-12-medium">
-                            <input class="file-upload" type="file" accept="image/*"/>
-                            <div class="avatar-wrapper">
-
-	                            <img class="profile-pic" src="" />
-	                            <div class="upload-button">
-		                            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-	                            </div>
-
+                            <input type="file" name="image" id="image" accept="image/*" />
+                            <div id="preview">
+                                <div id="avatar"></div>
+                                <button id="upload-button" aria-labelledby="image" aria-describedby="image">上傳圖片</button>
                             </div>
                             <h3>密碼更改</h3>
                             <form action="{% url 'changepwd' %}" method="post">{% csrf_token %}

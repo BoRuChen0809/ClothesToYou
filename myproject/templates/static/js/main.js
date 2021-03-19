@@ -63,25 +63,20 @@ function clickHandle(evt, animalName) {
 	evt.currentTarget.className += " active";
 }
 
-$(document).ready(function() {
+const UPLOAD_BUTTON = document.getElementById("upload-button");
+const FILE_INPUT = document.querySelector("input[type=file]");
+const AVATAR = document.getElementById("avatar");
 
-    var readURL = function(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
+UPLOAD_BUTTON.addEventListener("click", () => FILE_INPUT.click());
 
-            reader.onload = function (e) {
-                $('.profile-pic').attr('src', e.target.result);
-            }
+FILE_INPUT.addEventListener("change", event => {
+  const file = event.target.files[0];
 
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
 
-    $(".file-upload").on('change', function(){
-        readURL(this);
-    });
-
-    $(".upload-button").on('click', function() {
-       $(".file-upload").click();
-    });
+  reader.onloadend = () => {
+    AVATAR.setAttribute("aria-label", file.name);
+    AVATAR.style.background = `url(${reader.result}) center center/cover`;
+  };
 });
