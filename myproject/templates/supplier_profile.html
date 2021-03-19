@@ -52,21 +52,23 @@
                                 <div> <input type="text" name="company_id" id="company_id" placeholder="統一編號" value={{supplier.S_ID}}> </div>
                                 <div> <input type="text" name="company_name" id="company_name" placeholder="供應商名稱" value={{supplier.C_Name}}> </div>
                                 <hr>
-                                <div> <input type="text" name="supplier_name" id="supplier_name" value="" placeholder="聯絡人姓名" value={{supplier.Principal}}> </div>
-                                <div> <input type="text" name="supplier_phone" id="supplier_phone" value="" placeholder="聯絡人電話" value={{supplier.Phone}}> </div>
-                                <div> <input type="text" name="supplier_email" id="supplier_email" value="" placeholder="連絡人電子郵件" value={{supplier.Mail}}> </div>
-                                <div> <input type="text" name="company_address" id="company_address" value="" placeholder="公司地址" value={{supplier.Address}}> </div>
+                                <div> <input type="text" name="supplier_name" id="supplier_name" placeholder="聯絡人姓名" value={{supplier.Principal}}> </div>
+                                <div> <input type="text" name="supplier_phone" id="supplier_phone" placeholder="聯絡人電話" value={{supplier.Phone}}> </div>
+                                <div> <input type="text" name="supplier_email" id="supplier_email" placeholder="連絡人電子郵件" value={{supplier.Mail}}> </div>
+                                <div> <input type="text" name="company_address" id="company_address" placeholder="公司地址" value={{supplier.Address}}> </div>
                                 <div><input type="submit" value="修改資訊"></div>
                             </form>
                             <div>{{warn_1}}</div>
                         </div>
                         <div class="col-6 col-12-medium">
+                            <input class="file-upload" type="file" accept="image/*"/>
                             <div class="avatar-wrapper">
+
 	                            <img class="profile-pic" src="" />
 	                            <div class="upload-button">
 		                            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
 	                            </div>
-	                            <input class="file-upload" type="file" accept="image/*"/>
+
                             </div>
                             <h3>密碼更改</h3>
                             <form action="{% url 'changepwd' %}" method="post">{% csrf_token %}
