@@ -70,23 +70,32 @@ def slogin(request):
         c_id = request.POST['company_id']
         pwd = request.POST['supplier_password']
 
+        print(c_name)
+        print(c_id)
+        print(pwd)
+
         supplier = Supplier.objects.get(S_ID = c_id)
+        print(supplier)
 
         if bcrypt.checkpw(bytes(pwd, 'utf-8'), supplier.PWD) and supplier.C_Name==c_name :
             request.session['supplier_id'] = supplier.S_ID
+            print("登入成功")
             return redirect('sprofile')
         else:
-            # print("登入失敗")
+            print("登入失敗")
             context = {'failed': "登入資訊或密碼錯誤"}
             return render(request, 'supplier_login.html', context)
 
-    elif 'supplier' in request.session:
-        return redirect('profile')
+    elif 'supplier_id' in request.session:
+        return redirect('sprofile')
 
     return render(request, 'supplier_login.html')
 
 def sprofile(request):
-    return render(request, 'supplier_profile.html')
+    c_id = request.session['supplier_id']
+    supplier = Supplier.objects.get(S_ID=c_id)
+    context = {'supplier':supplier}
+    return render(request, 'supplier_profile.html',context)
 
 
 
