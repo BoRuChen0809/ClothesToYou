@@ -2868,9 +2868,11 @@ body.is-menu-visible #menu {
 }
 
 #preview {
-  position: relative;
+    position: relative;
+    top: 40px; left: 40px;
 }
 
 input[type="file"] {
-  display: none;
+  display: block;
 }
+

@@ -63,11 +63,11 @@ function clickHandle(evt, animalName) {
 	evt.currentTarget.className += " active";
 }
 
-const UPLOAD_BUTTON = document.getElementById("upload-button");
+//const UPLOAD_BUTTON = document.getElementById("upload-button");
 const FILE_INPUT = document.querySelector("input[type=file]");
 const AVATAR = document.getElementById("avatar");
 
-UPLOAD_BUTTON.addEventListener("click", () => FILE_INPUT.click());
+//UPLOAD_BUTTON.addEventListener("click", () => FILE_INPUT.click());
 
 FILE_INPUT.addEventListener("change", event => {
   const file = event.target.files[0];

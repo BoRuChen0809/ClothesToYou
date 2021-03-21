@@ -62,13 +62,12 @@
                         </div>
 
                         <div class="col-6 col-12-medium">
-
-                            <input type="file" name="image" id="image" accept="image/*" />
-                            <div id="preview">
-                                <div id="avatar"></div>
-                                <button id="upload-button" aria-labelledby="image" aria-describedby="image">上傳圖片</button>
-                            </div>
-
+                                <form action = "" method = "post" enctype="multipart/form-data"> {% csrf_token %}
+                                    <input type="file" value="C:\Users\SHIEL\Pictures\Saved Pictures\Mikoto.png" name="image" id="image" accept="image/*" />
+                                    <div id="preview">
+                                        <div id="avatar"></div>
+                                    </div>
+                                </form>
                             <h3>密碼更改</h3>
                             <form action="{% url 'changespwd' %}" method="post">{% csrf_token %}
                                 <div> <input type="password" name="supplier_password" id="supplier_password" value="" placeholder="目前密碼"> </div>
@@ -135,5 +134,6 @@
 			<script src="{% static 'js/util.js' %}"></script>
 			<script src="{% static 'js/main.js' %}"></script>
             <script>document.getElementsByClassName('tablinks')[0].click()</script>
+
     </body>
 </html>
