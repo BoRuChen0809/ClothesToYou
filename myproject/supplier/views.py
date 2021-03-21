@@ -99,7 +99,7 @@ def sprofile(request):
     return render(request, 'supplier_profile.html',context)
 
 def changesprofile(request):
-    if request.POST and request.FILES:
+    if request.POST:
         warning_list = {}
 
         principal = request.POST['supplier_name']
@@ -118,8 +118,6 @@ def changesprofile(request):
         if check_name(address):
             warning_list.append("通訊地有誤")
 
-        image = request.FILES['image']
-
 
         c_id = request.session['supplier_id']
         supplier = Supplier.objects.get(S_ID=c_id)
@@ -132,7 +130,6 @@ def changesprofile(request):
             supplier.Mail = mail
             supplier.Address =address
             supplier.Phone = phone
-            supplier.Picture = image
             print("成功!!!")
 
 
@@ -174,13 +171,17 @@ def changespwd(request):
         return redirect('slogin')
     return redirect('sprofile')
 
+
+
+
+
+
 def hashpwd(pwd):
     salt = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
     return salt,hashed_pwd
 
 #有問題rerturn True
-
 def check_id(str):
     list = [1, 2, 1, 2, 1, 2, 4, 1]
     serial_list = []
