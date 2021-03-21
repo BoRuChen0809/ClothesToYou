@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="col-6 col-12-medium">
                             <h3>供應商資料</h3>
-                            <form action="{% url 'changeprofile' %}" method="post">{% csrf_token %}
+                            <form action="{% url 'changesprofile' %}" method="post">{% csrf_token %}
                                 <div> <input type="text" name="company_id" id="company_id" placeholder="統一編號" value={{supplier.S_ID}}> </div>
                                 <div> <input type="text" name="company_name" id="company_name" placeholder="供應商名稱" value={{supplier.C_Name}}> </div>
                                 <hr>
@@ -60,12 +60,15 @@
                             </form>
                             <div>{{warn_1}}</div>
                         </div>
+
                         <div class="col-6 col-12-medium">
+
                             <input type="file" name="image" id="image" accept="image/*" />
                             <div id="preview">
                                 <div id="avatar"></div>
                                 <button id="upload-button" aria-labelledby="image" aria-describedby="image">上傳圖片</button>
                             </div>
+
                             <h3>密碼更改</h3>
                             <form action="{% url 'changespwd' %}" method="post">{% csrf_token %}
                                 <div> <input type="password" name="supplier_password" id="supplier_password" value="" placeholder="目前密碼"> </div>

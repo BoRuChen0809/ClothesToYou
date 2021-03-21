@@ -70,12 +70,7 @@ def slogin(request):
         c_id = request.POST['company_id']
         pwd = request.POST['supplier_password']
 
-        print(c_name)
-        print(c_id)
-        print(pwd)
-
         supplier = Supplier.objects.get(S_ID = c_id)
-        print(supplier)
 
         if bcrypt.checkpw(bytes(pwd, 'utf-8'), supplier.PWD) and supplier.C_Name==c_name :
             request.session['supplier_id'] = supplier.S_ID
@@ -96,13 +91,53 @@ def slogout(request):
     return redirect('sindex')
 
 def sprofile(request):
+    if 'supplier_id' not in request.session:
+        return redirect('slogin')
     c_id = request.session['supplier_id']
     supplier = Supplier.objects.get(S_ID=c_id)
     context = {'supplier':supplier}
     return render(request, 'supplier_profile.html',context)
 
 def changesprofile(request):
-    
+    if request.POST and request.FILES:
+        warning_list = {}
+
+        principal = request.POST['supplier_name']
+        if check_name(principal):
+            warning_list.append("姓名有誤")
+
+        phone = request.POST['supplier_phone']
+        if check_phone(phone):
+            warning_list.append("電話號碼有誤")
+
+        mail = request.POST['supplier_email']
+        if check_email(mail):
+            warning_list.append("電子郵件有誤")
+
+        address = request.POST['company_address']
+        if check_name(address):
+            warning_list.append("通訊地有誤")
+
+        image = request.FILES['image']
+
+
+        c_id = request.session['supplier_id']
+        supplier = Supplier.objects.get(S_ID=c_id)
+
+        if len(warning_list) > 0:
+            context = {'warn1':warning_list}
+            return render(request, 'supplier_profile.html',context)
+        else:
+            supplier.Principal = principal
+            supplier.Mail = mail
+            supplier.Address =address
+            supplier.Phone = phone
+            supplier.Picture = image
+            print("成功!!!")
+
+
+    elif 'supplier_id' not in request.session:
+        return redirect('slogin')
     return redirect('sprofile')
 
 def changespwd(request):
@@ -135,6 +170,8 @@ def changespwd(request):
                 warning_list.append("舊密碼輸入錯誤")
             context = {'warn_2':warning_list, 'supplier':supplier}
             return render(request, 'supplier_profile.html',context)
+    elif 'supplier_id' not in request.session:
+        return redirect('slogin')
     return redirect('sprofile')
 
 def hashpwd(pwd):

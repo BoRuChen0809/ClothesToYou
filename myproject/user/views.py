@@ -97,8 +97,6 @@ def changeprofile(request):
             return render(request,'user_profile.html',context)
         gender = request.POST['radio']
         address = request.POST['user_address']
-        print(gender)
-
 
         mail = request.session['user_mail']
         user = Clothes2You_User.objects.get(Mail=mail)
@@ -141,6 +139,7 @@ def changepwd(request):
                 warning_list.append("舊密碼輸入錯誤")
             context = {'warn_2':warning_list, 'user':user}
             return render(request, 'user_profile.html',context)
+
     return redirect('profile')
 
 def resetpwd(request):
