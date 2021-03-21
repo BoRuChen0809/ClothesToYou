@@ -8,4 +8,5 @@ urlpatterns = [
     path('become_partner/', views.become_partner, name='become_partner'),
     path('slogin/', views.slogin, name='slogin'),
     path('sprofile/', views.sprofile, name='sprofile'),
+    path('changespwd/',views.changespwd, name='changespwd')
 ]

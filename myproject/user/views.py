@@ -76,7 +76,7 @@ def login(request):
     return render(request, 'user_login.html')
 
 def logout(request):
-    request.session.clear()
+    del request.session['user_mail']
     return redirect('index')
 
 def profile(request):

@@ -97,7 +97,41 @@ def sprofile(request):
     context = {'supplier':supplier}
     return render(request, 'supplier_profile.html',context)
 
+def changesprofile(request):
+    
+    return redirect('sprofile')
 
+def changespwd(request):
+    if request.POST:
+        old = request.POST['supplier_password']
+        new = request.POST['new_supplier_password']
+        check_new = request.POST['new_password_check']
+
+        c_id = request.session['supplier_id']
+
+        supplier = Supplier.objects.get(S_ID=c_id)
+
+        if bcrypt.checkpw(bytes(old, 'utf-8'), supplier.PWD)\
+                and (not check_password(new))\
+                and (not check_pwd_match(new,check_new)) :
+            new_salt,new_hashed = hashpwd(new)
+            supplier.Salt = new_salt
+            supplier.PWD = new_hashed
+            supplier.save()
+
+            return redirect('logout')
+        else:
+            warning_list = []
+            # 密碼格式檢查
+            if check_password(old):
+                warning_list.append("密碼格式不符")
+            if check_pwd_match(new, check_new):
+                warning_list.append("密碼與確認密碼不符")
+            if not bcrypt.checkpw(bytes(old, 'utf-8'),supplier.PWD):
+                warning_list.append("舊密碼輸入錯誤")
+            context = {'warn_2':warning_list, 'user':supplier}
+            return render(request, 'user_profile.html',context)
+    return redirect('sprofile')
 
 def hashpwd(pwd):
     salt = bcrypt.gensalt()
