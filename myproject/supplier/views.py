@@ -245,3 +245,19 @@ def check_pwd_match(pwd, c_pwd):
 def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
+"""
+# 上傳圖片
+def uploadImg(request):
+    if request.method == 'POST':
+        img = IMG(img_url=request.FILES.get('img'))
+        img.save()
+    return render(request, 'imgupload.html')
+
+# 顯示圖片
+def showImg(request):
+    imgs = IMG.objects.all()
+    context = {
+        'imgs' : imgs
+    }
+    return render(request, 'showImg.html', context)
+"""
