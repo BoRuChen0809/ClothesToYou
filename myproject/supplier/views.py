@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from .models import Supplier
 
 
-def s_index(request):
+def sindex(request):
     return render(request, 'supplier_index.html')
 
 def become_partner(request):
