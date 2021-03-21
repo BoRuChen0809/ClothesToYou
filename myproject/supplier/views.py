@@ -91,6 +91,10 @@ def slogin(request):
 
     return render(request, 'supplier_login.html')
 
+def slogout(request):
+    del request.session['supplier_id']
+    return redirect('sindex')
+
 def sprofile(request):
     c_id = request.session['supplier_id']
     supplier = Supplier.objects.get(S_ID=c_id)
@@ -118,8 +122,8 @@ def changespwd(request):
             supplier.Salt = new_salt
             supplier.PWD = new_hashed
             supplier.save()
-
-            return redirect('logout')
+            print('修改成功')
+            return redirect('slogout')
         else:
             warning_list = []
             # 密碼格式檢查
@@ -129,8 +133,8 @@ def changespwd(request):
                 warning_list.append("密碼與確認密碼不符")
             if not bcrypt.checkpw(bytes(old, 'utf-8'),supplier.PWD):
                 warning_list.append("舊密碼輸入錯誤")
-            context = {'warn_2':warning_list, 'user':supplier}
-            return render(request, 'user_profile.html',context)
+            context = {'warn_2':warning_list, 'supplier':supplier}
+            return render(request, 'supplier_profile.html',context)
     return redirect('sprofile')
 
 def hashpwd(pwd):

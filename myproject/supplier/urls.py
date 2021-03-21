@@ -7,6 +7,7 @@ urlpatterns = [
     path('sindex/', views.s_index, name='sindex'),
     path('become_partner/', views.become_partner, name='become_partner'),
     path('slogin/', views.slogin, name='slogin'),
+    path('slogout/', views.slogin, name='slogout'),
     path('sprofile/', views.sprofile, name='sprofile'),
     path('changespwd/',views.changespwd, name='changespwd')
 ]
