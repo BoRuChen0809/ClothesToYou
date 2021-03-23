@@ -31,64 +31,32 @@
 				</ul>
 			</nav>
         <!-- Heading -->
-        <div id="heading" >
-            <h1>供應商後台管理</h1>
-        </div>
+            <div id="heading" >
+                <h1>商品上架</h1>
+            </div>
         <!-- Main -->
-        <section id="main" class="wrapper">
+         <section id="main" class="wrapper">
             <div class="inner">
             <div class="content">
-                <div class="tab">
-                    <button class="tablinks" onclick="clickHandle(event, 'Profile')">供應商資料</button>
-                    <button class="tablinks" onclick="clickHandle(event, 'Manage')">商品管理</button>
-                    <button class="tablinks" onclick="clickHandle(event, 'Order')">訂單管理</button>
-                </div>
-                <div id="Profile" class="tabcontent">
-                    <!-- Elements -->
-                    <div class="row">
+
                         <div class="col-6 col-12-medium">
-                            <h3>供應商資料</h3>
-                            <form action="{% url 'changesprofile' %}" method="post">{% csrf_token %}
-                                <div> <input type="text" name="company_id" id="company_id" placeholder="統一編號" value={{supplier.S_ID}}> </div>
-                                <div> <input type="text" name="company_name" id="company_name" placeholder="供應商名稱" value={{supplier.C_Name}}> </div>
+                            <form action="" method="post">{% csrf_token %}
+                                <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱" value={{Product.Name}}> </div>
+                                <div> <input type="text" name="product_price" id="product_price" placeholder="售價" value={{Product.Price}}> </div>
+
                                 <hr>
-                                <div> <input type="text" name="supplier_name" id="supplier_name" placeholder="聯絡人姓名" value={{supplier.Principal}}> </div>
-                                <div> <input type="text" name="supplier_phone" id="supplier_phone" placeholder="聯絡人電話" value={{supplier.Phone}}> </div>
-                                <div> <input type="text" name="supplier_email" id="supplier_email" placeholder="連絡人電子郵件" value={{supplier.Mail}}> </div>
-                                <div> <input type="text" name="company_address" id="company_address" placeholder="公司地址" value={{supplier.Address}}> </div>
+
                                 <div><input type="submit" value="修改資訊"></div>
                             </form>
                             <div>{{warn_1}}</div>
-                        </div>
 
-                        <div class="col-6 col-12-medium">
-                                <form action = "" method = "post" enctype="multipart/form-data"> {% csrf_token %}
-                                    <input type="file" name="image" id="image" accept="image/*" />
-                                    <div id="preview">
-                                        <div id="avatar"></div>
-                                    </div>
-                                </form>
-                            <h3>密碼更改</h3>
-                            <form action="{% url 'changespwd' %}" method="post">{% csrf_token %}
-                                <div> <input type="password" name="supplier_password" id="supplier_password" value="" placeholder="目前密碼"> </div>
-                                <div> <input type="password" name="new_supplier_password" id="new_supplier_password" value="" placeholder="新的密碼"> </div>
-                                <div> <input type="password" name="new_password_check" id="new_password_check" value="" placeholder="請再輸入一次新的密碼"> </div>
-                                <div> <input type="submit" value="更改密碼"> </div>
-                            </form>
-                            <div>{{warn_2}}</div>
                         </div>
                     </div>
                 </div>
-                <div id="Manage" class="tabcontent">
-                    <h3>商品管理、上架、下架</h3>
-                </div>
-                <div id="Order" class="tabcontent">
-                    <h3>訂單管理</h3>
-                </div>
-			</div>
+            </div>
             </div>
         </section>
-                <!-- Footer -->
+    <!-- Footer -->
         <footer id="footer">
             <div class="inner">
                 <div class="content">
