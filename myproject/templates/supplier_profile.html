@@ -49,13 +49,18 @@
                         <div class="col-6 col-12-medium">
                             <h3>供應商資料</h3>
                             <form action="{% url 'changesprofile' %}" method="post">{% csrf_token %}
-                                <div> <img src="{% static 'images/pic02.jpg' %}" alt="" height="300" width="300" /> </div>
+                                {% if supplier.Picture%}
+                                <div> <img src={{supplier.Picture.url}} alt="" height="300" width="300" /> </div>
+                                {% else %}
+                                <div> <img src="" alt="" height="300" width="300" /> </div>
+                                {% endif %}
                                 <div> <input type="text" name="company_id" id="company_id" placeholder="統一編號" value={{supplier.S_ID}}> </div>
                                 <div> <input type="text" name="company_name" id="company_name" placeholder="供應商名稱" value={{supplier.C_Name}}> </div>
                             </form>
                             <div>{{warn_1}}</div>
                             <form action = "{% url 'profileimg' %}" method = "post" enctype="multipart/form-data"> {% csrf_token %}
-                                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+                                <input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                <input type="submit" value="確認上傳">
                                 <h4>頭貼請選擇大於300x300的方形圖片</h4>
                             </form>
                         </div>
