@@ -58,10 +58,9 @@ def login(request):
         email = request.POST['user_email']
         pwd = request.POST['user_password']
 
-
         user = Clothes2You_User.objects.get(Mail=email)
 
-        if bcrypt.checkpw(bytes(pwd, 'utf-8'), user.PWD):
+        if bcrypt.checkpw(bytes(pwd, 'utf-8'), bytes(user.PWD)):
             request.session['user_mail'] = user.Mail
             return redirect('profile')
         else:
@@ -119,7 +118,7 @@ def changepwd(request):
 
         user = Clothes2You_User.objects.get(Mail=mail)
 
-        if bcrypt.checkpw(bytes(old, 'utf-8'), user.PWD)\
+        if bcrypt.checkpw(bytes(old, 'utf-8'), bytes(user.PWD))\
                 and (not check_password(new))\
                 and (not check_pwd_match(new,check_new)) :
             new_salt,new_hashed = hashpwd(new)
@@ -135,7 +134,7 @@ def changepwd(request):
                 warning_list.append("密碼格式不符")
             if check_pwd_match(new, check_new):
                 warning_list.append("密碼與確認密碼不符")
-            if not bcrypt.checkpw(bytes(old, 'utf-8'),user.PWD):
+            if not bcrypt.checkpw(bytes(old, 'utf-8'),bytes(user.PWD)):
                 warning_list.append("舊密碼輸入錯誤")
             context = {'warn_2':warning_list, 'user':user}
             return render(request, 'user_profile.html',context)

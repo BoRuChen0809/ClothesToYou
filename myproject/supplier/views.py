@@ -72,7 +72,7 @@ def slogin(request):
 
         supplier = Supplier.objects.get(S_ID = c_id)
 
-        if bcrypt.checkpw(bytes(pwd, 'utf-8'), supplier.PWD) and supplier.C_Name==c_name :
+        if bcrypt.checkpw(bytes(pwd, 'utf-8'), bytes(supplier.PWD)) and supplier.C_Name==c_name :
             request.session['supplier_id'] = supplier.S_ID
             print("登入成功")
             return redirect('sprofile')
@@ -160,7 +160,7 @@ def changespwd(request):
 
         supplier = Supplier.objects.get(S_ID=c_id)
 
-        if bcrypt.checkpw(bytes(old, 'utf-8'), supplier.PWD)\
+        if bcrypt.checkpw(bytes(old, 'utf-8'), bytes(supplier.PWD))\
                 and (not check_password(new))\
                 and (not check_pwd_match(new,check_new)) :
             new_salt,new_hashed = hashpwd(new)
@@ -176,7 +176,7 @@ def changespwd(request):
                 warning_list.append("密碼格式不符")
             if check_pwd_match(new, check_new):
                 warning_list.append("密碼與確認密碼不符")
-            if not bcrypt.checkpw(bytes(old, 'utf-8'),supplier.PWD):
+            if not bcrypt.checkpw(bytes(old, 'utf-8'),bytes(supplier.PWD)):
                 warning_list.append("舊密碼輸入錯誤")
             context = {'warn_2':warning_list, 'supplier':supplier}
             return render(request, 'supplier_profile.html',context)

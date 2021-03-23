@@ -18,7 +18,7 @@ class Clothes2You_User(models):
 '''
 
 class Clothes2You_User(models.Model):
-    Mail = models.EmailField(default=None)
+    Mail = models.EmailField(default=None,primary_key=True)
     Name = models.CharField(max_length=50,default=None)
     PWD = models.BinaryField()
     Salt = models.BinaryField()
