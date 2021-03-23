@@ -11,5 +11,6 @@ urlpatterns = [
     path('sprofile/', views.sprofile, name='sprofile'),
     path('changespwd/',views.changespwd, name='changespwd'),
     path('changesprofile/',views.changesprofile,name='changesprofile'),
+    path('profileimg',views.profileimg,name='profileimg'),
     path('addproduct/' ,views.addproduct,name='addproducte')
 ]

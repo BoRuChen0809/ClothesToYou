@@ -15,6 +15,7 @@ class Supplier(models.Model):
     Picture = models.ImageField(upload_to='brand/',default=None,blank=True)
 
 '''
+
 class Product(models.Model):
     ID = models.CharField(max_length=50,default=None)
     Name = models.CharField(max_length=50,default=None)
@@ -25,11 +26,10 @@ class Product(models.Model):
     SAle_Category = models.CharField(max_length=10,default=None)
 
 class SKU_Product(models.Model):
-    SKU_ID = models.CharField(max_length=100,default=None)
-    Product = models.ForeignKey(Product,default=None,on_delete=models.CASCADE)
-    Size = models.CharField()
-    Store = models.IntegerField()
-    #Color = models.
+    SKU_ID = models.CharField(max_length=100 ..,default=None)
+    Product = models.ForeignKey(Product,defa                           
+    ult=None,on_delete=models.CASCADE)
+    Size = models.CharField() 
     Picture = models.ImageField()
 
 '''

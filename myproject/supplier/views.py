@@ -119,6 +119,7 @@ def changesprofile(request):
             warning_list.append("通訊地有誤")
 
 
+
         c_id = request.session['supplier_id']
         supplier = Supplier.objects.get(S_ID=c_id)
 
@@ -131,7 +132,19 @@ def changesprofile(request):
             supplier.Address =address
             supplier.Phone = phone
             print("成功!!!")
+            return redirect('sprofile')
+    return redirect('sprofile')
 
+def profileimg(request):
+    if request.POST:
+        c_id = request.session['supplier_id']
+        supplier = Supplier.objects.get(S_ID=c_id)
+        if request.FILES['image']:
+            img = request.FILES['image']
+            supplier.Picture.delete()
+            supplier.Picture = img
+            supplier.save()
+            return redirect('sprofile')
 
     elif 'supplier_id' not in request.session:
         return redirect('slogin')

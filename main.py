@@ -34,6 +34,6 @@ def check_id(str):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_hi('PyCharm')
-    print(check_id("04595257"))
+    print(check_id("5312539"))
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
