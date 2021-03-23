@@ -49,9 +49,19 @@
                         <div class="col-6 col-12-medium">
                             <h3>供應商資料</h3>
                             <form action="{% url 'changesprofile' %}" method="post">{% csrf_token %}
+                                <div> <img src="{% static 'images/pic02.jpg' %}" alt="" height="300" width="300" /> </div>
                                 <div> <input type="text" name="company_id" id="company_id" placeholder="統一編號" value={{supplier.S_ID}}> </div>
                                 <div> <input type="text" name="company_name" id="company_name" placeholder="供應商名稱" value={{supplier.C_Name}}> </div>
-                                <hr>
+                            </form>
+                            <div>{{warn_1}}</div>
+                            <form action = "{% url 'profileimg' %}" method = "post" enctype="multipart/form-data"> {% csrf_token %}
+                                <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg">
+                                <h4>頭貼請選擇大於300x300的方形圖片</h4>
+                            </form>
+                        </div>
+
+                        <div class="col-6 col-12-medium">
+                             <form action="{% url 'changesprofile' %}" method="post">{% csrf_token %}
                                 <div> <input type="text" name="supplier_name" id="supplier_name" placeholder="聯絡人姓名" value={{supplier.Principal}}> </div>
                                 <div> <input type="text" name="supplier_phone" id="supplier_phone" placeholder="聯絡人電話" value={{supplier.Phone}}> </div>
                                 <div> <input type="text" name="supplier_email" id="supplier_email" placeholder="連絡人電子郵件" value={{supplier.Mail}}> </div>
@@ -59,16 +69,6 @@
                                 <div><input type="submit" value="修改資訊"></div>
                             </form>
                             <div>{{warn_1}}</div>
-                        </div>
-
-                        <div class="col-6 col-12-medium">
-                                <form action = "{% url 'profileimg' %}" method = "post" enctype="multipart/form-data"> {% csrf_token %}
-                                    <input type="file" name="image" id="image" accept="image/*" value={{supplier.Picture}} />
-                                    <div id="preview">
-                                        <div id="avatar"></div>
-                                    </div>
-                                    <input type="submit" value="確認">
-                                </form>
                             <h3>密碼更改</h3>
                             <form action="{% url 'changespwd' %}" method="post">{% csrf_token %}
                                 <div> <input type="password" name="supplier_password" id="supplier_password" value="" placeholder="目前密碼"> </div>
