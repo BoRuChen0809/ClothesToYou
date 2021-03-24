@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from .models import Supplier
 
+# *********************** views **************************************************88
 
 def sindex(request):
     return render(request, 'supplier_index.html')
@@ -184,6 +185,18 @@ def changespwd(request):
         return redirect('slogin')
     return redirect('sprofile')
 
+
+def addproduct(request):
+    return render(request, 'supplier_addproduct.html')
+
+
+
+
+
+
+
+
+# ************************* Functions ****************************************
 def hashpwd(pwd):
     salt = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
@@ -254,5 +267,4 @@ def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
 
-def addproduct(request):
-    return render(request, 'supplier_addproduct.html')
+
