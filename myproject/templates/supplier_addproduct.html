@@ -16,44 +16,94 @@
 	</head>
 	<body class="is-preload">
 		<!-- Header -->
-			<header id="header">
-				<a class="logo" href="{% url 'sindex' %}">Colthes to You</a>
-				<nav>
-					<a href="#menu">Menu</a>
-				</nav>
-			</header>
+        <header id="header">
+            <a class="logo" href="{% url 'sindex' %}">Colthes to You</a>
+            <nav>
+                <a href="#menu">Menu</a>
+            </nav>
+        </header>
 		<!-- Nav -->
-			<nav id="menu">
-				<ul class="links">
-					<li><a href="{% url 'sindex' %}">首頁</a></li>
-                    <li><a href="{% url 'sprofile' %}">後臺管理</a></li>
-					<li><a href="{% url 'logout' %}">登出</a></li>
-				</ul>
-			</nav>
+        <nav id="menu">
+            <ul class="links">
+                <li><a href="{% url 'sindex' %}">首頁</a></li>
+                <li><a href="{% url 'sprofile' %}">後臺管理</a></li>
+                <li><a href="{% url 'logout' %}">登出</a></li>
+            </ul>
+        </nav>
         <!-- Heading -->
-            <div id="heading" >
-                <h1>商品上架</h1>
-            </div>
+        <div id="heading" >
+            <h1>商品上架</h1>
+        </div>
         <!-- Main -->
-         <section id="main" class="wrapper">
+        <section id="main" class="wrapper">
             <div class="inner">
-            <div class="content">
-
+                <div class="content">
+                    <div class="row">
                         <div class="col-6 col-12-medium">
                             <form action="" method="post">{% csrf_token %}
                                 <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱" value={{Product.Name}}> </div>
                                 <div> <input type="text" name="product_price" id="product_price" placeholder="售價" value={{Product.Price}}> </div>
-
-                                <hr>
-
-                                <div><input type="submit" value="修改資訊"></div>
+                                <select name="genre" id="genre">
+                                    <option value="">請選擇銷售對象</option>
+                                    <option value="MEN">男士</option>
+                                    <option value="WOMEN">女士</option>
+                                </select>
+                                <select name="category" id="category">
+                                    <option value="">請選擇銷售對象</option>
+                                    <option value="top">上衣類</option>
+                                    <option value="shirt">襯衫類</option>
+                                    <option value="undies">內衣類</option>
+                                    <option value="coat">外套類</option>
+                                    <option value="pants">下身類</option>
+                                    <option value="accessories">配件類</option>
+                                    <option value="dress">洋裝類</option>
+                                    <option value="sport">運動類</option>
+                                    <option value="shoes">鞋類</option>
+                                    <option value="childs">童裝類</option>
+                                    <option value="baby">嬰幼兒類</option>
+                                    <option value="pregnant">孕婦類</option>
+                                </select>
                             </form>
                             <div>{{warn_1}}</div>
-
                         </div>
+                        <div class="col-6 col-12-medium">
+
+                            <div class="col-6 col-12-small">
+                                <div> <input type="text" name="product_color" id="product_color" placeholder="顏色"> </div>
+                                <form>
+                                    <label>尺寸</label>
+                                    <div class="col-2 col-12-small">
+                                        <input type="checkbox" id="size_xs" name="checkbox">
+                                        <label for="size_xs">XS</label>
+
+                                        <input type="checkbox" id="size_s" name="checkbox">
+                                        <label for="size_s">S</label>
+
+                                        <input type="checkbox" id="size_m" name="checkbox">
+                                        <label for="size_m">M</label>
+
+                                        <input type="checkbox" id="size_l" name="checkbox">
+                                        <label for="size_l">L</label>
+
+                                        <input type="checkbox" id="size_xl" name="checkbox">
+                                        <label for="size_xl">XL</label>
+
+                                        <input type="checkbox" id="size_xxl" name="checkbox">
+                                        <label for="size_xxl">XXL</label>
+                                    </div>
+                                </form>
+                                <label>請選擇商品圖片</label>
+                                <form action = "" method = "post" enctype="multipart/form-data"> {% csrf_token %}
+                                    <input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <textarea name="textarea" id="product_description" placeholder="" rows="6"></textarea>
+                        </div>
+                        <div><input type="submit" value="確認上架"></div>
                     </div>
                 </div>
-            </div>
             </div>
         </section>
     <!-- Footer -->
@@ -96,11 +146,10 @@
             </div>
         </footer>
         <!-- Scripts -->
-			<script src="{% static 'js/jquery.min.js' %}"></script>
-			<script src="{% static 'js/browser.min.js' %}"></script>
-			<script src="{% static 'js/breakpoints.min.js' %}"></script>
-			<script src="{% static 'js/util.js' %}"></script>
-			<script src="{% static 'js/main.js' %}"></script>
-            <script>document.getElementsByClassName('tablinks')[0].click()</script>
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/browser.min.js' %}"></script>
+        <script src="{% static 'js/breakpoints.min.js' %}"></script>
+        <script src="{% static 'js/util.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
     </body>
 </html>
