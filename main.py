@@ -2,6 +2,8 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import base64
+import hashlib
 
 
 def print_hi(name):
@@ -30,10 +32,18 @@ def check_id(str):
         return True
 
     return False
+def create_productID(brand,i):
+    string = bytes(brand + str(i),'utf8')
+    return base64.encode(string)
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_hi('PyCharm')
-    print(check_id("5312539"))
+    #print(check_id("5312539"))
+    print(hashlib.md5(b"H&M").hexdigest())
+    #print(hashlib.sha1(b"H&M").hexdigest())
+    #print(hashlib.sha256(b"H&M").hexdigest())
+    #print(hash("H&M"))
+
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
