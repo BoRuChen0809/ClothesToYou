@@ -54,8 +54,8 @@
                                 {% else %}
                                 <div> <img src="" alt="" height="300" width="300" /> </div>
                                 {% endif %}
-                                <div> <input type="text" name="company_id" id="company_id" placeholder="統一編號" value={{supplier.S_ID}}> </div>
-                                <div> <input type="text" name="company_name" id="company_name" placeholder="供應商名稱" value={{supplier.C_Name}}> </div>
+                                <div> <input readonly type="text" name="company_id" id="company_id" placeholder="統一編號" value={{supplier.S_ID}}> </div>
+                                <div> <input readonly type="text" name="company_name" id="company_name" placeholder="供應商名稱" value={{supplier.C_Name}}> </div>
                             </form>
                             <div>{{warn_1}}</div>
                             <form action = "{% url 'profileimg' %}" method = "post" enctype="multipart/form-data"> {% csrf_token %}
