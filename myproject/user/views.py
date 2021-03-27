@@ -54,20 +54,22 @@ def register(request):
 
 def login(request):
     if request.POST:
+        try:
+            email = request.POST['user_email']
+            pwd = request.POST['user_password']
 
-        email = request.POST['user_email']
-        pwd = request.POST['user_password']
+            user = Clothes2You_User.objects.get(Mail=email)
 
-        user = Clothes2You_User.objects.get(Mail=email)
-
-        if bcrypt.checkpw(bytes(pwd, 'utf-8'), bytes(user.PWD)):
-            request.session['user_mail'] = user.Mail
-            return redirect('profile')
-        else:
-            #print("登入失敗")
-            context = {'failed':"帳號或密碼錯誤"}
+            if bcrypt.checkpw(bytes(pwd, 'utf-8'), bytes(user.PWD)):
+                request.session['user_mail'] = user.Mail
+                return redirect('profile')
+            else:
+                # print("登入失敗")
+                context = {'failed': "帳號或密碼錯誤"}
+                return render(request, 'user_login.html', context)
+        except:
+            context = {'failed': "帳號或密碼錯誤"}
             return render(request, 'user_login.html', context)
-
     elif 'user_mail' in request.session:
         return redirect('profile')
 

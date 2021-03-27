@@ -66,22 +66,22 @@ def become_partner(request):
 
 def slogin(request):
     if request.POST:
+        try:
+            c_name = request.POST['company_name']
+            c_id = request.POST['company_id']
+            pwd = request.POST['supplier_password']
 
-        c_name = request.POST['company_name']
-        c_id = request.POST['company_id']
-        pwd = request.POST['supplier_password']
+            supplier = Supplier.objects.get(S_ID=c_id)
 
-        supplier = Supplier.objects.get(S_ID = c_id)
-
-        if bcrypt.checkpw(bytes(pwd, 'utf-8'), bytes(supplier.PWD)) and supplier.C_Name==c_name :
-            request.session['supplier_id'] = supplier.S_ID
-            print("登入成功")
-            return redirect('sprofile')
-        else:
-            print("登入失敗")
+            if bcrypt.checkpw(bytes(pwd, 'utf-8'), bytes(supplier.PWD)) and supplier.C_Name == c_name:
+                request.session['supplier_id'] = supplier.S_ID
+                return redirect('sprofile')
+            else:
+                context = {'failed': "登入資訊或密碼錯誤"}
+                return render(request, 'supplier_login.html', context)
+        except:
             context = {'failed': "登入資訊或密碼錯誤"}
             return render(request, 'supplier_login.html', context)
-
     elif 'supplier_id' in request.session:
         return redirect('sprofile')
 
