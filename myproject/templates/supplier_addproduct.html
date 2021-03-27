@@ -27,7 +27,7 @@
             <ul class="links">
                 <li><a href="{% url 'sindex' %}">首頁</a></li>
                 <li><a href="{% url 'sprofile' %}">後臺管理</a></li>
-                <li><a href="{% url 'logout' %}">登出</a></li>
+                <li><a href="{% url 'slogout' %}">登出</a></li>
             </ul>
         </nav>
         <!-- Heading -->
@@ -47,6 +47,9 @@
                                     <option value="">請選擇銷售對象</option>
                                     <option value="MEN">男士</option>
                                     <option value="WOMEN">女士</option>
+                                    <option value="KIDS">孩童</option>
+                                    <option value="BABY">嬰幼兒</option>
+                                    <option value="Pregnant">孕婦</option>
                                 </select>
                                 <select name="category" id="category">
                                     <option value="">請選擇銷售對象</option>
@@ -59,9 +62,6 @@
                                     <option value="dress">洋裝類</option>
                                     <option value="sport">運動類</option>
                                     <option value="shoes">鞋類</option>
-                                    <option value="childs">童裝類</option>
-                                    <option value="baby">嬰幼兒類</option>
-                                    <option value="pregnant">孕婦類</option>
                                 </select>
                             </form>
                             <div>{{warn_1}}</div>
@@ -73,22 +73,22 @@
                                 <form>
                                     <label>尺寸</label>
                                     <div class="col-2 col-12-small">
-                                        <input type="checkbox" id="size_xs" name="checkbox">
+                                        <input type="checkbox" id="size_xs" name="xs">
                                         <label for="size_xs">XS</label>
 
-                                        <input type="checkbox" id="size_s" name="checkbox">
+                                        <input type="checkbox" id="size_s" name="s">
                                         <label for="size_s">S</label>
 
-                                        <input type="checkbox" id="size_m" name="checkbox">
+                                        <input type="checkbox" id="size_m" name="m">
                                         <label for="size_m">M</label>
 
-                                        <input type="checkbox" id="size_l" name="checkbox">
+                                        <input type="checkbox" id="size_l" name="l">
                                         <label for="size_l">L</label>
 
-                                        <input type="checkbox" id="size_xl" name="checkbox">
+                                        <input type="checkbox" id="size_xl" name="xl">
                                         <label for="size_xl">XL</label>
 
-                                        <input type="checkbox" id="size_xxl" name="checkbox">
+                                        <input type="checkbox" id="size_xxl" name="xxl">
                                         <label for="size_xxl">XXL</label>
                                     </div>
                                 </form>
