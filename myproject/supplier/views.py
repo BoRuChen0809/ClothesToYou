@@ -185,8 +185,8 @@ def changespwd(request):
         return redirect('slogin')
     return redirect('sprofile')
 
-
 def addproduct(request):
+
     return render(request, 'supplier_addproduct.html')
 
 

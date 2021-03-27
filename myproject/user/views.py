@@ -87,7 +87,7 @@ def profile(request):
     return render(request, 'user_profile.html',context)
 
 def changeprofile(request):
-    if 'user' not in request.session:
+    if 'user_mail' not in request.session:
         return redirect('login')
     if request.POST:
         phone = request.POST['user_phone']
@@ -97,10 +97,13 @@ def changeprofile(request):
         gender = request.POST['radio']
         address = request.POST['user_address']
 
+
+
         mail = request.session['user_mail']
         user = Clothes2You_User.objects.get(Mail=mail)
 
         user.Phone_1 = phone
+        user.Gender = gender
         user.Address = address
         user.save()
 
