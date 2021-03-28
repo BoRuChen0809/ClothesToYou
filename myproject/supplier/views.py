@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from .models import Supplier
 
-# *********************** views **************************************************88
+# *********************** views **************************************************
 
 def sindex(request):
     return render(request, 'supplier_index.html')
