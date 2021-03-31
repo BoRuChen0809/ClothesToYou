@@ -62,3 +62,10 @@ function clickHandle(evt, animalName) {
 	document.getElementById(animalName).style.display = "block";
 	evt.currentTarget.className += " active";
 }
+
+$(document).ready(function() {
+    $('input[type="checkbox"]').click(function() {
+        var inputValue = $(this).attr("value");
+        $("." + inputValue).toggle();
+    });
+});

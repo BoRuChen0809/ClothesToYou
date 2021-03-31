@@ -27,6 +27,7 @@
 				<ul class="links">
 					<li><a href="{% url 'sindex' %}">首頁</a></li>
                     <li><a href="{% url 'sprofile' %}">後臺管理</a></li>
+                    <li><a href="{% url 'addproduct' %}">上架商品</a></li>
 					<li><a href="{% url 'slogout' %}">登出</a></li>
 				</ul>
 			</nav>
@@ -86,7 +87,14 @@
                     </div>
                 </div>
                 <div id="Manage" class="tabcontent">
-                    <h3>商品管理、上架、下架</h3>
+                    <div class="row">
+                        <form>
+                            <style>
+                                p{padding:0px; margin:0px;display: inline;}
+                            </style>
+                            <p>商品名稱</p> <p>Genre</p> <p>Category</p> <p>售價</p>
+                        </form>
+                    </div>
                 </div>
                 <div id="Order" class="tabcontent">
                     <h3>訂單管理</h3>
