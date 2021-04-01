@@ -25,11 +25,10 @@ class Product(models.Model):
     Genre = models.CharField(max_length=10,choices=GENRE_CHOICES,default=None)
     CATEGORY_CHOICES = ()
     Category = models.CharField(max_length=10,choices=CATEGORY_CHOICES,default=None)
-
     Sale_Category = models.CharField(max_length=10,default=None)
 
-def get_file_path(model, filename):
-    return 'product/{0}/{1}'.format(Product.Genre,Product.Category)
+
+
 
 class SKU(models.Model):
     SKU_ID = models.CharField(max_length=100 ,default=None)
@@ -38,7 +37,7 @@ class SKU(models.Model):
                      ("cyan", "青"), ("blue", "藍"), ("purple", "紫"), ("green", "綠"),
                      ("gray", "灰"), ("black", "黑"), ("white", "白"), ("brown", "咖啡"))
     Color = models.CharField(max_length=8,choices=COLOR_CHOICES,default=None)
-    Picture = models.ImageField(upload_to='product/{0}/{1}'.format(Product.Genre,Product.Category))
+    Picture = models.ImageField(upload_to='products/')
 
 class Stored(models.Model):
     sku = models.ForeignKey(SKU,default=None,on_delete=models.CASCADE)
