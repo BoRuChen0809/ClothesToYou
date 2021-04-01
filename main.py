@@ -40,10 +40,14 @@ def create_productID(brand,i):
 if __name__ == '__main__':
     print_hi('PyCharm')
     #print(check_id("5312539"))
-    print(hashlib.md5(b"H&M").hexdigest())
-    #print(hashlib.sha1(b"H&M").hexdigest())
-    #print(hashlib.sha256(b"H&M").hexdigest())
-    #print(hash("H&M"))
+    i=1
+    string = "89123456"
+    test = (string+str(i))
+    test = bytes(test,'utf-8')
+    print(hashlib.md5(test).hexdigest())
+    print(hashlib.sha1(test).hexdigest())
+    print(hashlib.sha256(test).hexdigest())
+    print(hash("H&M"))
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

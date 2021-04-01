@@ -14,22 +14,34 @@ class Supplier(models.Model):
     Address = models.CharField(max_length=100, default=None)
     Picture = models.ImageField(upload_to='brand/',default=None,blank=True)
 
-'''
+
 
 class Product(models.Model):
     ID = models.CharField(max_length=50,default=None)
     Name = models.CharField(max_length=50,default=None)
-    Price = models.IntegerField(max_length=5,default=None)
+    Price = models.IntegerField(default=None)
     Brand = models.ForeignKey(Supplier,default=None,on_delete=models.CASCADE)
-    Genre = models.CharField(max_length=10,default=None)
-    Category = models.CharField(max_length=10,default=None)
-    SAle_Category = models.CharField(max_length=10,default=None)
+    GENRE_CHOICES = ()
+    Genre = models.CharField(max_length=10,choices=GENRE_CHOICES,default=None)
+    CATEGORY_CHOICES = ()
+    Category = models.CharField(max_length=10,choices=CATEGORY_CHOICES,default=None)
 
-class SKU_Product(models.Model):
-    SKU_ID = models.CharField(max_length=100 ..,default=None)
-    Product = models.ForeignKey(Product,defa                           
-    ult=None,on_delete=models.CASCADE)
-    Size = models.CharField() 
-    Picture = models.ImageField()
+    Sale_Category = models.CharField(max_length=10,default=None)
 
-'''
+def get_file_path(model, filename):
+    return 'product/{0}/{1}'.format(Product.Genre,Product.Category)
+
+class SKU(models.Model):
+    SKU_ID = models.CharField(max_length=100 ,default=None)
+    Product = models.ForeignKey(Product,default=None,on_delete=models.CASCADE)
+    COLOR_CHOICES = (("red", "紅"), ("orange", "橙"), ("yellow", "黃"), ("pink", "粉紅"),
+                     ("cyan", "青"), ("blue", "藍"), ("purple", "紫"), ("green", "綠"),
+                     ("gray", "灰"), ("black", "黑"), ("white", "白"), ("brown", "咖啡"))
+    Color = models.CharField(max_length=8,choices=COLOR_CHOICES,default=None)
+    Picture = models.ImageField(upload_to='product/{0}/{1}'.format(Product.Genre,Product.Category))
+
+class Stored(models.Model):
+    sku = models.ForeignKey(SKU,default=None,on_delete=models.CASCADE)
+    SIZE_CHOICES = ()
+    Size = models.CharField(max_length=5,choices=SIZE_CHOICES,default=None)
+    Stored = models.IntegerField(default=None)
