@@ -8,6 +8,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from .models import Clothes2You_User, UserManager
 
+# **************************** views ***************************** #
 
 def index(request):
     return render(request, 'index.html')
@@ -148,7 +149,6 @@ def changepwd(request):
 
 def resetpwd(request):
     return redirect('profile')
-
 
 def hashpwd(pwd):
     salt = bcrypt.gensalt()

@@ -4,9 +4,11 @@ import bcrypt
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from .models import Supplier
+from .models import Supplier, Product
 
-# *********************** views **************************************************
+
+
+# *********************** views ************************************************** #
 
 def sindex(request):
     return render(request, 'supplier_index.html')
@@ -57,10 +59,7 @@ def become_partner(request):
             salt,pwd = hashpwd(pwd)
             supplier = Supplier(S_ID=id,C_Name=c_name,Principal=principal,Phone=phone,Mail=mail,PWD=pwd,Salt=salt,Active=False,Address=address)
             supplier.save()
-
             return render(request, 'register_succeed.html')
-
-
         return render(request, 'register_succeed.html')
     return render(request, 'supplier_become_partner.html')
 
@@ -142,6 +141,8 @@ def profileimg(request):
         supplier = Supplier.objects.get(S_ID=c_id)
         if request.FILES['image']:
             img = request.FILES['image']
+            filename = supplier.S_ID + '.' + splitext(img.name)
+            img.name = filename
             supplier.Picture.delete()
             supplier.Picture = img
             supplier.save()
@@ -186,6 +187,12 @@ def changespwd(request):
     return redirect('sprofile')
 
 def addproduct(request):
+    if request.POST:
+        c_id = request.session['supplier_id']
+        supplier = Supplier.objects.get(S_ID=c_id)
+        product_id = c_id + create_product_id(supplier)
+
+
 
     return render(request, 'supplier_addproduct.html')
 
@@ -197,6 +204,25 @@ def addproduct(request):
 
 
 # ************************* Functions ****************************************
+def splitext(file):
+    filename = file.split('.')
+    return filename[-1]
+
+def create_product_id(supplier):
+    try:
+        num = len(Product.objects.filter(Brand = Supplier))
+        num += 1
+        if 9999 > num >= 1000:
+            return str(num)
+        elif 1000 > num >= 100:
+            return '0'+str(num)
+        elif 100 > num >= 10:
+            return '00'+str(num)
+        else:
+            return '000'+str(num)
+    except:
+        return '0001'
+
 def hashpwd(pwd):
     salt = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)

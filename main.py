@@ -35,6 +35,19 @@ def check_id(str):
 def create_productID(brand,i):
     string = bytes(brand + str(i),'utf8')
     return base64.encode(string)
+def create_product_id(num):
+    try:
+        num += 1
+        if 9999 > num >= 1000:
+            return str(num)
+        elif 1000 > num >= 100:
+            return '0'+str(num)
+        elif 100 > num >= 10:
+            return '00'+str(num)
+        else:
+            return '000'+str(num)
+    except:
+        return '0001'
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
@@ -42,12 +55,9 @@ if __name__ == '__main__':
     #print(check_id("5312539"))
     i=1
     string = "89123456"
-    test = (string+str(i))
-    test = bytes(test,'utf-8')
-    print(hashlib.md5(test).hexdigest())
-    print(hashlib.sha1(test).hexdigest())
-    print(hashlib.sha256(test).hexdigest())
-    print(hash("H&M"))
+    print(create_product_id(0))
+    print(create_product_id(123))
+    print(1321)
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
