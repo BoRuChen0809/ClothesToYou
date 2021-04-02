@@ -21,13 +21,13 @@ class Product(models.Model):
     Name = models.CharField(max_length=50,default=None)
     Price = models.IntegerField(default=None)
     Brand = models.ForeignKey(Supplier,default=None,on_delete=models.CASCADE)
-    GENRE_CHOICES = ()
+    GENRE_CHOICES = (("MEN","男士"),("WOMEN","女士"),("KIDS","孩童"),("BABY","嬰幼兒"),("Pregnant","孕婦"))
     Genre = models.CharField(max_length=10,choices=GENRE_CHOICES,default=None)
-    CATEGORY_CHOICES = ()
-    Category = models.CharField(max_length=10,choices=CATEGORY_CHOICES,default=None)
+    CATEGORY_CHOICES = (("top","上衣類"),("shirt","襯衫類"),("undies","內衣類"),
+                        ("coat","外套類"),("pants","下身類"),("accessories","配件類"),
+                        ("dress","洋裝類"),("sport","運動類"),("shoes" ,"鞋類"))
+    Category = models.CharField(max_length=20,choices=CATEGORY_CHOICES,default=None)
     Sale_Category = models.CharField(max_length=10,default=None)
-
-
 
 
 class SKU(models.Model):
