@@ -42,7 +42,7 @@
                     <div class="row">
 
                         <div class="col-6 col-12-medium">
-                            <form action="" method="post">{% csrf_token %}
+                            <form action="{% url 'addproduct' %}" method="post">{% csrf_token %}
                                 <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱"> </div>
                                 <div> <input type="text" name="product_price" id="product_price" placeholder="售價"> </div>
                                 <select name="genre" id="genre">
@@ -68,22 +68,22 @@
                                 <div> <input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category"> </div>
                                 <label>尺寸</label>
                                     <div class="col-2 col-12-small">
-                                        <input type="checkbox" id="size_xs" name="xs">
+                                        <input type="checkbox" id="size_xs" value="XS" name="size">
                                         <label for="size_xs">XS</label>
 
-                                        <input type="checkbox" id="size_s" name="s">
+                                        <input type="checkbox" id="size_s" value="S" name="size">
                                         <label for="size_s">S</label>
 
-                                        <input type="checkbox" id="size_m" name="m">
+                                        <input type="checkbox" id="size_m" value="M" name="size">
                                         <label for="size_m">M</label>
 
-                                        <input type="checkbox" id="size_l" name="l">
+                                        <input type="checkbox" id="size_l" value="L" name="size">
                                         <label for="size_l">L</label>
 
-                                        <input type="checkbox" id="size_xl" name="xl">
+                                        <input type="checkbox" id="size_xl" value="XL" name="size">
                                         <label for="size_xl">XL</label>
 
-                                        <input type="checkbox" id="size_xxl" name="xxl">
+                                        <input type="checkbox" id="size_xxl" value="XXL" name="size">
                                         <label for="size_xxl">XXL</label>
                                     </div>
                                 <textarea name="textarea" id="product_description" placeholder="" rows="6"></textarea>
