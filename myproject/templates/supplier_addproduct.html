@@ -6,23 +6,23 @@
     -->
 {% load static %}
 <html>
-	<head>
-		<title>Clothes to You</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<link rel="stylesheet" href="{% static '/css/main.css' %}" />
-	</head>
-	<body class="is-preload">
-		<!-- Header -->
+    <head>
+        <title>Clothes to You</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="stylesheet" href="{% static '/css/main.css' %}" />
+    </head>
+    <body class="is-preload">
+        <!-- Header -->
         <header id="header">
             <a class="logo" href="{% url 'sindex' %}">Clothes to You</a>
             <nav>
                 <a href="#menu">Menu</a>
             </nav>
         </header>
-		<!-- Nav -->
+        <!-- Nav -->
         <nav id="menu">
             <ul class="links">
                 <li><a href="{% url 'sindex' %}">首頁</a></li>
@@ -40,136 +40,113 @@
             <div class="inner">
                 <div class="content">
                     <div class="row">
-
-                        <div class="col-6 col-12-medium">
-                            <form action="{% url 'addproduct' %}" method="post">{% csrf_token %}
-
-                                <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱"> </div>
-                                <div> <input type="text" name="product_price" id="product_price" placeholder="售價"> </div>
-                                <select name="genre" id="genre">
-                                    <option value="">Genre</option>
-                                    <option value="MEN">男士</option>
-                                    <option value="WOMEN">女士</option>
-                                    <option value="KIDS">孩童</option>
-                                    <option value="BABY">嬰幼兒</option>
-                                    <option value="Pregnant">孕婦</option>
-                                </select>
-                                <select name="category" id="category">
-                                    <option value="">Category</option>
-                                    <option value="top">上衣類</option>
-                                    <option value="shirt">襯衫類</option>
-                                    <option value="undies">內衣類</option>
-                                    <option value="coat">外套類</option>
-                                    <option value="pants">下身類</option>
-                                    <option value="accessories">配件類</option>
-                                    <option value="dress">洋裝類</option>
-                                    <option value="sport">運動類</option>
-                                    <option value="shoes">鞋類</option>
-                                </select>
-                                <div> <input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category"> </div>
-                                <label>尺寸</label>
-                                    <div class="col-2 col-12-small">
-                                        <input type="checkbox" id="size_xs" value="XS" name="size">
-                                        <label for="size_xs">XS</label>
-
-                                        <input type="checkbox" id="size_s" value="S" name="size">
-                                        <label for="size_s">S</label>
-
-                                        <input type="checkbox" id="size_m" value="M" name="size">
-                                        <label for="size_m">M</label>
-
-                                        <input type="checkbox" id="size_l" value="L" name="size">
-                                        <label for="size_l">L</label>
-
-                                        <input type="checkbox" id="size_xl" value="XL" name="size">
-                                        <label for="size_xl">XL</label>
-
-                                        <input type="checkbox" id="size_xxl" value="XXL" name="size">
-                                        <label for="size_xxl">XXL</label>
-                                    </div>
-                                <textarea name="textarea" id="product_description" placeholder="" rows="6"></textarea>
-                            </form>
-                            <div>{{warn_1}}</div>
-                        </div>
-                        <div class="col-6 col-12-medium">
-                            <div class="col-6 col-12-small">
-                                <form>
-                                <label>顏色</label>
-                                    <div class="col-6 col-12-small">
-                                        <input type="checkbox" id="color_red" name="red">
-                                        <label for="color_red">紅色</label>
-                                        <input type="file" id="image_red" name="image_red" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_orange" name="orange">
-                                        <label for="color_orange">橙色</label>
-                                        <input type="file" id="image_orange" name="image_orange" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_yellow" name="yello">
-                                        <label for="color_yellow">黃色</label>
-                                        <input type="file" id="image_yellow" name="image_yellow" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_pink" name="pink">
-                                        <label for="color_pink">粉紅色</label>
-                                        <input type="file" id="image_pink" name="image_pink" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_cyan_blue" name="cyan_blue">
-                                        <label for="color_cyan_blue">青色</label>
-                                        <input type="file" id="image_cyan_blue" name="image_cyan_blue" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_blue" name="blue">
-                                        <label for="color_blue">藍色</label>
-                                        <input type="file" id="image_blue" name="image_blue" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_purple" name="purple">
-                                        <label for="color_purple">紫色</label>
-                                        <input type="file" id="image_purple" name="image_purple" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_green" name="green">
-                                        <label for="color_green">綠色</label>
-                                        <input type="file" id="image_green" name="image_green" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_gray" name="gray">
-                                        <label for="color_gray">灰色</label>
-                                        <input type="file" id="image_gray" name="image_gray" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_black" name="black">
-                                        <label for="color_black">黑色</label>
-                                        <input type="file" id="image_black" name="image_black" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_white" name="white">
-                                        <label for="color_white">白色</label>
-                                        <input type="file" id="image_white" name="image_white" accept="image/png, image/jpeg" enctype="multipart/form-data">
-
-                                        <input type="checkbox" id="color_brown" name="brown">
-                                        <label for="color_brown">咖啡色</label>
-                                        <input type="file" id="image_brown" name="image_brown" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                    </div>
-                                </form>
+                        <form action="{% url 'addproduct' %}" method="post">
+                            {% csrf_token %}
+                            <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱"> </div>
+                            <div> <input type="text" name="product_price" id="product_price" placeholder="售價"> </div>
+                            <select name="genre" id="genre">
+                                <option value="">Genre</option>
+                                <option value="MEN">男士</option>
+                                <option value="WOMEN">女士</option>
+                                <option value="KIDS">孩童</option>
+                                <option value="BABY">嬰幼兒</option>
+                                <option value="Pregnant">孕婦</option>
+                            </select>
+                            <select name="category" id="category">
+                                <option value="">Category</option>
+                                <option value="top">上衣類</option>
+                                <option value="shirt">襯衫類</option>
+                                <option value="undies">內衣類</option>
+                                <option value="coat">外套類</option>
+                                <option value="pants">下身類</option>
+                                <option value="accessories">配件類</option>
+                                <option value="dress">洋裝類</option>
+                                <option value="sport">運動類</option>
+                                <option value="shoes">鞋類</option>
+                            </select>
+                            <div> <input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category"> </div>
+                            <label>尺寸</label>
+                            <div class="col-2 col-12-small">
+                                <input type="checkbox" id="size_xs" value="XS" name="size">
+                                <label for="size_xs">XS</label>
+                                <input type="checkbox" id="size_s" value="S" name="size">
+                                <label for="size_s">S</label>
+                                <input type="checkbox" id="size_m" value="M" name="size">
+                                <label for="size_m">M</label>
+                                <input type="checkbox" id="size_l" value="L" name="size">
+                                <label for="size_l">L</label>
+                                <input type="checkbox" id="size_xl" value="XL" name="size">
+                                <label for="size_xl">XL</label>
+                                <input type="checkbox" id="size_xxl" value="XXL" name="size">
+                                <label for="size_xxl">XXL</label>
                             </div>
+                            <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
+                            <div class="col-6 col-12-medium">
+                                <div><input type="submit" value="確認上架"></div>
+                        </form>
                         </div>
-
-                            <!--
-                            <label>請選擇商品圖片</label>
-                            <form action = "" method = "post" enctype="multipart/form-data"> {% csrf_token %}
-                                <input type="file" id="image_red" name="image_red" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                <input type="file" id="image_orange" name="image_orange" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                <input type="file" id="image_yellow" name="image_yellow" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                <input type="file" id="image_pink" name="image_pink" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                <input type="file" id="image_cyan_blue" name="image_cyan_blue" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                <input type="file" id="image_blue" name="image_blue" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                <input type="file" id="image_purple" name="image_purple" accept="image/png, image/jpeg" enctype="multipart/form-data">                                    <input type="file" id="image_green" name="image_green" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                        <div class="col-6 col-12-small">
+                            <form action="{% url 'addproduct' %}" method="post">{% csrf_token %}
+                                <label>顏色</label>
+                                <div class="col-6 col-12-small">
+                                    <input type="checkbox" id="color_red" name="red">
+                                    <label for="color_red">紅色</label>
+                                    <input type="file" id="image_red" name="image_red" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_orange" name="orange">
+                                    <label for="color_orange">橙色</label>
+                                    <input type="file" id="image_orange" name="image_orange" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_yellow" name="yello">
+                                    <label for="color_yellow">黃色</label>
+                                    <input type="file" id="image_yellow" name="image_yellow" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_pink" name="pink">
+                                    <label for="color_pink">粉紅色</label>
+                                    <input type="file" id="image_pink" name="image_pink" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_cyan_blue" name="cyan_blue">
+                                    <label for="color_cyan_blue">青色</label>
+                                    <input type="file" id="image_cyan_blue" name="image_cyan_blue" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_blue" name="blue">
+                                    <label for="color_blue">藍色</label>
+                                    <input type="file" id="image_blue" name="image_blue" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_purple" name="purple">
+                                    <label for="color_purple">紫色</label>
+                                    <input type="file" id="image_purple" name="image_purple" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_green" name="green">
+                                    <label for="color_green">綠色</label>
+                                    <input type="file" id="image_green" name="image_green" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_gray" name="gray">
+                                    <label for="color_gray">灰色</label>
                                     <input type="file" id="image_gray" name="image_gray" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_black" name="black">
+                                    <label for="color_black">黑色</label>
                                     <input type="file" id="image_black" name="image_black" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_white" name="white">
+                                    <label for="color_white">白色</label>
                                     <input type="file" id="image_white" name="image_white" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                    <br>
+                                    <input type="checkbox" id="color_brown" name="brown">
+                                    <label for="color_brown">咖啡色</label>
                                     <input type="file" id="image_brown" name="image_brown" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                </form>
-                                -->
-                        <div><input type="submit" value="確認上架"></div>
+                                    <br>
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
+                <div>{{warn_2}}</div>
                 </div>
             </div>
         </section>
-    <!-- Footer -->
+        <!-- Footer -->
         <footer id="footer">
             <div class="inner">
                 <div class="content">
