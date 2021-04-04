@@ -42,5 +42,5 @@ class SKU(models.Model):
 class Stored(models.Model):
     sku = models.ForeignKey(SKU,default=None,on_delete=models.CASCADE)
     SIZE_CHOICES = (("XS", "XS"), ("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL"), ("XXL", "XXL"))
-    Size = models.IntegerField(max_length=8, choices=SIZE_CHOICES, default=None)
+    Size = models.CharField(max_length=8, choices=SIZE_CHOICES, default=None)
     Stored = models.IntegerField(default=None)

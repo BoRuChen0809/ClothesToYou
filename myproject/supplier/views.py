@@ -190,16 +190,21 @@ def addproduct(request):
     if request.POST:
         c_id = request.session['supplier_id']
         supplier = Supplier.objects.get(S_ID=c_id)
+
         product_id = c_id + create_product_id(supplier)
-
+        print(product_id)
         product_name = request.POST['product_name']
+        print(product_name)
         product_price = request.POST['product_price']
+        print(product_price)
         genre = request.POST['genre']
+        print(genre)
         category = request.POST['category']
+        print(category)
         sizes = request.POST.getlist('size')
+        print(sizes)
         product_description = request.POST['product_description']
-
-
+        return render(request, 'supplier_addproduct.html')
     return render(request, 'supplier_addproduct.html')
 
 
