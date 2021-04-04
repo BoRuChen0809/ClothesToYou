@@ -4,8 +4,7 @@ import bcrypt
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from .models import Supplier, Product
-
+from .models import Supplier, Product, SKU, Stored
 
 
 # *********************** views ************************************************** #
@@ -205,11 +204,17 @@ def addproduct(request):
         print(sizes)
         product_description = request.POST['product_description']
         print(product_description)
-        colors = request.POST.getlist['color']
-        print(colors)
+
 
         return render(request, 'supplier_addproduct.html')
-    return render(request, 'supplier_addproduct.html')
+
+    genre_choices = Product.GENRE_CHOICES
+    print(genre_choices)
+    category_choices = Product.CATEGORY_CHOICES
+    color_chioces = SKU.COLOR_CHOICES
+    size_choices = Stored.SIZE_CHOICES
+    context = {'genre':genre_choices, 'category':category_choices, 'color':color_chioces, 'size':size_choices}
+    return render(request, 'supplier_addproduct.html',context)
 
 
 
