@@ -215,13 +215,6 @@ def addproduct(request):
     context = {'genre':genre_choices, 'category':category_choices, 'color':color_chioces, 'size':size_choices}
     return render(request, 'supplier_addproduct.html',context)
 
-
-
-
-
-
-
-
 # ************************* Functions ****************************************
 def splitext(file):
     filename = file.split('.')
