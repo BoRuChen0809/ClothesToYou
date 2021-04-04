@@ -26,8 +26,8 @@ class Clothes2You_User(models.Model):
     Phone_1 = models.CharField(max_length=12, default=None)
     #Phone_2 = models.CharField(max_length=12, default="")
     Address = models.CharField(max_length=100, default="")
-    GENDER_CHOICES = (('M','Male'),('F','Female'),('N','Null'),)
-    Gender = models.CharField(max_length=1,choices=GENDER_CHOICES,default='N')
+    GENDER_CHOICES = (('男','Male'),('女','Female'),('不願透漏','Null'))
+    Gender = models.CharField(max_length=5,choices=GENDER_CHOICES,default='N')
 
 class UserManager(Manager):
     def createUser(mail,name,pwd,salt,phone1):

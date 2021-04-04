@@ -86,7 +86,8 @@ def profile(request):
         return redirect('login')
     mail = request.session['user_mail']
     user = Clothes2You_User.objects.get(Mail=mail)
-    context = {'user':user}
+
+    context = {'user':user,'genrer_tuple':Clothes2You_User.GENDER_CHOICES}
     return render(request, 'user_profile.html',context)
 
 def changeprofile(request):
@@ -98,6 +99,7 @@ def changeprofile(request):
             context = {'warn_1':"電話話碼格式有誤"}
             return render(request,'user_profile.html',context)
         gender = request.POST['radio']
+        #print(gender)
         address = request.POST['user_address']
 
 

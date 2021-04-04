@@ -54,32 +54,29 @@
                                 <hr>
                                 <div> <input type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
                                 <div> <input type="text" name="user_address" id="user_address" placeholder="貨運地址" value={{user.Address}}> </div>
-                                <div class="col-4 col-12-small">
-                                    {% if user.Gender == 'M' %}
-                                    <input type="radio" id="radio-alpha" name="radio" value="M" checked>
-                                    <label for="radio-alpha">男性</label>
-                                    {% else %}
-                                    <input type="radio" id="radio-alpha" name="radio" value="M">
-                                    <label for="radio-alpha">男性</label>
-                                    {% endif %}
 
-                                    {% if user.Gender == 'F' %}
-                                    <input type="radio" id="radio-beta" name="radio" value="F" checked>
-                                    <label for="radio-beta">女性</label>
+                                    {% if user.Gender == genrer_tuple.0.1 %}
+                                    <input type="radio" id="radio-alpha" name="radio" value={{genrer_tuple.0.1}} checked>
                                     {% else %}
-                                    <input type="radio" id="radio-beta" name="radio" value="F">
-                                    <label for="radio-beta">女性</label>
+                                    <input type="radio" id="radio-alpha" name="radio" value={{genrer_tuple.0.1}}>
                                     {% endif %}
+                                    <label for="radio-alpha">{{genrer_tuple.0.0}}</label>
 
-                                    {% if user.Gender == 'N' %}
-                                    <input type="radio" id="radio-gamma" name="radio" value="N" checked>
-                                    <label for="radio-gamma">不願透漏</label>
+                                    {% if user.Gender == genrer_tuple.1.1 %}
+                                    <input type="radio" id="radio-beta" name="radio" value={{genrer_tuple.1.1}} checked>
                                     {% else %}
-                                    <input type="radio" id="radio-gamma" name="radio" value="N">
-                                    <label for="radio-gamma">不願透漏</label>
+                                    <input type="radio" id="radio-beta" name="radio" value={{genrer_tuple.1.1}}>
                                     {% endif %}
+                                    <label for="radio-beta">{{genrer_tuple.1.0}}</label>
 
-                                </div>
+                                    {% if user.Gender == genrer_tuple.2.1 %}
+                                    <input type="radio" id="radio-gamma" name="radio" value={{genrer_tuple.2.1}} checked>
+                                    {% else %}
+                                    <input type="radio" id="radio-gamma" name="radio" value={{genrer_tuple.2.1}}>
+                                    {% endif %}
+                                    <label for="radio-gamma">{{genrer_tuple.2.0}}</label>
+
+
 
                                 <div><input type="submit" value="修改資訊"></div>
                             </form>

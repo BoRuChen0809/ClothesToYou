@@ -204,6 +204,10 @@ def addproduct(request):
         sizes = request.POST.getlist('size')
         print(sizes)
         product_description = request.POST['product_description']
+        print(product_description)
+        colors = request.POST.getlist['color']
+        print(colors)
+
         return render(request, 'supplier_addproduct.html')
     return render(request, 'supplier_addproduct.html')
 
