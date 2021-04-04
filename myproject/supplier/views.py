@@ -209,7 +209,6 @@ def addproduct(request):
         return render(request, 'supplier_addproduct.html')
 
     genre_choices = Product.GENRE_CHOICES
-    print(genre_choices)
     category_choices = Product.CATEGORY_CHOICES
     color_chioces = SKU.COLOR_CHOICES
     size_choices = Stored.SIZE_CHOICES
