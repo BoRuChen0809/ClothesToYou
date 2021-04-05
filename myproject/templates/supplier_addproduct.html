@@ -39,7 +39,7 @@
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
-                    <div class="row">
+
                         <form action="{% url 'addproduct' %}" method="post">
                             {% csrf_token %}
                             <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱"> </div>
@@ -69,9 +69,8 @@
                                         <input type="checkbox" id={{c.1}} name="color" value={{c.1}}>
                                         <label for={{c.1}}>{{c.1}}色</label>
                                         <input type="file" id="image_{{c.1}}" name="image_{{c.1}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                        <br>
+                                    <br>
                                     {% endfor %}
-
                                 </div>
                             <div class="col-6 col-12-medium">
                                 <div><input type="submit" value="確認上架"></div>
@@ -83,11 +82,9 @@
                         </div>
                         <div class="col-6 col-12-small">
                             <form action="{% url 'addproduct' %}" method="post">{% csrf_token %}
-
-
                             </form>
                         </div>
-                    </div>
+
                 </div>
             </div>
         </section>
