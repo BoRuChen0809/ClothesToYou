@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<!--
+    Industrious by TEMPLATED
+    templated.co @templatedco
+    Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+    -->
+<html>
+    <head>
+        {% load static %}
+        <title>Clothes to You</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    </head>
+    <body class="is-preload">
+        <!-- Header -->
+        <header id="header">
+            <a class="logo" href="{% url 'index' %}">Clothes to You</a>
+            <nav>
+                <a href="#menu">Menu</a>
+            </nav>
+        </header>
+        <!-- Nav -->
+        <nav id="menu">
+            <ul class="links">
+                <li><a href="{% url 'index' %}">首頁</a></li>
+                <li><a href="{% url 'profile' %}">會員中心</a></li>
+                <li><a href="{% url 'logout'%}">登出</a></li>
+            </ul>
+        </nav>
+        <!-- Heading -->
+        <div id="heading" >
+            <h1>填寫訂單</h1>
+        </div>
+        <section id="main" class="wrapper">
+            <div class="inner">
+                <div class="content">
+                    <form>
+                    <label>訂購人資料</label>
+                    <div> <input readonly type="text" name="user_name" id="user_name" placeholder="使用者姓名" value={{user.Name}}> </div>
+                    <div> <input readonly type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
+                    <div> <input readonly type="text" name="user_email" id="user_email" placeholder="電子郵件" value={{user.Mail}}> </div>
+                    <br>
+                    <label>收貨人資料</label>
+                    <div> <input type="text" name="order_name" id="order_name" placeholder="收貨人姓名"> </div>
+                    <div> <input type="text" name="order_phone" id="order_phone" placeholder="電話號碼"> </div>
+                    <div> <input type="text" name="order_email" id="order_email" placeholder="電子郵件"> </div>
+                        <div> <input type="text" name="order_address" id="order_address" placeholder="貨運地址"> </div>
+                    <br>
+                    <label>付款方式</label>
+                        <div> <input type="text" name="visa_id" id="visa_id" placeholder="卡號： XXXX-XXXX-XXXX-XXXX"> </div>
+                        <div> <input type="text" name="visa_secure" id="visa_secure" placeholder="安全碼： XXX"> </div>
+                        <div> <input type="text" name="visa_date" id="visa_date" placeholder="有效日期： XX/XX"> </div>
+                        <div><input type="submit" value="送出訂單"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+        <footer id="footer">
+            <div class="inner">
+                <div class="content">
+                    <section>
+                        <h3>系統目的</h3>
+                        <p>我們的專題系統的目的主要在於<br>
+                            1.減少在外面的人流<br>
+                            2.改良網上的購物體驗<br>
+                            3.找尋商品的客製化<br>
+                            4.減少仿冒商品<br>
+                            5.增加商家的所得<br>
+                            6.減少商家的成本<br>
+                            7.有效利用商家的人力資源
+                        </p>
+                    </section>
+                    <section>
+                        <h4>其他服務</h4>
+                        <ul class="alt">
+                            <li><a href="{% url 'index' %}">首頁</a></li>
+                            <li><a href="#">客服中心</a></li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>關注我們</h4>
+                        <ul class="plain">
+                            <li><a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
+                            <li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
+                            <li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
+                            <li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+                        </ul>
+                    </section>
+                </div>
+                <div class="copyright">
+                    &copy; Clothes to You <a>國立臺灣科技大學</a>, 資訊管理系 <br>
+                    &copy; 模板來源 <a href = "https://templated.co/">templated.co</a>
+                </div>
+            </div>
+        </footer>
+        <!-- Scripts -->
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/browser.min.js' %}"></script>
+        <script src="{% static 'js/breakpoints.min.js' %}"></script>
+        <script src="{% static 'js/util.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+    </body>
+</html>

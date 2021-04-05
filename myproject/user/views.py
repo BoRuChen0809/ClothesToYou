@@ -199,3 +199,6 @@ def check_pwd_match(pwd, c_pwd):
 def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
+
+def orders(request):
+    return render(request, 'user_orders.html')
