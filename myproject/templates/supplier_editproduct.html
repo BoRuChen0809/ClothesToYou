@@ -33,13 +33,14 @@
         </nav>
         <!-- Heading -->
         <div id="heading" >
-            <h1>商品上架</h1>
+            <h1>修改商品</h1>
         </div>
-        <!-- Main -->
+
+<!-- Main -->
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
-                    <form action="{% url 'addproduct' %}" method="post">
+                    <form action="{% url 'editproduct' %}" method="post">
                         {% csrf_token %}
                         <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱"> </div>
                         <div> <input type="text" name="product_price" id="product_price" placeholder="售價"> </div>
@@ -72,17 +73,18 @@
                             {% endfor %}
                         </div>
                         <div class="col-6 col-12-medium">
-                            <div><input type="submit" value="確認上架"></div>
+                            <div><input type="submit" value="確認修改"></div>
                         </div>
                     </form>
                 </div>
                 <div class="col-6 col-12-small">
-                    <form action="{% url 'addproduct' %}" method="post">{% csrf_token %}
+                    <form action="{% url 'editproduct' %}" method="post">{% csrf_token %}
                     </form>
                 </div>
             </div>
         </section>
-        <!-- Footer -->
+
+    <!-- Footer -->
         <footer id="footer">
             <div class="inner">
                 <div class="content">

@@ -4,20 +4,20 @@
     templated.co @templatedco
     Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
     -->
-{% load static %}
 <html>
     <head>
+        {% load static %}
         <title>Clothes to You</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <meta name="description" content="" />
         <meta name="keywords" content="" />
-        <link rel="stylesheet" href="{% static '/css/main.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
     </head>
     <body class="is-preload">
         <!-- Header -->
         <header id="header">
-            <a class="logo" href="{% url 'sindex' %}">Clothes to You</a>
+            <a class="logo" href="{% url 'index' %}">Clothes to You</a>
             <nav>
                 <a href="#menu">Menu</a>
             </nav>
@@ -25,59 +25,35 @@
         <!-- Nav -->
         <nav id="menu">
             <ul class="links">
-                <li><a href="{% url 'sindex' %}">首頁</a></li>
-                <li><a href="{% url 'sprofile' %}">後臺管理</a></li>
-                <li><a href="{% url 'addproduct' %}">上架商品</a></li>
-                <li><a href="{% url 'slogout' %}">登出</a></li>
+                <li><a href="{% url 'index' %}">首頁</a></li>
+                <li><a href="{% url 'profile' %}">會員中心</a></li>
+                <li><a href="{% url 'logout'%}">登出</a></li>
             </ul>
         </nav>
         <!-- Heading -->
         <div id="heading" >
-            <h1>商品上架</h1>
+            <h1>填寫訂單</h1>
         </div>
-        <!-- Main -->
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
-                    <form action="{% url 'addproduct' %}" method="post">
-                        {% csrf_token %}
-                        <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱"> </div>
-                        <div> <input type="text" name="product_price" id="product_price" placeholder="售價"> </div>
-                        <select name="genre" id="genre">
-                            {% for g in genre %}
-                            <option value={{g.0}}>{{g.0}}</option>
-                            {% endfor %}
-                        </select>
-                        <select name="category" id="category">
-                            {% for c in category %}
-                            <option value={{c.0}}>{{c.0}}</option>
-                            {% endfor %}
-                        </select>
-                        <div> <input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category"> </div>
-                        <label>尺寸</label>
-                        <div class="col-2 col-12-small">
-                            {% for s in size %}
-                            <input type="checkbox" id={{s.0}} value={{s.0}} name="size">
-                            <label for={{s.0}}>{{s.0}}</label>
-                            {% endfor %}
-                        </div>
-                        <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
-                        <label>顏色</label>
-                        <div class="col-6 col-12-small">
-                            {% for c in color %}
-                            <input type="checkbox" id={{c.1}} name="color" value={{c.1}}>
-                            <label for={{c.1}}>{{c.1}}色</label>
-                            <input type="file" id="image_{{c.1}}" name="image_{{c.1}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                            <br>
-                            {% endfor %}
-                        </div>
-                        <div class="col-6 col-12-medium">
-                            <div><input type="submit" value="確認上架"></div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-6 col-12-small">
-                    <form action="{% url 'addproduct' %}" method="post">{% csrf_token %}
+                    <form>
+                    <label>訂購人資料</label>
+                    <div> <input readonly type="text" name="user_name" id="user_name" placeholder="使用者姓名" value={{user.Name}}> </div>
+                    <div> <input readonly type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
+                    <div> <input readonly type="text" name="user_email" id="user_email" placeholder="電子郵件" value={{user.Mail}}> </div>
+                    <br>
+                    <label>收貨人資料</label>
+                    <div> <input type="text" name="order_name" id="order_name" placeholder="收貨人姓名"> </div>
+                    <div> <input type="text" name="order_phone" id="order_phone" placeholder="電話號碼"> </div>
+                    <div> <input type="text" name="order_email" id="order_email" placeholder="電子郵件"> </div>
+                        <div> <input type="text" name="order_address" id="order_address" placeholder="貨運地址"> </div>
+                    <br>
+                    <label>付款方式</label>
+                        <div> <input type="text" name="visa_id" id="visa_id" placeholder="卡號： XXXX-XXXX-XXXX-XXXX"> </div>
+                        <div> <input type="text" name="visa_secure" id="visa_secure" placeholder="安全碼： XXX"> </div>
+                        <div> <input type="text" name="visa_date" id="visa_date" placeholder="有效日期： XX/XX"> </div>
+                        <div><input type="submit" value="送出訂單"></div>
                     </form>
                 </div>
             </div>
@@ -101,7 +77,7 @@
                     <section>
                         <h4>其他服務</h4>
                         <ul class="alt">
-                            <li><a href="{% url 'sindex' %}">首頁</a></li>
+                            <li><a href="{% url 'index' %}">首頁</a></li>
                             <li><a href="#">客服中心</a></li>
                         </ul>
                     </section>

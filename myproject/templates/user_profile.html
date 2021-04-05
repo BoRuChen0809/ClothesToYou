@@ -49,7 +49,7 @@
                         <div class="col-6 col-12-medium">
                             <h3>使用者資料</h3>
                             <form action="{% url 'changeprofile' %}" method="post">{% csrf_token %}
-                                <div> <input readonly type="text" name="user_name" id="user_name" placeholder="使用者姓名" value={{user.Name}} > </div>
+                                <div> <input readonly type="text" name="user_name" id="user_name" placeholder="使用者姓名" value={{user.Name}}> </div>
                                 <div> <input readonly type="text" name="user_email" id="user_email" placeholder="電子郵件" value={{user.Mail}}> </div>
                                 <hr>
                                 <div> <input type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
