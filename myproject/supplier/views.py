@@ -139,6 +139,8 @@ def changesprofile(request):
 
 def profileimg(request):
     if request.POST:
+        qq = request.POST
+        print(qq)
         c_id = request.session['supplier_id']
         supplier = Supplier.objects.get(S_ID=c_id)
         if request.FILES['image']:
@@ -188,7 +190,7 @@ def changespwd(request):
         return redirect('slogin')
     return redirect('sprofile')
 
-colors = {"red":"01", "orange":"02", "yellow":"03", "pink":"04",
+colors_id = {"red":"01", "orange":"02", "yellow":"03", "pink":"04",
           "cyan":"05", "blue":"06", "purple":"07", "green":"08",
           "gray":"09", "black":"10", "white":"11", "brown":"12"}
 
@@ -208,16 +210,28 @@ def addproduct(request):
 
         product = Product(ID=product_id, Name=product_name, Brand=supplier, Price=int(product_price),
                           Genre=genre, Category=category, Sale_Category=sales_category)
-        #product.save()
-        images = request.FILES
-        print(type(images))
+        product.save()
 
-        for image in images:
-            print(type(image))
 
         color = request.POST.getlist('color')
+        for c in color:
+            sku_id = product_id + colors_id[c]
+            str = 'image'+c
+            img = request.FILES[str]
+            filename = sku_id + '.' + splitext(img.name)
+            img.name = filename
+            Sku = SKU(SKU_ID=sku_id, Product=product, Color=c, Picture=img)
+            Sku.save()
+            for s in sizes:
+                Store = Stored(sku=Sku, Size=s, stored=0)
+                Store.save()
 
-        return render(request, 'supplier_addproduct.html')
+        genre_choices = Product.GENRE_CHOICES
+        category_choices = Product.CATEGORY_CHOICES
+        color_chioces = SKU.COLOR_CHOICES
+        size_choices = Stored.SIZE_CHOICES
+        context = {'genre': genre_choices, 'category': category_choices, 'color': color_chioces, 'size': size_choices}
+        return render(request, 'supplier_addproduct.html',context)
 
     genre_choices = Product.GENRE_CHOICES
     category_choices = Product.CATEGORY_CHOICES
@@ -226,7 +240,7 @@ def addproduct(request):
     context = {'genre':genre_choices, 'category':category_choices, 'color':color_chioces, 'size':size_choices}
     return render(request, 'supplier_addproduct.html',context)
 
-# ************************* Functions ****************************************
+# ************************* Functions ***************************** #
 def splitext(file):
     filename = file.split('.')
     return filename[-1]
