@@ -1,10 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Register_Succeed</title>
 </head>
 <body>
     <h1>註冊成功啦~~~</h1>
+    <script>
+    {% if identification == user %}
+    location.href = "{% url 'index' %}"
+    {% elif identification == supplier %}
+    location.href = "{% url 'sindex' %}"
+    {% endif %}
+    </script>
 </body>
 </html>
