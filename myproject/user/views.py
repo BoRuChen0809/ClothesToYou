@@ -49,7 +49,8 @@ def register(request):
             UserManager.createUser(email,name,pwd,salt,phone)
             #member = Clothes2You_User(Name=name,Mail=email,PWD=pwd,Salt=salt,Phone_1=phone)
             #member.save()
-            return render(request, 'register_succeed.html')
+            context = {'identification': 'user'}
+            return render(request, 'register_succeed.html', context)
     else:
         return render(request, 'user_register.html')
 

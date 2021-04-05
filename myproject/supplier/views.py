@@ -58,8 +58,9 @@ def become_partner(request):
             salt,pwd = hashpwd(pwd)
             supplier = Supplier(S_ID=id,C_Name=c_name,Principal=principal,Phone=phone,Mail=mail,PWD=pwd,Salt=salt,Active=False,Address=address)
             supplier.save()
-            return render(request, 'register_succeed.html')
-        return render(request, 'register_succeed.html')
+            #return render(request, 'register_succeed.html')
+            context = {'identification': 'supplier'}
+            return render(request, 'register_succeed.html', context)
     return render(request, 'supplier_become_partner.html')
 
 def slogin(request):
