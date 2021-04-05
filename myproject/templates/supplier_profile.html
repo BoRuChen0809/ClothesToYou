@@ -65,7 +65,6 @@
                                 <h4>頭貼請選擇大於300x300的方形圖片</h4>
                             </form>
                         </div>
-
                         <div class="col-6 col-12-medium">
                              <form action="{% url 'changesprofile' %}" method="post">{% csrf_token %}
                                 <div> <input type="text" name="supplier_name" id="supplier_name" placeholder="聯絡人姓名" value={{supplier.Principal}}> </div>
@@ -90,17 +89,22 @@
                     <!-- <div class="row"> -->
                     <form>
                         <table>
-                            <tr><td>Nike F.C. 主場</td> <td>男士</td> <td>運動類</td> <td>NT$: 1880</td></tr>
+                            <tr><td>商品序號</td> <td>Nike F.C. 主場</td> <td>男士</td> <td>運動類</td> <td>NT$: 1880</td><td>數量</td><td>商品資訊更新</td></tr>
                         </table>
                     </form>
                 </div>
                 <div id="Order" class="tabcontent">
-                    <h3>訂單管理</h3>
+                    <!-- <div class="row"> -->
+                    <form>
+                        <table>
+                            <tr><td>交易日期</td><td>客戶名稱</td> <td>商品名稱</td> <td>數量</td> <td>狀態</td><td>訂單資訊更新</td></tr>
+                        </table>
+                    </form>
                 </div>
 			</div>
             </div>
         </section>
-                <!-- Footer -->
+        <!-- Footer -->
         <footer id="footer">
             <div class="inner">
                 <div class="content">
