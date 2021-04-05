@@ -49,15 +49,20 @@ def create_product_id(num):
     except:
         return '0001'
 
+def create_sku_id(choices):
+    colors = {"紅": "01", "橙": "02", "黃": "03", "粉紅": "04",
+              "青": "05", "藍": "06", "紫": "07", "綠": "08",
+              "灰": "09", "黑": "10", "白": "11", "咖啡": "12"}
+    for c in choices:
+        print(colors[c])
+
+
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_hi('PyCharm')
-    #print(check_id("5312539"))
-    i=1
-    string = "89123456"
-    print(create_product_id(0))
-    print(create_product_id(123))
-    print(1321)
+
+    create_sku_id(['紅', '橙', '青', '藍', '綠', '灰', '黑'])
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

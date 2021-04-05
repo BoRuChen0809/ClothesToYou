@@ -9,6 +9,8 @@ from .models import Supplier, Product, SKU, Stored
 
 # *********************** views ************************************************** #
 
+
+
 def sindex(request):
     return render(request, 'supplier_index.html')
 
@@ -186,26 +188,34 @@ def changespwd(request):
         return redirect('slogin')
     return redirect('sprofile')
 
+colors = {"red":"01", "orange":"02", "yellow":"03", "pink":"04",
+          "cyan":"05", "blue":"06", "purple":"07", "green":"08",
+          "gray":"09", "black":"10", "white":"11", "brown":"12"}
+
 def addproduct(request):
     if request.POST:
         c_id = request.session['supplier_id']
         supplier = Supplier.objects.get(S_ID=c_id)
 
         product_id = c_id + create_product_id(supplier)
-        print(product_id)
         product_name = request.POST['product_name']
-        print(product_name)
         product_price = request.POST['product_price']
-        print(product_price)
         genre = request.POST['genre']
-        print(genre)
         category = request.POST['category']
-        print(category)
+        sales_category = request.POST['product_sales_category']
         sizes = request.POST.getlist('size')
-        print(sizes)
         product_description = request.POST['product_description']
-        print(product_description)
 
+        product = Product(ID=product_id, Name=product_name, Brand=supplier, Price=int(product_price),
+                          Genre=genre, Category=category, Sale_Category=sales_category)
+        #product.save()
+        images = request.FILES
+        print(type(images))
+
+        for image in images:
+            print(type(image))
+
+        color = request.POST.getlist('color')
 
         return render(request, 'supplier_addproduct.html')
 
@@ -220,7 +230,6 @@ def addproduct(request):
 def splitext(file):
     filename = file.split('.')
     return filename[-1]
-
 def create_product_id(supplier):
     try:
         num = len(Product.objects.filter(Brand = Supplier))
@@ -235,7 +244,6 @@ def create_product_id(supplier):
             return '000'+str(num)
     except:
         return '0001'
-
 def hashpwd(pwd):
     salt = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
