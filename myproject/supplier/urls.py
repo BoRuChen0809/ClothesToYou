@@ -9,9 +9,9 @@ urlpatterns = [
     path('slogin/', views.slogin, name='slogin'),
     path('slogout/', views.slogout, name='slogout'),
     path('sprofile/', views.sprofile, name='sprofile'),
-    path('changespwd/',views.changespwd, name='changespwd'),
-    path('changesprofile/',views.changesprofile,name='changesprofile'),
-    path('profileimg',views.profileimg,name='profileimg'),
-    path('addproduct/' ,views.addproduct,name='addproduct'),
-    path('editproduct/' ,views.editproduct,name='editproduct')
+    path('changespwd/', views.changespwd, name='changespwd'),
+    path('changesprofile/', views.changesprofile, name='changesprofile'),
+    path('profileimg', views.profileimg, name='profileimg'),
+    path('addproduct/', views.addproduct, name='addproduct'),
+    path('editproduct/<str:product_ID>', views.editproduct, name='editproduct')
 ]

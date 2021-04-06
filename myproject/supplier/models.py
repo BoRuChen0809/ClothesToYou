@@ -14,6 +14,9 @@ class Supplier(models.Model):
     Address = models.CharField(max_length=100, default=None)
     Picture = models.ImageField(upload_to='brand/', default=None, blank=True)
 
+    def __str__(self):
+        return self.C_Name
+
 class Product(models.Model):
     ID = models.CharField(max_length=12, default=None)
     Name = models.CharField(max_length=50, default=None)
@@ -27,6 +30,9 @@ class Product(models.Model):
     Category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default=None)
     Sale_Category = models.CharField(max_length=10, default=None)
 
+    def __str__(self):
+        return self.Genre + self.Category + ":" +self.Name
+
 def product_pic_url(instance, filename):
     return 'products/{0}/{1}/{2}'.format(instance.Product.Genre, instance.Product.Category, filename)
 
@@ -39,8 +45,14 @@ class SKU(models.Model):
     Color = models.CharField(max_length=8, choices=COLOR_CHOICES, default=None)
     Picture = models.ImageField(upload_to=product_pic_url)
 
+    def __str__(self):
+        return self.Color + "_" + self.Product.Name
+
 class Stored(models.Model):
     sku = models.ForeignKey(SKU,default=None,on_delete=models.CASCADE)
     SIZE_CHOICES = (("XS", "XS"), ("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL"), ("XXL", "XXL"))
     Size = models.CharField(max_length=8, choices=SIZE_CHOICES, default=None)
     stored = models.IntegerField(default=None)
+
+    def __str__(self):
+        return self.Size + "_" + self.sku.Color + "_" + self.sku.Product.Name

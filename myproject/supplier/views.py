@@ -7,10 +7,7 @@ from django.shortcuts import render, redirect
 from .models import Supplier, Product, SKU, Stored
 
 
-# *********************** views ************************************************** #
-
-
-
+# *********************** views ******************************** #
 def sindex(request):
     return render(request, 'supplier_index.html')
 
@@ -97,7 +94,8 @@ def sprofile(request):
         return redirect('slogin')
     c_id = request.session['supplier_id']
     supplier = Supplier.objects.get(S_ID=c_id)
-    context = {'supplier':supplier}
+    products = Product.objects.filter(Brand=supplier)
+    context = {'supplier':supplier, 'products':products}
     return render(request, 'supplier_profile.html',context)
 
 def changesprofile(request):
@@ -240,13 +238,38 @@ def addproduct(request):
     context = {'genre':genre_choices, 'category':category_choices, 'color':color_chioces, 'size':size_choices}
     return render(request, 'supplier_addproduct.html',context)
 
+def editproduct(request, product_ID):
+
+    product = Product.objects.get(ID=product_ID)
+    sku = SKU.objects.filter(Product=product)
+    stored = Stored.objects.filter(sku=sku[0])
+
+    print(sku)
+
+    size_selected = []
+    for s in stored:
+        size_selected.append(s.Size)
+
+    color_selected = []
+    for c in sku:
+        color_selected.append(c.Color)
+
+    genre_choices = Product.GENRE_CHOICES
+    category_choices = Product.CATEGORY_CHOICES
+    color_choices = SKU.COLOR_CHOICES
+    size_choices = Stored.SIZE_CHOICES
+    context = {'product': product,  'size_selected': size_selected, 'genre': genre_choices,
+               'category': category_choices, 'color': color_choices, 'size': size_choices,
+               'color_selected': color_selected, 'sku': sku}
+    return render(request, 'supplier_editproduct.html', context)
+
 # ************************* Functions ***************************** #
 def splitext(file):
     filename = file.split('.')
     return filename[-1]
 def create_product_id(supplier):
     try:
-        num = len(Product.objects.filter(Brand = Supplier))
+        num = len(Product.objects.filter(Brand=Supplier))
         num += 1
         if 9999 > num >= 1000:
             return str(num)
@@ -327,7 +350,4 @@ def check_pwd_match(pwd, c_pwd):
 def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
-
-def editproduct(request):
-    return render(request, 'supplier_editproduct.html')
 

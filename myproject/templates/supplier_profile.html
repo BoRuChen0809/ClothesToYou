@@ -89,7 +89,9 @@
                     <!-- <div class="row"> -->
                     <form>
                         <table>
-                            <tr><td>商品序號</td> <td>Nike F.C. 主場</td> <td>男士</td> <td>運動類</td> <td>NT$: 1880</td><td>數量</td><td><a href="{% url 'editproduct' %}">商品資訊更新</a></td></tr>
+                            {% for product in products %}
+                                <tr><td>{{product.ID}}</td> <td>{{product.Name}}</td> <td>{{product.Genre}}</td> <td>{{product.Category}}</td> <td>NT$: {{product.Price}}</td><td><a href="{% url 'editproduct' product.ID %}">商品資訊更新</a></td></tr>
+                            {% endfor %}
                         </table>
                     </form>
                 </div>
