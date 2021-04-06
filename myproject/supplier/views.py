@@ -244,8 +244,6 @@ def editproduct(request, product_ID):
     sku = SKU.objects.filter(Product=product)
     stored = Stored.objects.filter(sku=sku[0])
 
-    print(sku)
-
     size_selected = []
     for s in stored:
         size_selected.append(s.Size)
