@@ -29,6 +29,7 @@ class Product(models.Model):
                         ("洋裝類", "洋裝類"), ("運動類", "運動類"), ("鞋類", "鞋類"))
     Category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default=None)
     Sale_Category = models.CharField(max_length=10, default=None)
+    Description = models.CharField(max_length=255, default=None)
 
     def __str__(self):
         return self.Genre + self.Category + ":" +self.Name

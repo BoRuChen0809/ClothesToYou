@@ -137,15 +137,12 @@ def changesprofile(request):
 
 def profileimg(request):
     if request.POST:
-        qq = request.POST
-        print(qq)
         c_id = request.session['supplier_id']
         supplier = Supplier.objects.get(S_ID=c_id)
-        if request.FILES['image']:
+        if 'image' in (request.FILES):
             img = request.FILES['image']
             filename = supplier.S_ID + '.' + splitext(img.name)
             img.name = filename
-            supplier.Picture.delete()
             supplier.Picture = img
             supplier.save()
             return redirect('sprofile')
@@ -207,7 +204,7 @@ def addproduct(request):
         product_description = request.POST['product_description']
 
         product = Product(ID=product_id, Name=product_name, Brand=supplier, Price=int(product_price),
-                          Genre=genre, Category=category, Sale_Category=sales_category)
+                          Genre=genre, Category=category, Sale_Category=sales_category, Description=product_description)
         product.save()
 
 
@@ -240,6 +237,25 @@ def addproduct(request):
 
 def editproduct(request, product_ID):
 
+    if request.POST:
+        product = Product.objects.get(ID=product_ID)
+        product.Name = request.POST['product_name']
+        product.Price = int(request.POST['product_price'])
+        product.Genre = request.POST['genre']
+        product.Category = request.POST['category']
+        product.Sale_Category = request.POST['product_sales_category']
+        product.Description = request.POST['product_description']
+        print(product)
+        #product.save()
+
+
+        sku = SKU.objects.filter(Product=product)
+        color = request.POST.getlist('color')
+
+
+        return redirect('sprofile')
+
+
     product = Product.objects.get(ID=product_ID)
     sku = SKU.objects.filter(Product=product)
     stored = Stored.objects.filter(sku=sku[0])
@@ -256,6 +272,7 @@ def editproduct(request, product_ID):
     category_choices = Product.CATEGORY_CHOICES
     color_choices = SKU.COLOR_CHOICES
     size_choices = Stored.SIZE_CHOICES
+
     context = {'product': product,  'size_selected': size_selected, 'genre': genre_choices,
                'category': category_choices, 'color': color_choices, 'size': size_choices,
                'color_selected': color_selected, 'sku': sku}
