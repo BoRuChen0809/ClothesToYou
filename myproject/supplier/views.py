@@ -226,6 +226,8 @@ def addproduct(request):
         color_chioces = SKU.COLOR_CHOICES
         size_choices = Stored.SIZE_CHOICES
         context = {'genre': genre_choices, 'category': category_choices, 'color': color_chioces, 'size': size_choices}
+
+
         return render(request, 'supplier_addproduct.html',context)
 
     genre_choices = Product.GENRE_CHOICES
@@ -236,7 +238,6 @@ def addproduct(request):
     return render(request, 'supplier_addproduct.html',context)
 
 def editproduct(request, product_ID):
-
     if request.POST:
         product = Product.objects.get(ID=product_ID)
         product.Name = request.POST['product_name']
@@ -245,14 +246,43 @@ def editproduct(request, product_ID):
         product.Category = request.POST['category']
         product.Sale_Category = request.POST['product_sales_category']
         product.Description = request.POST['product_description']
-        print(product)
-        #product.save()
-
+        product.save()
+        color = request.POST.getlist('color')
+        print(color)
+        sizes = request.POST.getlist('size')
 
         sku = SKU.objects.filter(Product=product)
-        color = request.POST.getlist('color')
 
+        for c in color:
+            sku_id = product.ID + colors_id[c]
+            str = 'image' + c
+            if str in request.FILES:
+                img = request.FILES[str]
+                filename = sku_id + '.' + splitext(img.name)
+                img.name = filename
+            else:
+                img = None
 
+            try:
+                old = sku.get(SKU_ID=sku_id)
+                if img is not None:
+                    old.Picture = img
+                    old.save()
+            except:
+                new = SKU(SKU_ID=sku_id, Product=product, Color=c, Picture=img)
+                new.save()
+                for s in sizes:
+                    stored = Stored(sku=new, Size=s, stored=0)
+                    stored.save()
+            sku = sku.exclude(SKU_ID=sku_id)
+        sku.delete()
+
+        sku = SKU.objects.filter(Product=product)
+        for Sku in sku:
+            stored = Stored.objects.filter(sku=Sku)
+            for s in stored:
+                if s.Size not in sizes:
+                    s.delete()
         return redirect('sprofile')
 
 
