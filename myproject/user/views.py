@@ -202,3 +202,6 @@ def check_phone(str):
 
 def orders(request):
     return render(request, 'user_orders.html')
+
+def product(request):
+    return render(request, 'user_product.html')
