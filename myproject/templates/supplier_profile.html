@@ -16,21 +16,21 @@
 	</head>
 	<body class="is-preload">
 		<!-- Header -->
-			<header id="header">
-				<a class="logo" href="{% url 'sindex' %}">Clothes to You</a>
-				<nav>
-					<a href="#menu">Menu</a>
-				</nav>
-			</header>
+        <header id="header">
+            <a class="logo" href="{% url 'sindex' %}">Clothes to You</a>
+            <nav>
+                <a href="#menu">Menu</a>
+            </nav>
+        </header>
 		<!-- Nav -->
-			<nav id="menu">
-				<ul class="links">
-					<li><a href="{% url 'sindex' %}">首頁</a></li>
-                    <li><a href="{% url 'sprofile' %}">後臺管理</a></li>
-                    <li><a href="{% url 'addproduct' %}">上架商品</a></li>
-					<li><a href="{% url 'slogout' %}">登出</a></li>
-				</ul>
-			</nav>
+        <nav id="menu">
+            <ul class="links">
+                <li><a href="{% url 'sindex' %}">首頁</a></li>
+                <li><a href="{% url 'sprofile' %}">後臺管理</a></li>
+                <li><a href="{% url 'addproduct' %}">上架商品</a></li>
+                <li><a href="{% url 'slogout' %}">登出</a></li>
+            </ul>
+        </nav>
         <!-- Heading -->
         <div id="heading" >
             <h1>供應商後台管理</h1>
@@ -146,11 +146,11 @@
             </div>
         </footer>
         <!-- Scripts -->
-			<script src="{% static 'js/jquery.min.js' %}"></script>
-			<script src="{% static 'js/browser.min.js' %}"></script>
-			<script src="{% static 'js/breakpoints.min.js' %}"></script>
-			<script src="{% static 'js/util.js' %}"></script>
-			<script src="{% static 'js/main.js' %}"></script>
-            <script>document.getElementsByClassName('tablinks')[0].click()</script>
+        <script src="{% static 'js/jquery.min.js' %}"></script>
+        <script src="{% static 'js/browser.min.js' %}"></script>
+        <script src="{% static 'js/breakpoints.min.js' %}"></script>
+        <script src="{% static 'js/util.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+        <script>document.getElementsByClassName('tablinks')[0].click()</script>
     </body>
 </html>
