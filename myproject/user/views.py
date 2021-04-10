@@ -1,5 +1,6 @@
 import base64
 import hashlib
+import json
 import re,bcrypt
 from django.template import loader
 
@@ -7,7 +8,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from .models import Clothes2You_User, UserManager
-from supplier.models import Product,SKU
+from supplier.models import Product, SKU, Stored
 
 
 # **************************** views ***************************** #
@@ -170,8 +171,16 @@ def product_detail(request, product_ID):
     print(product)
     skus = SKU.objects.filter(Product = product)
     print(skus)
+    stored = []
+    for sku in skus:
+        s = Stored.objects.filter(sku = sku)
+        stored.append(s)
+
     print("有查到")
-    context = {'product':product, 'skus':skus}
+
+    context = {'product':product, 'skus':skus, 'json_product':json.dumps(product), 'json_skus':json.dumps(skus)}
+
+
     return render(request, 'user_product.html', context)
 
 
