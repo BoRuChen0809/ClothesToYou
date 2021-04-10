@@ -40,28 +40,31 @@
                     </table>
                 </form>
             <div class="content">
-                <form action="{% url 'product' %}" method="post" enctype="multipart/form-data">
-                    <h3>NIKE -> 男士 -> 上衣 </h3>
+                <form action="" method="post" enctype="multipart/form-data">
+                    <h3>{{product.Brand.C_Name}} -> {{product.Genre}} -> {{product.Category}} </h3>
                     <div class="row">
                         <div class="col-6 col-12-medium">
                             <div> <img src={{product.product_pic_url}} alt="" height="400" width="400" /> </div>
                         </div>
                         <div class="col-6 col-12-medium">
-                            <h1>POLO衫</h1>
+                            <h1>{{product.Name}}</h1>
                             <div>
-                                <h3> 價錢：NT$ 1625 </h3>
+                                <h3> 價錢：NT$ {{product.Price}} </h3>
                             </div>
-                            <label>商品標籤Sales Category</label>
+                            <label>商品標籤 {{product.Sale_Category}}</label>
                             <hr>
                             <table>
                                 <td>
                                     <select name="color" id="color" value="">
-                                        <option value="">顏色</option>
+                                        {% for sku in skus %}
+                                            <option value={{sku.SKU_ID}}>{{sku.Color}}</option>
+                                        {% endfor %}
                                     </select>
                                 </td>
                                 <td>
                                     <select name="size" id="size" value="">
                                         <option value="">尺寸</option>
+
                                     </select>
                                 </td>
                                 <td>

@@ -7,8 +7,12 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from .models import Clothes2You_User, UserManager
+from supplier.models import Product,SKU
+
 
 # **************************** views ***************************** #
+
+
 
 def index(request):
     return render(request, 'index.html')
@@ -158,6 +162,32 @@ def hashpwd(pwd):
     hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
     return salt,hashed_pwd
 
+def orders(request):
+    return render(request, 'user_orders.html')
+
+def product_detail(request, product_ID):
+    product = Product.objects.get(ID = product_ID)
+    print(product)
+    skus = SKU.objects.filter(Product = product)
+    print(skus)
+    print("有查到")
+    context = {'product':product, 'skus':skus}
+    return render(request, 'user_product.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #有問題rerturn True
 def check_name(str):
@@ -200,8 +230,3 @@ def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
 
-def orders(request):
-    return render(request, 'user_orders.html')
-
-def product(request):
-    return render(request, 'user_product.html')

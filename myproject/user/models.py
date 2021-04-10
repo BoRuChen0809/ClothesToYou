@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 from django.db.models import Manager
 
+
 '''
 class Clothes2You_User(models):
     name = models.OneToOneField(User.username)
