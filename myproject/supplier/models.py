@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Supplier(models.Model):
-    S_ID = models.CharField(max_length=8, default=None,primary_key=True)
+    S_ID = models.CharField(max_length=8, default=None, primary_key=True)
     C_Name = models.CharField(max_length=100, default=None)
     Principal = models.CharField(max_length=50, default=None)
     Phone = models.CharField(max_length=12, default=None)
@@ -18,7 +18,7 @@ class Supplier(models.Model):
         return self.C_Name
 
 class Product(models.Model):
-    ID = models.CharField(max_length=12, default=None)
+    ID = models.CharField(max_length=12, default=None, primary_key=True)
     Name = models.CharField(max_length=50, default=None)
     Price = models.IntegerField(default=None)
     Brand = models.ForeignKey(Supplier, default=None, on_delete=models.CASCADE)
@@ -38,7 +38,7 @@ def product_pic_url(instance, filename):
     return 'products/{0}/{1}/{2}'.format(instance.Product.Genre, instance.Product.Category, filename)
 
 class SKU(models.Model):
-    SKU_ID = models.CharField(max_length=14, default=None)
+    SKU_ID = models.CharField(max_length=14, default=None, primary_key=True)
     Product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
     COLOR_CHOICES = (("red", "紅"), ("orange", "橙"), ("yellow", "黃"), ("pink", "粉紅"),
                      ("cyan", "青"), ("blue", "藍"), ("purple", "紫"), ("green", "綠"),
@@ -50,7 +50,7 @@ class SKU(models.Model):
         return self.Color + "_" + self.Product.Name
 
 class Stored(models.Model):
-    sku = models.ForeignKey(SKU,default=None,on_delete=models.CASCADE)
+    sku = models.ForeignKey(SKU,default=None, on_delete=models.CASCADE)
     SIZE_CHOICES = (("XS", "XS"), ("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL"), ("XXL", "XXL"))
     Size = models.CharField(max_length=8, choices=SIZE_CHOICES, default=None)
     stored = models.IntegerField(default=None)

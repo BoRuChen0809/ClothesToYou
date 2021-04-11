@@ -5,7 +5,7 @@ import re,bcrypt
 from django.template import loader
 
 from django.shortcuts import render, redirect
-
+from django.core import serializers
 # Create your views here.
 from .models import Clothes2You_User, UserManager
 from supplier.models import Product, SKU, Stored
@@ -168,18 +168,25 @@ def orders(request):
 
 def product_detail(request, product_ID):
     product = Product.objects.get(ID = product_ID)
-    print(product)
+
     skus = SKU.objects.filter(Product = product)
-    print(skus)
+
     stored = []
     for sku in skus:
-        s = Stored.objects.filter(sku = sku)
-        stored.append(s)
+        S = Stored.objects.filter(sku = sku)
+        for s in S:
+            stored.append(s)
 
-    print("有查到")
+    json_product = serializers.serialize('json', Product.objects.filter(ID = product_ID))
 
-    context = {'product':product, 'skus':skus, 'json_product':json.dumps(product), 'json_skus':json.dumps(skus)}
+    json_skus = serializers.serialize('json', skus)
 
+    json_stored = serializers.serialize('json', stored)
+
+
+
+    context = {'product': product, 'skus': skus, 'json_product': json_product, 'json_skus': json_skus,
+               'json_stored': json_stored}
 
     return render(request, 'user_product.html', context)
 
