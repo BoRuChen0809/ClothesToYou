@@ -180,7 +180,6 @@ def product_detail(request, product_ID):
 
     context = {'product':product, 'skus':skus, 'json_product':json.dumps(product), 'json_skus':json.dumps(skus)}
 
-
     return render(request, 'user_product.html', context)
 
 
