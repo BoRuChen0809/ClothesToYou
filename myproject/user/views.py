@@ -183,8 +183,6 @@ def product_detail(request, product_ID):
 
     json_stored = serializers.serialize('json', stored)
 
-
-
     context = {'product': product, 'skus': skus, 'json_product': json_product, 'json_skus': json_skus,
                'json_stored': json_stored}
 
