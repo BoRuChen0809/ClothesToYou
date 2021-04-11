@@ -63,13 +63,11 @@
                                 </td>
                                 <td>
                                     <select name="size" id="size" value="">
-                                        <option value="">尺寸</option>
+                                        <option value={{stored.size}}>尺寸</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="stored" id="stored" value="">
-                                        <option value="">數量</option>
-                                    </select>
+                                    <input type="number" id="quantity" name="quantity" placeholder="數量" min="1" max="10">
                                 </td>
                             </table>
                             <div> <input type="submit" value="加入購物車"> </div>
@@ -127,6 +125,5 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-        <script>document.getElementsByClassName('tablinks')[0].click()</script>
     </body>
 </html>

@@ -70,15 +70,4 @@ $(document).ready(function() {
     });
 });
 
-function node(color, size, quantity){
-    this.color = color;
-    this.size = size;
-    this.quantity = quantity;
-}
-/*
-function product_stored(){
-    var product = JSON.parse("{{json_product|escapejs}}");
-    var stored = JSON.parse("{{json_sku|escapejs}}")
-    window.alert(product);
-}
-*/
+
