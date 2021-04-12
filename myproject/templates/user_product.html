@@ -34,11 +34,11 @@
         <section id="main" class="wrapper">
             <div class="inner">
                 <form action="">
-                    <table>
-                        <td><input type="text" placeholder="(๑•̀ㅂ•́)و⚡" name="search"></td>
-                        <td><button type="submit">Search</button></td>
-                    </table>
-                </form>
+					<table>
+						<td><input id="search" type="search" placeholder="(๑•̀ㅂ•́)و⚡" name="search"></td>
+						<td><input type="button" onclick="location.href='http://127.0.0.1:8000/search/'+document.getElementById('search').value" value = "Search"></td>
+					</table>
+				</form>
             <div class="content">
                 <form action="" method="post" enctype="multipart/form-data">
                     <h3>{{product.Brand.C_Name}} -> {{product.Genre}} -> {{product.Category}} </h3>
