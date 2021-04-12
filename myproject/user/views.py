@@ -178,17 +178,19 @@ def product_detail(request, product_ID):
             stored.append(s)
 
     json_product = serializers.serialize('json', Product.objects.filter(ID = product_ID))
-
+    print(json_product)
     json_skus = serializers.serialize('json', skus)
-
+    print(json_skus)
     json_stored = serializers.serialize('json', stored)
-
+    print(json_stored)
     context = {'product': product, 'skus': skus, 'json_product': json_product, 'json_skus': json_skus,
                'json_stored': json_stored}
 
     return render(request, 'user_product.html', context)
 
-
+def search(request, Text):
+    print(Text)
+    return redirect('index')
 
 
 
