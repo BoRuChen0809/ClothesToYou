@@ -205,8 +205,7 @@ def addproduct(request):
 
         product = Product(ID=product_id, Name=product_name, Brand=supplier, Price=int(product_price),
                           Genre=genre, Category=category, Sale_Category=sales_category, Description=product_description)
-        #product.save()
-
+        product.save()
 
         color = request.POST.getlist('color')
         for c in color:
@@ -216,12 +215,14 @@ def addproduct(request):
             filename = sku_id + '.' + splitext(img.name)
             img.name = filename
             Sku = SKU(SKU_ID=sku_id, Product=product, Color=c, Picture=img)
-            #Sku.save()
+            Sku.save()
             for s in sizes:
-                id = Sku.Color + "_" + s +"_stored"
-                print(id)
-                Store = Stored(sku=Sku, Size=s, stored=0)
-                #Store.save()
+                size_stored = Sku.Color + "_" + s +"_stored"
+                print(size_stored)
+                stored = request.POST[size_stored]
+                print(stored)
+                Store = Stored(sku=Sku, Size=s, stored=stored)
+                Store.save()
 
         genre_choices = Product.GENRE_CHOICES
         category_choices = Product.CATEGORY_CHOICES
@@ -250,7 +251,6 @@ def editproduct(request, product_ID):
         product.Description = request.POST['product_description']
         product.save()
         color = request.POST.getlist('color')
-        print(color)
         sizes = request.POST.getlist('size')
 
         sku = SKU.objects.filter(Product=product)
@@ -289,16 +289,27 @@ def editproduct(request, product_ID):
 
 
     product = Product.objects.get(ID=product_ID)
-    sku = SKU.objects.filter(Product=product)
-    stored = Stored.objects.filter(sku=sku[0])
+    skus = SKU.objects.filter(Product=product)
+    stored = Stored.objects.filter(sku=skus[0])
 
     size_selected = []
     for s in stored:
         size_selected.append(s.Size)
 
     color_selected = []
-    for c in sku:
+    for c in skus:
         color_selected.append(c.Color)
+
+    stored_list = []
+    for sku in skus:
+        stored_list.append(Stored.objects.filter(sku=sku))
+
+    for sku in skus:
+        for S in stored_list:
+            for s in S:
+                if s.sku == sku :
+                    print(s)
+
 
     genre_choices = Product.GENRE_CHOICES
     category_choices = Product.CATEGORY_CHOICES
@@ -307,7 +318,7 @@ def editproduct(request, product_ID):
 
     context = {'product': product,  'size_selected': size_selected, 'genre': genre_choices,
                'category': category_choices, 'color': color_choices, 'size': size_choices,
-               'color_selected': color_selected, 'sku': sku}
+               'color_selected': color_selected, 'sku': skus, 'stored':stored_list}
     return render(request, 'supplier_editproduct.html', context)
 
 # ************************* Functions ***************************** #
