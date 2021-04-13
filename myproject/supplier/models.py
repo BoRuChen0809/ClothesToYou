@@ -35,7 +35,7 @@ class Product(models.Model):
         return self.Genre + self.Category + ":" +self.Name
 
 def product_pic_url(instance, filename):
-    return 'products/{0}/{1}/{2}'.format(instance.Product.Genre, instance.Product.Category, filename)
+    return 'products/{0}/{1}/{2}/{3}'.format(instance.Product.Genre, instance.Product.Category, instance.Product.ID,filename)
 
 class SKU(models.Model):
     SKU_ID = models.CharField(max_length=14, default=None, primary_key=True)

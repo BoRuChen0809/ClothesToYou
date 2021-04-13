@@ -2917,6 +2917,118 @@ body {
 .topnav .search-container button:hover {
   background: #ccc;
 }
+#view {
+  display: none;
+  width: auto;
+  height: 47px;
+
+@media screen and (max-width:400px) {
+  .search-area {
+    width: 100%;
+  }
+}
+
+.products {
+  width: 100%;
+  font-family: Raleway;
+}
+.product {
+  display: inline-block;
+  width: calc(24% - 13px);
+  margin: 10px 10px 30px 10px;
+  vertical-align: top;
+}
+.product img {
+  display: block;
+  margin: 0 auto;
+  width: auto;
+  height: 200px;
+  max-width: calc(100% - 20px);
+  background-cover: fit;
+  box-shadow: 0px 0px 7px 0px rgba(0,0,0,0.8);
+  border-radius: 2px;
+}
+.product-content {
+  text-align: center;
+}
+.product h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 10px 0 0 0;
+}
+.product h3 small {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+  margin: 7px 0 0 0;
+}
+.product .product-text {
+  margin: 7px 0 0 0;
+  color: #777;
+}
+.product .price {
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+}
+.product .genre {
+  font-size: 14px;
+}
+
+
+@media screen and (max-width:1150px) {
+  .product {
+    width: calc(33% - 23px);
+  }
+}
+@media screen and (max-width:700px) {
+  .product {
+    width: calc(50% - 43px);
+  }
+}
+@media screen and (max-width:400px) {
+  .product {
+    width: 100%;
+  }
+}
+
+/* TABLE VIEW */
+@media screen and (min-width:401px) {
+  .settings {
+    display: block;
+  }
+  #view {
+    display: inline;
+  }
+  .products-table .product {
+    display: block;
+    width: auto;
+    margin: 10px 10px 30px 10px;
+  }
+  .products-table .product .product-img {
+    display: inline-block;
+    margin: 0;
+    width: 120px;
+    height: 120px;
+    vertical-align: middle;
+  }
+  .products-table .product img {
+    width: auto;
+    height: 120px;
+    max-width: 120px;
+  }
+  .products-table .product-content {
+    text-align: left;
+    display: inline-block;
+    margin-left: 20px;
+    vertical-align: middle;
+    width: calc(100% - 145px);
+  }
+  .products-table .product h3 {
+    margin: 0;
+  }
+}
 
 @media screen and (max-width: 600px) {
   .topnav .search-container {
@@ -2951,9 +3063,9 @@ body {
   background-color: #03A89E;
 }
 
-.ccontent {
+.inner_content {
   padding: 0 18px;
   display: none;
   overflow: hidden;
   background-color: #f1f1f1;
-}s
+}
