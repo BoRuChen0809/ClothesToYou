@@ -1,19 +1,17 @@
-import base64
-import hashlib
-import json
-import re,bcrypt
-from django.template import loader
 
+import re,bcrypt
+
+from django.contrib.postgres.search import SearchVector
+from django.template import loader
+from .models import Clothes2You_User, UserManager
+from supplier.models import Product, SKU, Stored, Supplier
 from django.shortcuts import render, redirect
 from django.core import serializers
+from django.contrib.postgres import search
 # Create your views here.
-from .models import Clothes2You_User, UserManager
-from supplier.models import Product, SKU, Stored
 
 
 # **************************** views ***************************** #
-
-
 
 def index(request):
     return render(request, 'index.html')
@@ -189,13 +187,15 @@ def product_detail(request, product_ID):
     return render(request, 'user_product.html', context)
 
 def search(request, Text):
+
     print(Text)
+
+    products_1 = Product.objects.annotate(search=SearchVector('Name', 'Genre', 'Category', 'Sale_Category')).filter(search=Text)
+    print(products_1)
+    products_2 = Product.objects.filter(Name__contains=Text)
+    print(products_2)
+
     return redirect('index')
-
-
-
-
-
 
 
 

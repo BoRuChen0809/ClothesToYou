@@ -70,12 +70,14 @@
                             <label for={{c.0}}>{{c.1}}色</label>
                             <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
                             <table>
-                                <td> <input type="text" name="xs_stored" id="xs_stored" placeholder="XS 庫存"> </td>
-                                <td> <input type="text" name="s_stored" id="s_stored" placeholder="S 庫存"> </td>
-                                <td> <input type="text" name="m_stored" id="m_stored" placeholder="M 庫存"> </td>
-                                <td> <input type="text" name="ls_stored" id="l_stored" placeholder="L 庫存"> </td>
-                                <td> <input type="text" name="xl_stored" id="xl_stored" placeholder="XL 庫存"> </td>
-                                <td> <input type="text" name="xxl_stored" id="xxl_stored" placeholder="XXL 庫存"> </td>
+
+                                {% for s in size %}
+                                <tr>
+                                    <td>{{s.0}} 庫存</td>
+                                    <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"> </td>
+                                </tr>
+                                {% endfor %}
+
                             </table>
                             <br>
                             {% endfor %}

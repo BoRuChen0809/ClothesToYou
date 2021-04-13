@@ -205,7 +205,7 @@ def addproduct(request):
 
         product = Product(ID=product_id, Name=product_name, Brand=supplier, Price=int(product_price),
                           Genre=genre, Category=category, Sale_Category=sales_category, Description=product_description)
-        product.save()
+        #product.save()
 
 
         color = request.POST.getlist('color')
@@ -216,10 +216,12 @@ def addproduct(request):
             filename = sku_id + '.' + splitext(img.name)
             img.name = filename
             Sku = SKU(SKU_ID=sku_id, Product=product, Color=c, Picture=img)
-            Sku.save()
+            #Sku.save()
             for s in sizes:
+                id = Sku.Color + "_" + s +"_stored"
+                print(id)
                 Store = Stored(sku=Sku, Size=s, stored=0)
-                Store.save()
+                #Store.save()
 
         genre_choices = Product.GENRE_CHOICES
         category_choices = Product.CATEGORY_CHOICES
