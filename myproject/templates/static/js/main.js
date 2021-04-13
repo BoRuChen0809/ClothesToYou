@@ -76,11 +76,11 @@ var i;
 for (i = 0; i < coll.length; i++) {
   coll[i].addEventListener("click", function() {
     this.classList.toggle("active");
-    var ccontent = this.nextElementSibling;
-    if (ccontent.style.display === "block") {
-      ccontent.style.display = "none";
+    var inner_content = this.nextElementSibling;
+    if (inner_content.style.display === "block") {
+      inner_content.style.display = "none";
     } else {
-      ccontent.style.display = "block";
+      inner_content.style.display = "block";
     }
   });
 }
