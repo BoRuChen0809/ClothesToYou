@@ -89,6 +89,7 @@
                                     <input type="checkbox" id={{c.0}} name="color" value={{c.0}} checked>
                                     <label for={{c.0}}>{{c.1}}色</label>
                                     <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
+
                                     <div class="row">
                                         <div class="col-4 col-12-medium">
                                         {% for Sku in sku %}
@@ -98,31 +99,35 @@
                                         {% endfor %}
                                         </div>
 
+
                                         <div class="col-8 col-12-medium">
                                             <table>
-                                            {% for s in size %}
-                                            <tr>
-                                                <td>{{s.0}} 庫存</td>
-                                                <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"> </td>
-                                            </tr>
-                                            {% endfor %}
-                                            </table>
-                                        </div>
-                                    </div>
-
-
                                         {% for Stored in stored %}
                                             {% for S in Stored %}
                                                 {% if S.sku.Color == c.0 %}
 
                                                     {% for s in size %}
                                                         {% if s.0 == S.Size %}
-                                                        {{S}}  {{S.stored}}<br>
-                                                        {% endif %}
+                                                        <tr>
+                                                            <td>{{s.0}} 庫存</td>
+                                                            <td>{{S.stored}}</td>
+                                                        </tr>
+                                                        {% endif%}
+
+
+
+
                                                     {% endfor %}
+
                                                 {% endif %}
                                             {% endfor %}
                                         {% endfor %}
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+
 
 
                                 {% else %}

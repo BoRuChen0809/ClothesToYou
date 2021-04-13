@@ -304,11 +304,7 @@ def editproduct(request, product_ID):
     for sku in skus:
         stored_list.append(Stored.objects.filter(sku=sku))
 
-    for sku in skus:
-        for S in stored_list:
-            for s in S:
-                if s.sku == sku :
-                    print(s)
+
 
 
     genre_choices = Product.GENRE_CHOICES
