@@ -69,18 +69,3 @@ $(document).ready(function() {
         $("." + inputValue).toggle();
     });
 });
-
-var coll = document.getElementsByClassName("collapsible");
-var i;
-
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var inner_content = this.nextElementSibling;
-    if (inner_content.style.display === "block") {
-      inner_content.style.display = "none";
-    } else {
-      inner_content.style.display = "block";
-    }
-  });
-}
