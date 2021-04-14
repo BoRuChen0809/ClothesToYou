@@ -38,33 +38,51 @@
         <section id="main" class="wrapper">
             <div class="inner">
                 <form action="">
-					<table>
-						<td><input id="search" type="search" placeholder="(๑•̀ㅂ•́)و⚡" name="search"></td>
-						<td><input type="button" onclick="location.href='http://127.0.0.1:8000/search/'+document.getElementById('search').value" value = "Search"></td>
-					</table>
+					<div class="row">
+						<div class="col-9 col-12-medium">
+							<input id="search" type="search" placeholder=" *(๑•̀ㅂ•́)و⚡" name="search">
+						</div>
+						<div class="col-2 col-12-medium">
+							<input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data">
+						</div>
+						<div class="col-1 col-12-medium">
+							<input type="button" onclick="location.href='/user/search/'+document.getElementById('search').value" value = "Search">
+						</div>
+					</div>
 				</form>
                 <div class="content">
                 <div class="row">
                     <div class="col-3 col-12-medium">
-                        <h3>Genre</h3>
-                        <h3>Category</h3>
-                        <h3>品牌</h3>
-                        <h3>價格範圍</h3>
-                        <h3>尺寸範圍</h3>
-                        <h3>運送方式</h3>
-                        <h3>付款方式</h3>
+                        <h3>篩選器</h3>
+                        <h4>Genre</h4>
+                        <h4>Category</h4>
+                        <h4>品牌</h4>
+                        <h4>價格範圍</h4>
+                        <h4>尺寸範圍</h4>
+                        <h4>運送方式</h4>
+                        <h4>付款方式</h4>
                     </div>
                     <div class="col-3 col-12-medium">
                         <div> <img src="" alt="" height="250" width="200" /> </div>
                     </div>
                     <div class="col-6 col-12-medium">
                         <h3>商品名稱</h3>
-                        <table>
-                            <tr>
-                                <td>Genre</td> <td>Category</td> <td>標籤</td> <td>售價</td>
-                            </tr>
-                        </table>
-                        <label>ＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸＸ</label>
+                        <div class="row">
+                            <div class="col-3 col-12-medium">
+                                <h3>Genre</h3>
+                            </div>
+                            <div class="col-3 col-12-medium">
+                                <h3>Category</h3>
+                            </div>
+                            <div class="col-3 col-12-medium">
+                                <h3>標籤</h3>
+                            </div>
+                            <div class="col-3 col-12-medium">
+                                <h3>售價</h3>
+                            </div>
+                        </div>
+                        <label>ＸＸＸＸＸＸＸＸ商品說明ＸＸＸＸＸＸＸＸ</label>
+                        <label>ＸＸＸＸＸＸＸＸ商品說明ＸＸＸＸＸＸＸＸ</label>
                         <div> <input type="submit" value="加入購物車"> </div>
                     </div>
                 </div>
