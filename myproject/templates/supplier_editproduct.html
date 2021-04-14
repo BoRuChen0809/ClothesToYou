@@ -100,28 +100,33 @@
 
                                         <div class="col-8 col-12-medium">
                                             <table>
-                                                {% for Stored in stored %}
-                                                    {% for S in Stored %}
-                                                        {% if S.sku.Color == c.0 %}
-                                                            {% for s in size %}
-                                                                {% if s.0 == S.Size %}
-                                                                <tr>
-                                                                    <td>{{s.0}} 庫存</td>
-                                                                    <td>{{S.stored}}</td>
-                                                                </tr>
 
-                                                                {% endif %}
-
-                                                                {% if s.0 not in size_selected %}
-                                                                <tr>
-                                                                    <td>{{s.0}} 庫存</td>
-                                                                    <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"> </td>
-                                                                </tr>
+                                                {% for s in size %}
+                                                    {% if s.0 not in size_selected %}
+                                                        <tr>
+                                                            <td>{{s.0}} 庫存</td>
+                                                            <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"> </td>
+                                                        </tr>
+                                                    {% else%}
+                                                        {% for Stored in stored %}
+                                                            {% for S in Stored %}
+                                                                {% if S.Size == s.0 and S.sku.Color == c.0 %}
+                                                                    <tr>
+                                                                        <td>{{s.0}} 庫存</td>
+                                                                        <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="{{S.stored}}"> </td>
+                                                                    </tr>
                                                                 {% endif %}
                                                             {% endfor %}
-                                                        {% endif %}
-                                                    {% endfor %}
+                                                        {% endfor %}
+                                                    {% endif %}
                                                 {% endfor %}
+
+
+
+
+
+
+
 
                                             </table>
                                         </div>
