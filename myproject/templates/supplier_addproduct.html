@@ -5,6 +5,28 @@
     Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
     -->
 {% load static %}
+<style>
+.collapsible {
+  background-color: #FFFFFF;
+  color: white;
+  cursor: pointer;
+  width: 33%;
+  border: none;
+  text-align: center;
+  outline: none;
+  font-size: 16px;
+}
+
+.active, .collapsible:hover {
+  background-color: #ECECEC;
+}
+
+.inner_content {
+  display: none;
+  overflow: hidden;
+}
+</style>
+
 <html>
     <head>
         <title>Clothes to You</title>
@@ -63,25 +85,24 @@
                             {% endfor %}
                         </div>
                         <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
-
+                        <hr>
                         <label>顏色</label>
-                        <div class="col-6 col-12-small">
-                            {% for c in color %}
-
-                                <input type="checkbox" id={{c.0}} name="color" value={{c.0}}>
-                                <label for={{c.0}}>{{c.1}}色</label>
-                                <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                <table>
-                                    {% for s in size %}
-                                    <tr>
-                                        <td>{{s.0}} 庫存</td>
-                                        <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"> </td>
-                                    </tr>
-                                    {% endfor %}
-                                </table>
-
-                            {% endfor %}
+                        {% for c in color %}
+                        <button type="button" class="collapsible">{{c.1}}色</button>
+                        <div class="inner_content">
+                            <input type="checkbox" id={{c.0}} name="color" value={{c.0}}>
+                            <label for={{c.0}}>{{c.1}}色</label>
+                            <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                            <table>
+                                {% for s in size %}
+                                <tr>
+                                    <td>{{s.0}} 庫存</td>
+                                    <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"> </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
                         </div>
+                        {% endfor %}
                         <div class="col-6 col-12-medium">
                             <div><input type="submit" value="確認上架"></div>
                         </div>
@@ -135,5 +156,21 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
+        <script>
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
+
+            for (i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var inner_content = this.nextElementSibling;
+                    if (inner_content.style.display === "block") {
+                        inner_content.style.display = "none";
+                    } else {
+                        inner_content.style.display = "block";
+                    }
+                });
+            }
+        </script>
     </body>
 </html>

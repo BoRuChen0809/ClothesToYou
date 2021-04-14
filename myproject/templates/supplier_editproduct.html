@@ -1,10 +1,34 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <!--
     Industrious by TEMPLATED
     templated.co @templatedco
     Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
     -->
 {% load static %}
+
+<style>
+    .collapsible {
+        background-color: #ffffff;
+        color: white;
+        cursor: pointer;
+        width: 33%;
+        border: none;
+        text-align: center;
+        outline: none;
+        font-size: 16px;
+    }
+
+    .active,
+    .collapsible:hover {
+        background-color: #ececec;
+    }
+
+    .inner_content {
+        display: none;
+        overflow: hidden;
+    }
+</style>
+
 <html>
     <head>
         <title>Clothes to You</title>
@@ -32,50 +56,43 @@
             </ul>
         </nav>
         <!-- Heading -->
-        <div id="heading" >
+        <div id="heading">
             <h1>修改商品</h1>
         </div>
 
-<!-- Main -->
+        <!-- Main -->
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
                     <form action="{% url 'editproduct' product.ID %}" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱" value={{product.Name}}> </div>
-                        <div> <input type="text" name="product_price" id="product_price" placeholder="售價" value={{product.Price}}> </div>
+                        <div><input type="text" name="product_name" id="product_name" placeholder="商品名稱" value="{{product.Name}}" /></div>
+                        <div><input type="text" name="product_price" id="product_price" placeholder="售價" value="{{product.Price}}" /></div>
                         <select name="genre" id="genre">
-                            {% for g in genre %}
-                                {% if product.Genre == g.0 %}
-                                    <option value={{g.0}} selected>{{g.0}}</option>
-                                {% else %}
-                                    <option value={{g.0}} >{{g.0}}</option>
-                                {% endif %}
-                            {% endfor %}
+                            {% for g in genre %} {% if product.Genre == g.0 %}
+                            <option value="{{g.0}}" selected>{{g.0}}</option>
+                            {% else %}
+                            <option value="{{g.0}}">{{g.0}}</option>
+                            {% endif %} {% endfor %}
                         </select>
                         <select name="category" id="category">
-                            {% for c in category %}
-                                {% if product.Category == c.0 %}
-                                    <option value={{c.0}} selected>{{c.0}}</option>
-                                {% else %}
-                                    <option value={{c.0}} >{{c.0}}</option>
-                                {% endif %}
-                            {% endfor %}
+                            {% for c in category %} {% if product.Category == c.0 %}
+                            <option value="{{c.0}}" selected>{{c.0}}</option>
+                            {% else %}
+                            <option value="{{c.0}}">{{c.0}}</option>
+                            {% endif %} {% endfor %}
                         </select>
-                        <div> <input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category" value={{product.Sale_Category}}> </div>
+                        <div><input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category" value="{{product.Sale_Category}}" /></div>
 
                         <label>尺寸</label>
                         <div class="col-2 col-12-small">
-                            {% for s in size %}
-
-                                {% if s.0 in size_selected %}
-                                    <input type="checkbox" id={{s.0}} value={{s.0}} name="size" checked>
-                                    <label for={{s.0}}>{{s.0}}</label>
-                                {% else %}
-                                    <input type="checkbox" id={{s.0}} value={{s.0}} name="size">
-                                    <label for={{s.0}}>{{s.0}}</label>
-                                {% endif %}
-                            {% endfor %}
+                            {% for s in size %} {% if s.0 in size_selected %}
+                            <input type="checkbox" id="{{s.0}}" value="{{s.0}}" name="size" checked />
+                            <label for="{{s.0}}">{{s.0}}</label>
+                            {% else %}
+                            <input type="checkbox" id="{{s.0}}" value="{{s.0}}" name="size" />
+                            <label for="{{s.0}}">{{s.0}}</label>
+                            {% endif %} {% endfor %}
                         </div>
 
                         <textarea name="product_description" id="product_description" placeholder="" rows="6">{{ product.Description }}</textarea>
@@ -83,99 +100,77 @@
                         <label>顏色</label>
                         <div class="col-6 col-12-small">
                             {% for c in color %}
+                            <button type="button" class="collapsible">{{c.1}}色</button>
+                            <div class="inner_content">
                                 {% if c.0 in color_selected %}
-                                    <input type="checkbox" id={{c.0}} name="color" value={{c.0}} checked>
-                                    <label for={{c.0}}>{{c.1}}色</label>
-                                    <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                                <input type="checkbox" id="{{c.0}}" name="color" value="{{c.0}}" checked />
+                                <label for="{{c.0}}">{{c.1}}色</label>
+                                <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data" />
 
-                                    <div class="row">
-
-                                        <div class="col-4 col-12-medium">
-                                        {% for Sku in sku %}
-                                            {% if Sku.Color == c.0 %}
-                                                <div><img src={{Sku.Picture.url}} alt="" height="300" width="300" id="show{{Sku.Color}}"/></div>
-                                            {% endif %}
-                                        {% endfor %}
-                                        </div>
-
-                                        <div class="col-8 col-12-medium">
-                                            <table>
-
-                                                {% for s in size %}
-                                                    {% if s.0 not in size_selected %}
-                                                        <tr>
-                                                            <td>{{s.0}} 庫存</td>
-                                                            <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"> </td>
-                                                        </tr>
-                                                    {% else%}
-                                                        {% for Stored in stored %}
-                                                            {% for S in Stored %}
-                                                                {% if S.Size == s.0 and S.sku.Color == c.0 %}
-                                                                    <tr>
-                                                                        <td>{{s.0}} 庫存</td>
-                                                                        <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="{{S.stored}}"> </td>
-                                                                    </tr>
-                                                                {% endif %}
-                                                            {% endfor %}
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                {% endfor %}
-
-
-
-
-
-
-
-
-                                            </table>
-                                        </div>
-
-
+                                <div class="row">
+                                    <div class="col-4 col-12-medium">
+                                        {% for Sku in sku %} {% if Sku.Color == c.0 %}
+                                        <div><img src="{{Sku.Picture.url}}" alt="" height="300" width="300" id="show{{Sku.Color}}" /></div>
+                                        {% endif %} {% endfor %}
                                     </div>
-                                    <hr>
 
-
-
+                                    <div class="col-8 col-12-medium">
+                                        <table>
+                                            {% for s in size %} {% if s.0 not in size_selected %}
+                                            <tr>
+                                                <td>{{s.0}} 庫存</td>
+                                                <td><input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0" /></td>
+                                            </tr>
+                                            {% else%} {% for Stored in stored %} {% for S in Stored %} {% if S.Size == s.0 and S.sku.Color == c.0 %}
+                                            <tr>
+                                                <td>{{s.0}} 庫存</td>
+                                                <td><input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="{{S.stored}}" /></td>
+                                            </tr>
+                                            {% endif %} {% endfor %} {% endfor %} {% endif %} {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
+                                <hr />
 
                                 {% else %}
-                                    <input type="checkbox" id={{c.0}} name="color" value={{c.0}}>
-                                    <label for={{c.0}}>{{c.1}}色</label>
-                                    <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                                    <table>
+                                <input type="checkbox" id="{{c.0}}" name="color" value="{{c.0}}" />
+                                <label for="{{c.0}}">{{c.1}}色</label>
+                                <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data" />
+                                <table>
                                     {% for s in size %}
                                     <tr>
                                         <td>{{s.0}} 庫存</td>
-                                        <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"> </td>
+                                        <td><input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0" /></td>
                                     </tr>
                                     {% endfor %}
-                                    </table>
+                                </table>
 
                                 {% endif %}
-
+                            </div>
                             {% endfor %}
                         </div>
                         <div class="col-6 col-12-medium">
-                            <div><input type="submit" value="確認修改"></div>
+                            <div><input type="submit" value="確認修改" /></div>
                         </div>
                     </form>
                 </div>
             </div>
         </section>
 
-    <!-- Footer -->
+        <!-- Footer -->
         <footer id="footer">
             <div class="inner">
                 <div class="content">
                     <section>
                         <h3>系統目的</h3>
-                        <p>我們的專題系統的目的主要在於<br>
-                            1.減少在外面的人流<br>
-                            2.改良網上的購物體驗<br>
-                            3.找尋商品的客製化<br>
-                            4.減少仿冒商品<br>
-                            5.增加商家的所得<br>
-                            6.減少商家的成本<br>
+                        <p>
+                            我們的專題系統的目的主要在於<br />
+                            1.減少在外面的人流<br />
+                            2.改良網上的購物體驗<br />
+                            3.找尋商品的客製化<br />
+                            4.減少仿冒商品<br />
+                            5.增加商家的所得<br />
+                            6.減少商家的成本<br />
                             7.有效利用商家的人力資源
                         </p>
                     </section>
@@ -189,16 +184,24 @@
                     <section>
                         <h4>關注我們</h4>
                         <ul class="plain">
-                            <li><a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
-                            <li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
-                            <li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
-                            <li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+                            <li>
+                                <a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon fa-github">&nbsp;</i>Github</a>
+                            </li>
                         </ul>
                     </section>
                 </div>
                 <div class="copyright">
-                    &copy; Clothes to You <a>國立臺灣科技大學</a>, 資訊管理系 <br>
-                    &copy; 模板來源 <a href = "https://templated.co/">templated.co</a>
+                    &copy; Clothes to You <a>國立臺灣科技大學</a>, 資訊管理系 <br />
+                    &copy; 模板來源 <a href="https://templated.co/">templated.co</a>
                 </div>
             </div>
         </footer>
@@ -208,5 +211,21 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
+        <script>
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
+
+            for (i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function () {
+                    this.classList.toggle("active");
+                    var inner_content = this.nextElementSibling;
+                    if (inner_content.style.display === "block") {
+                        inner_content.style.display = "none";
+                    } else {
+                        inner_content.style.display = "block";
+                    }
+                });
+            }
+        </script>
     </body>
 </html>
