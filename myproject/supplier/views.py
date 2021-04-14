@@ -281,7 +281,6 @@ def editproduct(request, product_ID):
 
         sku = SKU.objects.filter(Product=product)
         for Sku in sku:
-            print(Sku)
             stored = Stored.objects.filter(sku=Sku)
             for size in sizes:
                 num_id = Sku.Color + "_" + size + "_stored"
@@ -289,11 +288,8 @@ def editproduct(request, product_ID):
                 try:
                     s = stored.get(Size=size)
                     s.stored = num
-                    print("存在")
                 except:
                     s = Stored(sku=Sku, Size=size, stored=num)
-                    print("不存在")
-                print(s)
                 s.save()
         return redirect('sprofile')
 
