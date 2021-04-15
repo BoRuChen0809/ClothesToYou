@@ -55,41 +55,48 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     <h3>{{product.Brand.C_Name}} -> {{product.Genre}} -> {{product.Category}} </h3>
                     <div class="row">
-                        <div class="col-6 col-12-medium">
+                        <div class="col-5 col-12-medium">
                             <div> <img src={{product.product_pic_url}} alt="" height="400" width="400" /> </div>
                         </div>
-                        <div class="col-6 col-12-medium">
+                        <div class="col-7 col-12-medium">
                             <h1>{{product.Name}}</h1>
-                            <div>
-                                <h3> 價錢：NT$ {{product.Price}} </h3>
-                            </div>
+                            <div> <h3> 價錢：NT$ {{product.Price}} </h3> </div>
                             <label>商品標籤 {{product.Sale_Category}}</label>
                             <hr>
-                            <table>
-                                <td>
+                            <div class="row">
+                                <div class="col-4 col-12-medium">
                                     <select name="color" id="color" value="">
                                         {% for sku in skus %}
-                                            <option value={{sku.SKU_ID}}>{{sku.Color}}</option>
+                                        <option value={{sku.SKU_ID}}>{{sku.Color}}</option>
                                         {% endfor %}
                                     </select>
-                                </td>
-                                <td>
+                                </div>
+                                <div class="col-4 col-12-medium">
                                     <select name="size" id="size" value="">
                                         <option value={{stored.size}}>尺寸</option>
                                     </select>
-                                </td>
-                                <td>
-                                    <input type="number" id="quantity" name="quantity" placeholder="數量" min="1" max="10">
-                                </td>
-                            </table>
-                            <div> <input type="submit" value="加入購物車"> </div>
-                            <div> <input type="submit" value="立即購買"> </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-6 col-12-medium">
+                                    <h3>支援的付款方式：</h3>
+                                    <label>VISA、貨到付款</label>
+                                </div>
+                                <div class="col-2 col-12-medium">
+                                    <input type="number" min="0" max="10" name="quantity" id="quantity" placeholder="請選擇購買數量">
+                                </div>
+                                <div class="col-4 col-12-medium">
+                                    <div> <input type="submit" value="加入購物車"> </div>
+                                    <div> <input type="submit" value="立即購買"> </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <hr>
                     <h2>商品詳細資訊</h2>
                 </form>
-                </div>
+            </div>
             </div>
         </section>
         <!-- Footer -->

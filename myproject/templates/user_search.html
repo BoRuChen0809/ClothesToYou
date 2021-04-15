@@ -83,7 +83,26 @@
                         </div>
                         <label>ＸＸＸＸＸＸＸＸ商品說明ＸＸＸＸＸＸＸＸ</label>
                         <label>ＸＸＸＸＸＸＸＸ商品說明ＸＸＸＸＸＸＸＸ</label>
-                        <div> <input type="submit" value="加入購物車"> </div>
+                        <div class="row">
+                            <div class="col-3 col-12-medium">
+                                <select name="color" id="color" value="">
+                                    {% for sku in skus %}
+                                    <option value={{sku.SKU_ID}}>{{sku.Color}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-3 col-12-medium">
+                                <select name="size" id="size" value="">
+                                    <option value={{stored.size}}>尺寸</option>
+                                </select>
+                            </div>
+                            <div class="col-2 col-12-medium">
+                                <input type="number" min="0" max="10" name="quantity" id="quantity" placeholder="請選擇購買數量">
+                            </div>
+                            <div class="col-4 col-12-medium">
+                                <div> <input type="submit" value="加入購物車"> </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 </div>
