@@ -34,7 +34,7 @@
 		<section id="banner">
 			<div class="inner">
 				<h1>Clothes to You</h1>
-				<form action="">
+				<form action="" method="post">
 					<div class="row">
 						<div class="col-8 col-12-medium">
 							<input id="search" type="search" placeholder=" *(๑•̀ㅂ•́)و⚡" name="search">
@@ -43,7 +43,7 @@
 							<input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data">
 						</div>
 						<div class="col-3 col-12-medium">
-							<input type="button" onclick="location.href='/user/search/'+document.getElementById('search').value" value = "Search">
+							<input type="submit" value = "Search">
 						</div>
 					</div>
 				</form>
