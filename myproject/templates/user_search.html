@@ -4,7 +4,7 @@
     templated.co @templatedco
     Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
     -->
-<html>
+<html xmlns="http://www.w3.org/1999/html">
     <head>
         {% load static %}
         <title>Clothes to You</title>
@@ -30,85 +30,61 @@
                 <li><a href="{% url 'logout'%}">登出</a></li>
             </ul>
         </nav>
-
         <div id="heading" >
             <h1>搜尋結果</h1>
         </div>
-
         <section id="main" class="wrapper">
             <div class="inner">
                 <form action="">
-					<div class="row">
-						<div class="col-8 col-12-medium">
-							<input id="search" type="search" placeholder=" *(๑•̀ㅂ•́)و⚡" name="search">
-						</div>
-						<div class="col-1 col-12-medium">
-							<input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data">
-						</div>
-						<div class="col-3 col-12-medium">
-							<input type="submit" value = "Search">
-						</div>
-					</div>
-				</form>
+                    <div class="row">
+                        <div class="col-8 col-12-medium">
+                            <input id="search" type="search" placeholder=" *(๑•̀ㅂ•́)و⚡" name="search">
+                        </div>
+                        <div class="col-1 col-12-medium">
+                            <input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                        </div>
+                        <div class="col-3 col-12-medium">
+                            <input type="submit" value = "Search">
+                        </div>
+                    </div>
+                </form>
                 <div class="content">
-                <div class="row">
-                    <div class="col-3 col-12-medium">
-                        <h3>篩選器</h3>
-                        <h4>Genre</h4>
-                        <h4>Category</h4>
-                        <h4>品牌</h4>
-                        <h4>價格範圍</h4>
-                        <h4>尺寸範圍</h4>
-                        <h4>運送方式</h4>
-                        <h4>付款方式</h4>
-                    </div>
-                    <div class="col-3 col-12-medium">
-                        <div> <img src="" alt="" height="250" width="200" /> </div>
-                    </div>
-                    <div class="col-6 col-12-medium">
-                        <h3>商品名稱</h3>
-                        <div class="row">
-                            <div class="col-3 col-12-medium">
-                                <h3>Genre</h3>
-                            </div>
-                            <div class="col-3 col-12-medium">
-                                <h3>Category</h3>
-                            </div>
-                            <div class="col-3 col-12-medium">
-                                <h3>標籤</h3>
-                            </div>
-                            <div class="col-3 col-12-medium">
-                                <h3>售價</h3>
-                            </div>
+                    <div class="row">
+                        <div class="col-3 col-12-medium">
+                            <h3>篩選器</h3>
+                            <h4>Genre</h4>
+                            <h4>Category</h4>
+                            <h4>品牌</h4>
+                            <h4>價格範圍</h4>
+                            <h4>尺寸範圍</h4>
+                            <h4>運送方式</h4>
+                            <h4>付款方式</h4>
                         </div>
-                        <label>ＸＸＸＸＸＸＸＸ商品說明ＸＸＸＸＸＸＸＸ</label>
-                        <label>ＸＸＸＸＸＸＸＸ商品說明ＸＸＸＸＸＸＸＸ</label>
-                        <div class="row">
-                            <div class="col-3 col-12-medium">
-                                <select name="color" id="color" value="">
-                                    {% for sku in skus %}
-                                    <option value={{sku.SKU_ID}}>{{sku.Color}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="col-3 col-12-medium">
-                                <select name="size" id="size" value="">
-                                    <option value={{stored.size}}>尺寸</option>
-                                </select>
-                            </div>
-                            <div class="col-2 col-12-medium">
-                                <input type="number" min="0" max="10" name="quantity" id="quantity" placeholder="請選擇購買數量">
-                            </div>
-                            <div class="col-4 col-12-medium">
-                                <div> <input type="submit" value="加入購物車"> </div>
-                            </div>
+                        <div class ="col-9 col-12-medium">
+                            <form action="" method="post">{% csrf_token %}
+                                <table>
+                                    <tr align="center" valign="top">
+                                        <td>商品圖片</td>
+                                        <td>商品名稱</td>
+                                        <td>商品Genre</td>
+                                        <td>商品Category</td>
+                                        <td>商品售價</td>
+                                    </tr>
+                                    <tr align="center" valign="top">
+                                        <td><img src= alt="" height="300" width="200" href='#'/></td>
+                                        <td valign="top">棉質運動上衣</td>
+                                        <td valign="top">男士</td>
+                                        <td valign="top">上衣</td>
+                                        <td valign="top">NT$ 890</td>
+                                    </tr>
+                                </table>
+                            </form>
                         </div>
                     </div>
-                </div>
                 </div>
             </div>
         </section>
-    <!-- Footer -->
+        <!-- Footer -->
         <footer id="footer">
             <div class="inner">
                 <div class="content">
@@ -153,6 +129,5 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-
     </body>
 </html>
