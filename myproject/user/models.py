@@ -1,10 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import User
 
 # Create your models here.
 from django.db.models import Manager
-
+from supplier.models import Product, SKU, Stored, Supplier
 
 '''
 class Clothes2You_User(models):
@@ -19,16 +17,21 @@ class Clothes2You_User(models):
 '''
 
 class Clothes2You_User(models.Model):
-    Mail = models.EmailField(default=None,primary_key=True)
-    Name = models.CharField(max_length=50,default=None)
+    Mail = models.EmailField(default=None, primary_key=True)
+    Name = models.CharField(max_length=50, default=None)
     PWD = models.BinaryField()
     Salt = models.BinaryField()
     Active = models.BooleanField(default=False)
     Phone_1 = models.CharField(max_length=12, default=None)
     #Phone_2 = models.CharField(max_length=12, default="")
     Address = models.CharField(max_length=100, default="")
-    GENDER_CHOICES = (('男','Male'),('女','Female'),('不願透漏','Null'))
-    Gender = models.CharField(max_length=10,choices=GENDER_CHOICES,default='N')
+    GENDER_CHOICES = (('男', 'Male'), ('女', 'Female'), ('不願透漏', 'Null'))
+    Gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default='N')
+
+class Shopping_Car(models.Model):
+    user = models.ForeignKey(Clothes2You_User, on_delete=models.CASCADE, primary_key=True, default=None)
+    product = models.ForeignKey(Stored, on_delete=models.CASCADE, default=None)
+    number = models.IntegerField(default=None)
 
 class UserManager(Manager):
     def createUser(mail,name,pwd,salt,phone1):

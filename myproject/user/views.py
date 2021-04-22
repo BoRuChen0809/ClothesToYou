@@ -197,7 +197,10 @@ def search(request, Text):
 
     return redirect('index')
 
-
+def test_search(request,Test,Path):
+    print(Test)
+    print(Path)
+    return redirect('index')
 
 
 

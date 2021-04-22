@@ -14,5 +14,6 @@ urlpatterns = [
     path('orders', views.orders, name='orders'),
     path('product/detail/<str:product_ID>', views.product_detail, name='productdetail'),
     path('search/<str:Text>', views.search, name='search'),
+    path('/?search=<str:Text>&image=<path:Path>', views.test_search, name='test_search'),
     path('searchlist', views.searchlist, name='searchlist'),
 ]
