@@ -251,3 +251,6 @@ def check_phone(str):
 
 def searchlist(request):
     return render(request, 'user_search.html')
+
+def cartpage(request):
+    return render(request, 'user_shopcart.html')

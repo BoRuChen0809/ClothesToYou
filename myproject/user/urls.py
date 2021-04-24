@@ -16,4 +16,5 @@ urlpatterns = [
     path('search/<str:Text>', views.search, name='search'),
     path('/?search=<str:Text>&image=<path:Path>', views.test_search, name='test_search'),
     path('searchlist', views.searchlist, name='searchlist'),
+    path('cartpage', views.cartpage, name='cartpage'),
 ]
