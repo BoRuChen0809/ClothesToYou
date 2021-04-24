@@ -58,7 +58,7 @@
                         {% for sku in skus %}
                             {% if sku.Picture.url %}
                                 <div class="col-5 col-12-medium">
-                                    <div> <img src={{product.product_pic_url}} alt="" height="400" width="400" /> </div>
+                                    <div><img src="{{sku.Picture.url}}" alt="" height="300" width="300" id="show{{Sku.Color}}" /></div>
                                 </div>
                             {% endif %}
                         {% endfor %}
