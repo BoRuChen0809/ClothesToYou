@@ -55,12 +55,14 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     <h3>{{product.Brand.C_Name}} -> {{product.Genre}} -> {{product.Category}} </h3>
                     <div class="row">
+                        {% for sku in skus %}
+                            {% if sku.Picture.url %}
+                                <div class="col-5 col-12-medium">
+                                    <div> <img src={{product.product_pic_url}} alt="" height="400" width="400" /> </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
 
-                        <div class="col-5 col-12-medium">
-                            {% for sku in skus %}
-                                <div> <img src={{Sku.Picture.url}} alt="" height="400" width="400" /> </div>
-                            {% endfor %}
-                        </div>
 
                         <div class="col-7 col-12-medium">
                             <h1>{{product.Name}}</h1>

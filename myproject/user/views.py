@@ -202,6 +202,8 @@ def test_search(request,Test,Path):
     print(Path)
     return redirect('index')
 
+def searchlist(request):
+    return render(request, 'user_search.html')
 
 
 
@@ -249,8 +251,6 @@ def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
 
-def searchlist(request):
-    return render(request, 'user_search.html')
 
 def cartpage(request):
     return render(request, 'user_shopcart.html')
