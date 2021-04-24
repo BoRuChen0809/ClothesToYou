@@ -57,9 +57,9 @@
                     <div class="row">
 
                         <div class="col-5 col-12-medium">
-                            {% for sku in skus %}
+                            {% for Sku in skus %} {% for sku in skus %} {% if Sku.Color == sku.Color %}
                                 <div> <img src={{Sku.Picture.url}} alt="" height="400" width="400" /> </div>
-                            {% endfor %}
+                            {% endif %} {% endfor %} {% endfor %}
                         </div>
 
                         <div class="col-7 col-12-medium">
@@ -77,7 +77,9 @@
                                 </div>
                                 <div class="col-4 col-12-medium">
                                     <select name="size" id="size" value="">
-                                        <option value={{stored.size}}>尺寸</option>
+                                        {% for Sku in skus %} {% for sku in stored %} {% if Sku.Color == sku.Color %}
+                                        <option value={{stored.stored_ID}}>{{stored.Size}}</option>
+                                        {% endif %} {% endfor %} {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -148,6 +150,5 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-
     </body>
 </html>
