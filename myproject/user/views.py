@@ -1,6 +1,7 @@
 
 import re,bcrypt
 
+from PIL import Image
 from django.contrib.postgres.search import SearchVector
 from django.template import loader
 from .models import Clothes2You_User, UserManager
@@ -186,21 +187,25 @@ def product_detail(request, product_ID):
 
     return render(request, 'user_product.html', context)
 
-def search(request, Text):
 
-    print(Text)
 
-    products_1 = Product.objects.annotate(search=SearchVector('Name', 'Genre', 'Category', 'Sale_Category')).filter(search=Text)
-    print(products_1)
-    products_2 = Product.objects.filter(Name__contains=Text)
-    print(products_2)
 
+def search(request):
+    if 'image' in request.FILES:
+        image = request.FILES['image']
+        print(type(image))
+        pic = Image.open(image)
+
+    elif 'search' in request.POST:
+        Text = request.POST['search']
+
+
+
+
+    else:
+        return redirect('index')
     return redirect('index')
 
-def test_search(request,Test,Path):
-    print(Test)
-    print(Path)
-    return redirect('index')
 
 def searchlist(request):
     return render(request, 'user_search.html')

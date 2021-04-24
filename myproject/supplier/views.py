@@ -311,8 +311,6 @@ def editproduct(request, product_ID):
         stored_list.append(Stored.objects.filter(sku=sku))
 
 
-
-
     genre_choices = Product.GENRE_CHOICES
     category_choices = Product.CATEGORY_CHOICES
     color_choices = SKU.COLOR_CHOICES
