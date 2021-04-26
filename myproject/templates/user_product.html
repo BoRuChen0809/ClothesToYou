@@ -55,6 +55,7 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     <h3>{{product.Brand.C_Name}} -> {{product.Genre}} -> {{product.Category}} </h3>
                     <div class="row">
+                        <div class="col-5 col-12-medium">
                         {% for sku in skus %}
                             {% if sku.Picture.url %}
                                 <div class="col-5 col-12-medium">
@@ -62,8 +63,7 @@
                                 </div>
                             {% endif %}
                         {% endfor %}
-
-
+                        </div>
                         <div class="col-7 col-12-medium">
                             <h1>{{product.Name}}</h1>
                             <div> <h3> 價錢：NT$ {{product.Price}} </h3> </div>
@@ -79,7 +79,11 @@
                                 </div>
                                 <div class="col-4 col-12-medium">
                                     <select name="size" id="size" value="">
-                                        <option value={{stored.size}}>尺寸</option>
+                                        {% for store in stored %}
+                                        {% if store.Size %}
+                                        <option value={{store.Size}}>{{store.Size}}</option>
+                                        {% endif %}
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
@@ -150,6 +154,9 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-
+        <script>
+            var e = document.getElementById("color");
+            var selected = e.value;
+        </script>
     </body>
 </html>
