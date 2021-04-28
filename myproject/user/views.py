@@ -167,20 +167,15 @@ def orders(request):
 
 def product_detail(request, product_ID):
     product = Product.objects.get(ID = product_ID)
-
     skus = SKU.objects.filter(Product = product)
-
     sizes = []
     for sku in skus:
         S = Stored.objects.filter(sku=sku)
         for s in S:
             if s.Size not in sizes:
                 sizes.append(s.Size)
-
     context = {'product': product, 'skus': skus, 'sizes': sizes}
-
     if request.POST:
-        print(request.POST)
         if 'user_mail' not in request.session:
             return redirect('login')
         else:
@@ -193,10 +188,13 @@ def product_detail(request, product_ID):
             quantity = int(request.POST['quantity'])
 
             if "add" in request.POST:
-                item = Shopping_Car(User=user , Product=store, Quantity=quantity)
-                item.save()
+                items = Shopping_Car.objects.filter(User=user)
+                for item in items:
+                    if item.Product != store:
+                        new_item = Shopping_Car(User=user, Product=store, Quantity=quantity)
+                        new_item.save()
+                        print("加入購物車")
 
-                print("加入購物車")
             elif "buy" in request.POST:
                 print("直接購買")
 
