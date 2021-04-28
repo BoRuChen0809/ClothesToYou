@@ -52,23 +52,22 @@
                     <form action="" method="post">{% csrf_token %}
                         <table>
                             <tr align="center" valign="top">
-                                <td>勾選</td>
+                                <!--<td>勾選</td>-->
                                 <td>商品圖片</td>
                                 <td>名稱</td>
                                 <td>顏色</td>
                                 <td>尺寸</td>
                                 <td>數量</td>
                                 <td>單價</td>
+                                <td>保留/移除</td>
                             </tr>
-
-
                             {% for item in items %}
                                 <tr align="center" valign="top">
-                                    <td>
-                                        <input type="checkbox" id="want2buy_{{item.item.id}}" name="want2buy_{{item.item.id}}" value="True">
+                                    <!--<td>
+                                        <input type="checkbox" id="want2buy_{{item.item.id}}" name="want2buy_{{item.item.id}}" value="True" onchange = "totalprice()">
                                         <label for="want2buy_{{item.item.id}}">勾選</label><br>
-                                    </td>
-                                    <td><img src="{{item.SKU.Picture.url}}" alt="" height="300" width="300" id="show_{{item.item.id}}" /></td>
+                                    </td>-->
+                                    <td><img src="{{item.SKU.Picture.url}}" alt="" height="160" width="90" id="show_{{item.item.id}}" /></td>
                                     <td valign="top">{{ item.Product.Name }}</td>
                                     <td valign="top">
                                         <select name="color_{{item.item.id}}" id="color_{{item.item.id}}">
@@ -90,16 +89,15 @@
                                                     <option value={{size}} >{{size}}</option>
                                                 {% endif %}
                                             {% endfor %}
-
-                                    </select>
+                                        </select>
                                     </td>
-                                  <td><input type="number" min="1" max="10" name="quantity" id="quantity" placeholder="數量" value="{{item.item.Quantity}}"></td>
-                                    <td valign="top">NT$ {{item.Product.Price}}</td>
+                                  <td><input type="number" min="1" max="10" name="quantity" id="quantity" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
+                                    <td valign="top" id="Price">{{item.Product.Price}}</td>"
+                                    <td><input type="submit" value="移除商品"></td>
                                 </tr>
                             {% endfor %}
                         </table>
-                      <label>總金額：NT$X,XXX元</label>
-
+                      <label id = "total_sum">總金額：NT$ 0元</label>
                       <div style="text-align:right"> <input type="submit" value="前去結帳"> </div>
                     </form>
                 </div>
@@ -150,5 +148,13 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
+        <script>
+            function totalprice() {
+                var product_price = document.getElementById('Price').textContent;
+                var quantity = document.getElementById('quantity').value;
+                var total = product_price * quantity;
+                document.getElementById('total_sum').innerText = "總金額：NT$ " + total + "元";
+            }
+        </script>
     </body>
 </html>
