@@ -4,7 +4,7 @@ import re,bcrypt
 from PIL import Image
 from django.contrib.postgres.search import SearchVector
 from django.template import loader
-from .models import Clothes2You_User, UserManager
+from .models import Clothes2You_User, UserManager, Shopping_Car
 from supplier.models import Product, SKU, Stored, Supplier
 from django.shortcuts import render, redirect
 from django.core import serializers
@@ -170,20 +170,35 @@ def product_detail(request, product_ID):
 
     skus = SKU.objects.filter(Product = product)
 
-    stored = []
+    sizes = []
     for sku in skus:
-        S = Stored.objects.filter(sku = sku)
+        S = Stored.objects.filter(sku=sku)
         for s in S:
-            stored.append(s)
+            if s.Size not in sizes:
+                sizes.append(s.Size)
 
-    json_product = serializers.serialize('json', Product.objects.filter(ID = product_ID))
-    print(json_product)
-    json_skus = serializers.serialize('json', skus)
-    print(json_skus)
-    json_stored = serializers.serialize('json', stored)
-    print(json_stored)
-    context = {'product': product, 'skus': skus, 'json_product': json_product, 'json_skus': json_skus,
-               'json_stored': json_stored}
+    context = {'product': product, 'skus': skus, 'sizes': sizes}
+
+    if request.POST:
+        print(request.POST)
+        if 'user_mail' not in request.session:
+            return redirect('login')
+        else:
+            mail = request.session['user_mail']
+            user = Clothes2You_User.objects.get(Mail=mail)
+            sku_id = request.POST['color']
+            sku = SKU.objects.get(SKU_ID=sku_id)
+            size = request.POST['size']
+            store = Stored.objects.filter(sku=sku).get(Size=size)
+            quantity = int(request.POST['quantity'])
+
+            if "add" in request.POST:
+                item = Shopping_Car(User=user , Product=store, Quantity=quantity)
+                item.save()
+
+                print("加入購物車")
+            elif "buy" in request.POST:
+                print("直接購買")
 
     return render(request, 'user_product.html', context)
 
@@ -201,17 +216,61 @@ def search(request):
 
 
 
-
     else:
         return redirect('index')
     return redirect('index')
+
+def mycart(request):
+    if 'user_mail' not in request.session:
+        return redirect('login')
+    else:
+        mail = request.session['user_mail']
+        user = Clothes2You_User.objects.get(Mail=mail)
+        shopping_items = Shopping_Car.objects.filter(User=user)
+        items=[]
+        for item in shopping_items:
+            item = temp_product(item)
+            items.append(item)
+
+        context = {'items': items}
+        return render(request, 'user_shopcart.html', context)
+
+class temp_product():
+    #一次放入單個stored
+    def __init__(self, item):
+        self.item = item
+        self.Stored = item.Product
+        self.SKU = self.Stored.sku
+        self.Product = self.SKU.Product
+        self.Quantity = item.Quantity
+        self.sizes = []
+        self.setSizes(self.SKU)
+        self.skus = []
+        self.setSKUs(self.Product)
+
+    def setSizes(self,sku):
+        S = Stored.objects.filter(sku=sku)
+        for s in S:
+            if s.Size not in self.sizes:
+                self.sizes.append(s.Size)
+
+    def setSKUs(self,product):
+        SKUs = SKU.objects.filter(Product=product)
+        for sku in SKUs:
+            self.skus.append(sku)
+
+
+
+
+
+
+
+
 
 
 def searchlist(request):
     return render(request, 'user_search.html')
 
-def cartpage(request):
-    return render(request, 'user_shopcart.html')
 
 
 
@@ -256,5 +315,10 @@ def check_pwd_match(pwd, c_pwd):
 def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
+
+
+
+
+
 
 

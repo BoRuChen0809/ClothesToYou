@@ -29,9 +29,9 @@ class Clothes2You_User(models.Model):
     Gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default='N')
 
 class Shopping_Car(models.Model):
-    user = models.ForeignKey(Clothes2You_User, on_delete=models.CASCADE, default=None)
-    product = models.ForeignKey(Stored, on_delete=models.CASCADE, default=None)
-    number = models.IntegerField(default=None)
+    User = models.ForeignKey(Clothes2You_User, on_delete=models.CASCADE, default=None)
+    Product = models.ForeignKey(Stored, on_delete=models.CASCADE, default=None)
+    Quantity = models.IntegerField(default=None)
 
 class UserManager(Manager):
     def createUser(mail,name,pwd,salt,phone1):

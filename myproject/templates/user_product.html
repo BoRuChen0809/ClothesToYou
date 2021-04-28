@@ -52,7 +52,7 @@
 					</div>
 				</form>
             <div class="content">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="{% url 'productdetail' product.ID %}" method="post" enctype="multipart/form-data">{% csrf_token %}
                     <h3>{{product.Brand.C_Name}} -> {{product.Genre}} -> {{product.Category}} </h3>
                     <div class="row">
                         <div class="col-5 col-12-medium">
@@ -79,10 +79,8 @@
                                 </div>
                                 <div class="col-4 col-12-medium">
                                     <select name="size" id="size" value="">
-                                        {% for store in stored %}
-                                        {% if store.Size %}
-                                        <option value={{store.Size}}>{{store.Size}}</option>
-                                        {% endif %}
+                                        {% for size in sizes %}
+                                        <option value={{size}}>{{size}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -94,11 +92,11 @@
                                     <label>VISA、貨到付款</label>
                                 </div>
                                 <div class="col-2 col-12-medium">
-                                    <input type="number" min="0" max="10" name="quantity" id="quantity" placeholder="請選擇購買數量">
+                                    <input type="number" min="1" max="10" name="quantity" id="quantity" placeholder="請選擇購買數量" value="1">
                                 </div>
                                 <div class="col-4 col-12-medium">
-                                    <div> <input type="submit" value="加入購物車"> </div>
-                                    <div> <input type="submit" value="立即購買"> </div>
+                                    <div> <input type="submit" value="加入購物車" name="add"> </div>
+                                    <div> <input type="submit" value="立即購買" name="buy"> </div>
                                 </div>
                             </div>
                         </div>
@@ -154,9 +152,6 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-        <script>
-            var e = document.getElementById("color");
-            var selected = e.value;
-        </script>
+
     </body>
 </html>
