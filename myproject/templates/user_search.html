@@ -70,13 +70,15 @@
                                         <td>商品Category</td>
                                         <td>商品售價</td>
                                     </tr>
+                                    {% for product in products%}
                                     <tr align="center" valign="top">
                                         <td><img src= alt="" height="300" width="200" href='#'/></td>
-                                        <td valign="top">棉質運動上衣</td>
-                                        <td valign="top">男士</td>
-                                        <td valign="top">上衣</td>
-                                        <td valign="top">NT$ 890</td>
+                                        <td valign="top">{{product.Name}}</td>
+                                        <td valign="top">{{product.Genre}}</td>
+                                        <td valign="top">{{product.Category}}</td>
+                                        <td valign="top">NT$ {{product.Price}}</td>
                                     </tr>
+                                    {% endfor %}
                                 </table>
                             </form>
                         </div>

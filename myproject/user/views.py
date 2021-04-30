@@ -267,7 +267,10 @@ class temp_product():
 
 
 def searchlist(request):
-    return render(request, 'user_search.html')
+    products = Product.objects.all()
+    context = {'products':products}
+
+    return render(request, 'user_search.html', context)
 
 
 
