@@ -27,6 +27,7 @@
             <ul class="links">
                 <li><a href="{% url 'index' %}">首頁</a></li>
                 <li><a href="{% url 'profile' %}">會員中心</a></li>
+                <Li><a href="{% url 'mycart' %}">購物車</a></Li>
                 <li><a href="{% url 'logout'%}">登出</a></li>
             </ul>
         </nav>
@@ -39,64 +40,48 @@
         <section id="main" class="wrapper">
             <div class="inner">
             <div class="content">
-                <div class="tab">
-                    <button class="tablinks" onclick="clickHandle(event, 'Profile')">會員資料</button>
-                    <button class="tablinks" onclick="clickHandle(event, 'Order')">訂單紀錄</button>
-                    <button class="tablinks" onclick="clickHandle(event, 'Shopping_Cart')">購物車</button>
-                </div>
-                <div id="Profile" class="tabcontent">
-                    <!-- Elements -->
-                    <div class="row">
-                        <div class="col-6 col-12-medium">
-                            <h3>使用者資料</h3>
-                            <form action="{% url 'changeprofile' %}" method="post">{% csrf_token %}
-                                <div> <input readonly type="text" name="user_name" id="user_name" placeholder="使用者姓名" value={{user.Name}}> </div>
-                                <div> <input readonly type="text" name="user_email" id="user_email" placeholder="電子郵件" value={{user.Mail}}> </div>
-                                <hr>
-                                <div> <input type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
-                                <div> <input type="text" name="user_address" id="user_address" placeholder="貨運地址" value={{user.Address}}> </div>
-
-                                    {% if user.Gender == genrer_tuple.0.1 %}
-                                    <input type="radio" id="radio-alpha" name="radio" value={{genrer_tuple.0.1}} checked>
-                                    {% else %}
-                                    <input type="radio" id="radio-alpha" name="radio" value={{genrer_tuple.0.1}}>
-                                    {% endif %}
-                                    <label for="radio-alpha">{{genrer_tuple.0.0}}</label>
-
-                                    {% if user.Gender == genrer_tuple.1.1 %}
-                                    <input type="radio" id="radio-beta" name="radio" value={{genrer_tuple.1.1}} checked>
-                                    {% else %}
-                                    <input type="radio" id="radio-beta" name="radio" value={{genrer_tuple.1.1}}>
-                                    {% endif %}
-                                    <label for="radio-beta">{{genrer_tuple.1.0}}</label>
-
-                                    {% if user.Gender == genrer_tuple.2.1 %}
-                                    <input type="radio" id="radio-gamma" name="radio" value={{genrer_tuple.2.1}} checked>
-                                    {% else %}
-                                    <input type="radio" id="radio-gamma" name="radio" value={{genrer_tuple.2.1}}>
-                                    {% endif %}
-                                    <label for="radio-gamma">{{genrer_tuple.2.0}}</label>
-                                <div><input type="submit" value="修改資訊"></div>
-                            </form>
-                            <div>{{warn_1}}</div>
-                        </div>
-                        <div class="col-6 col-12-medium">
-                            <h3>密碼更改</h3>
-                            <form action="{% url 'changepwd' %}" method="post">{% csrf_token %}
-                                <div> <input type="password" name="user_password" id="user_password" value="" placeholder="目前密碼"> </div>
-                                <div> <input type="password" name="new_user_password" id="new_user_password" value="" placeholder="新的密碼"> </div>
-                                <div> <input type="password" name="new_password_check" id="new_password_check" value="" placeholder="請再輸入一次新的密碼"> </div>
-                                <div> <input type="submit" value="更改密碼"> </div>
-                            </form>
-                            <div>{{warn_2}}</div>
-                        </div>
+                <!-- Elements -->
+                <div class="row">
+                    <div class="col-6 col-12-medium">
+                        <h3>使用者資料</h3>
+                        <form action="{% url 'changeprofile' %}" method="post">{% csrf_token %}
+                            <div> <input readonly type="text" name="user_name" id="user_name" placeholder="使用者姓名" value={{user.Name}}> </div>
+                            <div> <input readonly type="text" name="user_email" id="user_email" placeholder="電子郵件" value={{user.Mail}}> </div>
+                            <hr>
+                            <div> <input type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
+                            <div> <input type="text" name="user_address" id="user_address" placeholder="貨運地址" value={{user.Address}}> </div>
+                            {% if user.Gender == genrer_tuple.0.1 %}
+                            <input type="radio" id="radio-alpha" name="radio" value={{genrer_tuple.0.1}} checked>
+                            {% else %}
+                            <input type="radio" id="radio-alpha" name="radio" value={{genrer_tuple.0.1}}>
+                            {% endif %}
+                            <label for="radio-alpha">{{genrer_tuple.0.0}}</label>
+                            {% if user.Gender == genrer_tuple.1.1 %}
+                            <input type="radio" id="radio-beta" name="radio" value={{genrer_tuple.1.1}} checked>
+                            {% else %}
+                            <input type="radio" id="radio-beta" name="radio" value={{genrer_tuple.1.1}}>
+                            {% endif %}
+                            <label for="radio-beta">{{genrer_tuple.1.0}}</label>
+                            {% if user.Gender == genrer_tuple.2.1 %}
+                            <input type="radio" id="radio-gamma" name="radio" value={{genrer_tuple.2.1}} checked>
+                            {% else %}
+                            <input type="radio" id="radio-gamma" name="radio" value={{genrer_tuple.2.1}}>
+                            {% endif %}
+                            <label for="radio-gamma">{{genrer_tuple.2.0}}</label>
+                            <div><input type="submit" value="修改資訊"></div>
+                        </form>
+                        <div>{{warn_1}}</div>
                     </div>
-                </div>
-                <div id="Order" class="tabcontent">
-                    <h3>訂單紀錄</h3>
-                </div>
-                <div id="Shopping_Cart" class="tabcontent">
-                    <h3>購物車</h3>
+                    <div class="col-6 col-12-medium">
+                        <h3>密碼更改</h3>
+                        <form action="{% url 'changepwd' %}" method="post">{% csrf_token %}
+                            <div> <input type="password" name="user_password" id="user_password" value="" placeholder="目前密碼"> </div>
+                            <div> <input type="password" name="new_user_password" id="new_user_password" value="" placeholder="新的密碼"> </div>
+                            <div> <input type="password" name="new_password_check" id="new_password_check" value="" placeholder="請再輸入一次新的密碼"> </div>
+                            <div> <input type="submit" value="更改密碼"> </div>
+                        </form>
+                        <div>{{warn_2}}</div>
+                    </div>
                 </div>
 			</div>
             </div>
