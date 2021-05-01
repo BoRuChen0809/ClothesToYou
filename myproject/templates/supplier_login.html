@@ -100,5 +100,12 @@
 			<script src="{% static 'js/breakpoints.min.js' %}"></script>
 			<script src="{% static 'js/util.js' %}"></script>
 			<script src="{% static 'js/main.js' %}"></script>
+    		<script>
+			$(document).keyup(function(event){
+				if(event.keyCode ==13){
+					$("#登入").trigger("click");
+				}
+			});
+		</script>
     </body>
 </html>
