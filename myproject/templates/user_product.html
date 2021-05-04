@@ -31,81 +31,90 @@
                 <li><a href="{% url 'logout'%}">登出</a></li>
             </ul>
         </nav>
-
         <div id="heading" >
             <h1>商品詳情</h1>
         </div>
-
         <!-- Heading -->
         <section id="main" class="wrapper">
             <div class="inner">
                 <form action="">
-					<div class="row">
-						<div class="col-8 col-12-medium">
-							<input id="search" type="search" placeholder=" *(๑•̀ㅂ•́)و⚡" name="search">
-						</div>
-						<div class="col-2 col-12-medium">
-							<input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data">
-						</div>
-						<div class="col-2 col-12-medium">
-							<input type="submit" value = "Search">
-						</div>
-					</div>
-				</form>
-            <div class="content">
-                <form action="{% url 'productdetail' product.ID %}" method="post" enctype="multipart/form-data">{% csrf_token %}
-                    <h3>{{product.Brand.C_Name}} -> {{product.Genre}} -> {{product.Category}} </h3>
                     <div class="row">
-                        <div class="col-5 col-12-medium">
-                        {% for sku in skus %}
-                            {% if sku.Picture.url %}
-                                <div class="col-5 col-12-medium">
-                                    <div><img src="{{sku.Picture.url}}" alt="" height="300" width="300" id="show{{Sku.Color}}" /></div>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
+                        <div class="col-8 col-12-medium">
+                            <input id="search" type="search" placeholder=" *(๑•̀ㅂ•́)و⚡" name="search">
                         </div>
-                        <div class="col-7 col-12-medium">
-                            <h1>{{product.Name}}</h1>
-                            <div> <h3> 價錢：NT$ {{product.Price}} </h3> </div>
-                            <label>商品標籤 {{product.Sale_Category}}</label>
-                            <hr>
-                            <div class="row">
-                                <div class="col-4 col-12-medium">
-                                    <select name="color" id="color" value="">
-                                        {% for sku in skus %}
-                                        <option value={{sku.SKU_ID}}>{{sku.Color}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-4 col-12-medium">
-                                    <select name="size" id="size" value="">
-                                        {% for size in sizes %}
-                                        <option value={{size}}>{{size}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-6 col-12-medium">
-                                    <h3>支援的付款方式：</h3>
-                                    <label>VISA、貨到付款</label>
-                                </div>
-                                <div class="col-2 col-12-medium">
-                                    <input type="number" min="1" max="10" name="quantity" id="quantity" placeholder="請選擇購買數量" value="1">
-                                </div>
-                                <div class="col-4 col-12-medium">
-                                    <div> <input type="submit" value="加入購物車" name="add"> </div>
-                                    <div> <input type="submit" value="立即購買" name="buy"> </div>
-                                </div>
-                            </div>
+                        <div class="col-2 col-12-medium">
+                            <input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data">
+                        </div>
+                        <div class="col-2 col-12-medium">
+                            <input type="submit" value = "Search">
                         </div>
                     </div>
-                    <hr>
-                    <h2>商品詳細資訊</h2>
                 </form>
-            </div>
+                <div class="content">
+                    <form action="{% url 'productdetail' product.ID %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h3>{{product.Brand.C_Name}} -> {{product.Genre}} -> {{product.Category}} </h3>
+                        <div class="row">
+                            <div class="col-5 col-12-medium">
+                                <img src="" alt="" height="300" width="300" id="show{{Sku.Color}}" class="display-img"/>
+                                <div class="col-5 col-12-medium">
+                                    <div class="product--image">
+                                        <div class="icon-images">
+                                            {% for sku in skus %}
+                                            {% if sku.Picture.url %}
+                                            <img id = "picture_box"  src="{{sku.Picture.url}}" height="50" width="50" />
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-7 col-12-medium">
+                                <h1>{{product.Name}}</h1>
+                                <div>
+                                    <h3> 價錢：NT$ {{product.Price}} </h3>
+                                </div>
+                                <label>商品標籤 {{product.Sale_Category}}</label>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-4 col-12-medium">
+                                        <select name="color" id="color" value="">
+                                            {% for sku in skus %}
+                                            <option value={{sku.SKU_ID}}>{{sku.Color}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-4 col-12-medium">
+                                        <select name="size" id="size" value="">
+                                            {% for size in sizes %}
+                                            <option value={{size}}>{{size}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-4 col-12-medium">
+                                    <input type="number" min="1" max="10" name="quantity" id="quantity" placeholder="請選擇購買數量" value="1">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-6 col-12-medium">
+                                        <h3>支援的付款方式：</h3>
+                                        <label>VISA、貨到付款</label>
+                                    </div>
+                                    <div class="col-2 col-12-medium">
+
+                                    </div>
+                                    <div class="col-4 col-12-medium">
+                                        <div> <input type="submit" value="加入購物車" name="add"> </div>
+                                        <div> <input type="submit" value="立即購買" name="buy"> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <h2>商品詳細資訊</h2>
+                    </form>
+                </div>
             </div>
         </section>
         <!-- Footer -->
@@ -153,6 +162,6 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-
+        <script>document.getElementById('picture_box').click()</script>
     </body>
 </html>

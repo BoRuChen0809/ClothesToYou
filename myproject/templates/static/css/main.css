@@ -375,6 +375,7 @@ input[type="email"],
 input[type="tel"],
 input[type="search"],
 input[type="url"],
+input[type="number"],
 select,
 textarea {
   -moz-appearance: none;
@@ -396,6 +397,7 @@ textarea {
   input[type="tel"]:invalid,
   input[type="search"]:invalid,
   input[type="url"]:invalid,
+  input[type="number"]:invalid,
   select:invalid,
   textarea:invalid {
     box-shadow: none; }
@@ -411,6 +413,7 @@ input[type="password"],
 input[type="email"],
 input[type="tel"],
 input[type="search"],
+input[type="number"],
 input[type="url"] {
   height: 3.25rem; }
 
@@ -513,6 +516,7 @@ textarea {
   input[type="tel"]:focus,
   input[type="search"]:focus,
   input[type="url"]:focus,
+  input[type="number"]:focus,
   select:focus,
   textarea:focus {
     border-color: #ce1b28;
@@ -2142,6 +2146,7 @@ ul.icons {
     #cta input[type="tel"]:focus,
     #cta input[type="search"]:focus,
     #cta input[type="url"]:focus,
+    #cta input[type="number"]:focus,
     #cta select:focus,
     #cta textarea:focus {
       border-color: #ffffff;
@@ -2274,6 +2279,7 @@ ul.icons {
   #footer input[type="tel"],
   #footer input[type="search"],
   #footer input[type="url"],
+  #footer input[type="number"],
   #footer select,
   #footer textarea {
     background-color: rgba(255, 255, 255, 0.075);
@@ -2284,6 +2290,7 @@ ul.icons {
     #footer input[type="tel"]:focus,
     #footer input[type="search"]:focus,
     #footer input[type="url"]:focus,
+    #footer input[type="number"]:focus,
     #footer select:focus,
     #footer textarea:focus {
       border-color: #ce1b28;
@@ -2576,6 +2583,8 @@ body {
   #heading input[type="tel"],
   #heading input[type="search"],
   #heading input[type="url"],
+  #heading input[type="number"],
+
   #heading select,
   #heading textarea {
     background-color: rgba(255, 255, 255, 0.075);
@@ -2586,6 +2595,7 @@ body {
     #heading input[type="tel"]:focus,
     #heading input[type="search"]:focus,
     #heading input[type="url"]:focus,
+    #heading input[type=""number"]:focus,
     #heading select:focus,
     #heading textarea:focus {
       border-color: #ce1b28;
@@ -2993,43 +3003,6 @@ body {
   }
 }
 
-/* TABLE VIEW */
-@media screen and (min-width:401px) {
-  .settings {
-    display: block;
-  }
-  #view {
-    display: inline;
-  }
-  .products-table .product {
-    display: block;
-    width: auto;
-    margin: 10px 10px 30px 10px;
-  }
-  .products-table .product .product-img {
-    display: inline-block;
-    margin: 0;
-    width: 120px;
-    height: 120px;
-    vertical-align: middle;
-  }
-  .products-table .product img {
-    width: auto;
-    height: 120px;
-    max-width: 120px;
-  }
-  .products-table .product-content {
-    text-align: left;
-    display: inline-block;
-    margin-left: 20px;
-    vertical-align: middle;
-    width: calc(100% - 145px);
-  }
-  .products-table .product h3 {
-    margin: 0;
-  }
-}
-
 input[type="file"] {
     display: none;
 }
@@ -3038,4 +3011,16 @@ input[type="file"] {
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
+}
+
+.product--image {
+  padding-right: 3%;
+  .icon-images {
+    img {
+      height: 80px;
+      margin: 0 10px;
+      cursor: pointer;
+      border: 1px solid #e5e5e5;
+    }
+  }
 }
