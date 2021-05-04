@@ -2595,7 +2595,7 @@ body {
     #heading input[type="tel"]:focus,
     #heading input[type="search"]:focus,
     #heading input[type="url"]:focus,
-    #heading input[type=""number"]:focus,
+    #heading input[type="number"]:focus,
     #heading select:focus,
     #heading textarea:focus {
       border-color: #ce1b28;
@@ -2931,7 +2931,7 @@ body {
   display: none;
   width: auto;
   height: 47px;
-
+}
 @media screen and (max-width:400px) {
   .search-area {
     width: 100%;
@@ -3014,9 +3014,9 @@ input[type="file"] {
 }
 
 .product--image {
-  padding-right: 3%;
+  .padding-right: 3%;
   .icon-images {
-    img {
+    .img {
       height: 80px;
       margin: 0 10px;
       cursor: pointer;
