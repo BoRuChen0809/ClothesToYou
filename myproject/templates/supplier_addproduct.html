@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <!--
     Industrious by TEMPLATED
     templated.co @templatedco
@@ -6,27 +6,25 @@
     -->
 {% load static %}
 <style>
-.collapsible {
-  background-color: #FFFFFF;
-  color: white;
-  cursor: pointer;
-  width: 33%;
-  border: none;
-  text-align: center;
-  outline: none;
-  font-size: 16px;
-}
-
-.active, .collapsible:hover {
-  background-color: #ECECEC;
-}
-
-.inner_content {
-  display: none;
-  overflow: hidden;
-}
+    .collapsible {
+        background-color: #ffffff;
+        color: white;
+        cursor: pointer;
+        width: 33%;
+        border: none;
+        text-align: center;
+        outline: none;
+        font-size: 16px;
+    }
+    .active,
+    .collapsible:hover {
+        background-color: #ececec;
+    }
+    .inner_content {
+        display: none;
+        overflow: hidden;
+    }
 </style>
-
 <html>
     <head>
         <title>Clothes to You</title>
@@ -54,59 +52,75 @@
             </ul>
         </nav>
         <!-- Heading -->
-        <div id="heading" >
+        <div id="heading">
             <h1>商品上架</h1>
         </div>
         <!-- Main -->
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
-                <div class="col-6 col-12-small">
-                    <form action="{% url 'addproduct' %}" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱"> </div>
-                        <div> <input type="text" name="product_price" id="product_price" placeholder="售價"> </div>
-                        <select name="genre" id="genre">
-                            {% for g in genre %}
-                            <option value={{g.0}}>{{g.0}}</option>
-                            {% endfor %}
-                        </select>
-                        <select name="category" id="category">
-                            {% for c in category %}
-                            <option value={{c.0}}>{{c.0}}</option>
-                            {% endfor %}
-                        </select>
-                        <div> <input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category"> </div>
-                        <label>尺寸</label>
-                        <div class="col-2 col-12-small">
-                            {% for s in size %}
-                            <input type="checkbox" id={{s.0}} value={{s.0}} name="size">
-                            <label for={{s.0}}>{{s.0}}</label>
-                            {% endfor %}
-                        </div>
-                        <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
-                        <hr>
-                        <label>顏色</label>
-                        {% for c in color %}
-                        <button type="button" class="collapsible">{{c.1}}色</button>
-                        <div class="inner_content">
-                            <input type="checkbox" id={{c.0}} name="color" value={{c.0}}>
-                            <label for={{c.0}}>{{c.1}}色</label>
-                            <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                            <table>
-                                {% for s in size %}
-                                <tr>
-                                    <td>{{s.0}} 庫存</td>
-                                    <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"> </td>
-                                </tr>
+                    <div class="col-6 col-12-small">
+                        <form action="{% url 'addproduct' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div><input type="text" name="product_name" id="product_name" placeholder="商品名稱" /></div>
+                            <div><input type="text" name="product_price" id="product_price" placeholder="售價" /></div>
+                            <select name="genre" id="genre">
+                                {% for g in genre %}
+                                <option value="{{g.0}}">{{g.0}}</option>
                                 {% endfor %}
-                            </table>
-                        </div>
-                        {% endfor %}
-                        <div class="col-6 col-12-medium">
-                            <div><input type="submit" value="確認上架"></div>
-                        </div>
-                    </form>
+                            </select>
+                            <select name="category" id="category">
+                                {% for c in category %}
+                                <option value="{{c.0}}">{{c.0}}</option>
+                                {% endfor %}
+                            </select>
+                            <div><input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category" /></div>
+                            <label>尺寸</label>
+                            <div class="col-2 col-12-small">
+                                {% for s in size %}
+                                <input type="checkbox" id="{{s.0}}" value="{{s.0}}" name="size" />
+                                <label for="{{s.0}}">{{s.0}}</label>
+                                {% endfor %}
+                            </div>
+                            <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
+                            <hr />
+                            <label>顏色</label>
+                            {% for c in color %}
+                            <button type="button" class="collapsible">{{c.1}}色</button>
+                            <div class="inner_content">
+                                <input type="checkbox" id="{{c.0}}" name="color" value="{{c.0}}" />
+                                <label for="{{c.0}}">{{c.1}}色</label>
+                                <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data" />
+                                <table>
+                                    {% for s in size %}
+                                    <tr>
+                                        <td>{{s.0}} 庫存</td>
+                                        <td><input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0" /></td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            {% endfor %}
+                            <div class="col-6 col-12-medium">
+                                <div><input type="submit" value="確認上架" /></div>
+                            </div>
+                        </form>
+
+                        <button class="btn btn-primary" id="addRow">新增顏色</button>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <td width="5%">ID</td>
+                                    <td width="25%">顏色</td>
+                                    <td width="10%">尺寸</td>
+                                    <td width="15%">庫存量</td>
+                                    <td width="25%">商品圖片</td>
+                                    <td width="10%">功能</td>
+                                    <td width="10%"></td>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody"></tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -117,13 +131,14 @@
                 <div class="content">
                     <section>
                         <h3>系統目的</h3>
-                        <p>我們的專題系統的目的主要在於<br>
-                            1.減少在外面的人流<br>
-                            2.改良網上的購物體驗<br>
-                            3.找尋商品的客製化<br>
-                            4.減少仿冒商品<br>
-                            5.增加商家的所得<br>
-                            6.減少商家的成本<br>
+                        <p>
+                            我們的專題系統的目的主要在於<br />
+                            1.減少在外面的人流<br />
+                            2.改良網上的購物體驗<br />
+                            3.找尋商品的客製化<br />
+                            4.減少仿冒商品<br />
+                            5.增加商家的所得<br />
+                            6.減少商家的成本<br />
                             7.有效利用商家的人力資源
                         </p>
                     </section>
@@ -137,16 +152,24 @@
                     <section>
                         <h4>關注我們</h4>
                         <ul class="plain">
-                            <li><a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
-                            <li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
-                            <li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
-                            <li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+                            <li>
+                                <a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon fa-github">&nbsp;</i>Github</a>
+                            </li>
                         </ul>
                     </section>
                 </div>
                 <div class="copyright">
-                    &copy; Clothes to You <a>國立臺灣科技大學</a>, 資訊管理系 <br>
-                    &copy; 模板來源 <a href = "https://templated.co/">templated.co</a>
+                    &copy; Clothes to You <a>國立臺灣科技大學</a>, 資訊管理系 <br />
+                    &copy; 模板來源 <a href="https://templated.co/">templated.co</a>
                 </div>
             </div>
         </footer>
@@ -161,7 +184,7 @@
             var i;
 
             for (i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function() {
+                coll[i].addEventListener("click", function () {
                     this.classList.toggle("active");
                     var inner_content = this.nextElementSibling;
                     if (inner_content.style.display === "block") {
@@ -171,6 +194,84 @@
                     }
                 });
             }
+        </script>
+
+        <script type="text/template" id="tr_tmpl">
+            <td class="Id">1</td>
+            <td class="Color">請輸入顏色</td>
+            <td class="Size"><input type="checkbox" id=ss value={{s.0}} name="size">
+                                  <label for=ss>SS</label><br>
+                <input type="checkbox" id=s value={{s.0}} name="size">
+                                  <label for=s>S</label><br>
+                <input type="checkbox" id=m value={{s.0}} name="size">
+                                  <label for=m>M</label><br>
+                <input type="checkbox" id=l value={{s.0}} name="size">
+                                  <label for=l>L</label><br>
+                <input type="checkbox" id=xl value={{s.0}} name="size">
+                                  <label for=xl>XL</label><br>
+                <input type="checkbox" id=xxl value={{s.0}} name="size">
+                                  <label for=xxl>XXL</label>
+            </td>
+            <td class='Quantity'><input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
+            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
+            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
+            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
+            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
+            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"></td>
+            <td class='Picture'><input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data"></td>
+            <td><a data-mode='edit' class="action" href="javascript:void(0)">修改</a></td>
+            <td><a class="delete" href="javascript:void(0)">移除</a></td>
+        </script>
+
+        <script>
+            $(document).ready(function () {
+                $("#addRow").on("click", function () {
+                    var trHtml = $("#tr_tmpl").html();
+                    var tr = $("<tr>" + trHtml + "</tr>");
+                    $("#tableBody").append(tr);
+
+                    tr.find("a.delete").on("click", function () {
+                        tr.remove();
+                        reIndex();
+                    });
+
+                    reIndex();
+
+                    function reIndex() {
+                        var rows = $("tbody tr");
+                        rows.each(function (i, row) {
+                            $(row)
+                                .find(".Id")
+                                .html(i + 1);
+                        });
+                    }
+
+                    var action = $(tr).find(".action");
+
+                    action.on("click", function () {
+                        onActionHandler();
+                    });
+
+                    function onActionHandler() {
+                        var Color = $(tr).find(".Color");
+                        var mode = action.attr("data-mode");
+                        if (mode == "update") {
+                            action.attr("data-mode", "edit");
+                            action.text("修改");
+
+                            // update name
+                            Color.text($(tr).find(".Color input").val());
+                        } else {
+                            action.attr("data-mode", "update");
+                            action.text("儲存");
+
+                            //edit name
+                            var Color_val = Color.text();
+                            var Color_input = Color.html('<input type="text" value="' + Color_val + '" />');
+                        }
+                    }
+                });
+            });
         </script>
     </body>
 </html>
