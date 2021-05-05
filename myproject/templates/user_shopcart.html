@@ -31,7 +31,7 @@
                 <li><a href="{% url 'logout'%}">登出</a></li>
             </ul>
         </nav>
-        <div id="heading" >
+        <div id="heading">
             <h1>購物車</h1>
         </div>
         <section id="main" class="wrapper">
@@ -68,7 +68,7 @@
                                         <input type="checkbox" id="want2buy_{{item.item.id}}" name="want2buy_{{item.item.id}}" value="True" onchange = "totalprice()">
                                         <label for="want2buy_{{item.item.id}}">勾選</label><br>
                                     </td>-->
-                                    <td><img src="{{item.SKU.Picture.url}}" alt="" height="160" width="90" id="show_{{item.item.id}}" /></td>
+                                    <td><img src="{{item.SKU.Picture.url}}" alt="" height="160" width="auto" id="show_{{item.item.id}}" /></td>
                                     <td valign="top">{{ item.Product.Name }}</td>
                                     <td valign="top">
                                         <select name="color_{{item.item.id}}" id="color_{{item.item.id}}">

@@ -56,13 +56,13 @@
                         <h3>{{product.Brand.C_Name}} -> {{product.Genre}} -> {{product.Category}} </h3>
                         <div class="row">
                             <div class="col-5 col-12-medium">
-                                <img src="" alt="" height="300" width="300" id="show{{Sku.Color}}" class="display-img"/>
+                                <img src="" alt="" height="350" width="auto" id="show{{Sku.Color}}" class="display-img"/>
                                 <div class="col-5 col-12-medium">
                                     <div class="product--image">
                                         <div class="icon-images">
                                             {% for sku in skus %}
                                             {% if sku.Picture.url %}
-                                            <img id = "picture_box"  src="{{sku.Picture.url}}" height="50" width="50" />
+                                            <img id = "picture_box"  src="{{sku.Picture.url}}" height="50" width="auto" />
                                             {% endif %}
                                             {% endfor %}
                                         </div>

@@ -397,7 +397,6 @@ textarea {
   input[type="tel"]:invalid,
   input[type="search"]:invalid,
   input[type="url"]:invalid,
-  input[type="number"]:invalid,
   select:invalid,
   textarea:invalid {
     box-shadow: none; }
@@ -516,7 +515,6 @@ textarea {
   input[type="tel"]:focus,
   input[type="search"]:focus,
   input[type="url"]:focus,
-  input[type="number"]:focus,
   select:focus,
   textarea:focus {
     border-color: #ce1b28;
@@ -2146,7 +2144,6 @@ ul.icons {
     #cta input[type="tel"]:focus,
     #cta input[type="search"]:focus,
     #cta input[type="url"]:focus,
-    #cta input[type="number"]:focus,
     #cta select:focus,
     #cta textarea:focus {
       border-color: #ffffff;
@@ -2279,7 +2276,6 @@ ul.icons {
   #footer input[type="tel"],
   #footer input[type="search"],
   #footer input[type="url"],
-  #footer input[type="number"],
   #footer select,
   #footer textarea {
     background-color: rgba(255, 255, 255, 0.075);
@@ -2290,7 +2286,6 @@ ul.icons {
     #footer input[type="tel"]:focus,
     #footer input[type="search"]:focus,
     #footer input[type="url"]:focus,
-    #footer input[type="number"]:focus,
     #footer select:focus,
     #footer textarea:focus {
       border-color: #ce1b28;
@@ -2583,7 +2578,6 @@ body {
   #heading input[type="tel"],
   #heading input[type="search"],
   #heading input[type="url"],
-  #heading input[type="number"],
 
   #heading select,
   #heading textarea {
@@ -2595,7 +2589,6 @@ body {
     #heading input[type="tel"]:focus,
     #heading input[type="search"]:focus,
     #heading input[type="url"]:focus,
-    #heading input[type="number"]:focus,
     #heading select:focus,
     #heading textarea:focus {
       border-color: #ce1b28;
@@ -3001,16 +2994,6 @@ body {
   .product {
     width: 100%;
   }
-}
-
-input[type="file"] {
-    display: none;
-}
-.custom-file-upload {
-    border: 1px solid #ccc;
-    display: inline-block;
-    padding: 6px 12px;
-    cursor: pointer;
 }
 
 .product--image {
