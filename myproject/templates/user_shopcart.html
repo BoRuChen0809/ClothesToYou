@@ -68,7 +68,7 @@
                                         <label for="want2buy_{{item.item.id}}">勾選</label><br>
                                     </td>-->
                                     <td><img src="{{item.SKU.Picture.url}}" alt="" height="160" width="auto" id="show_{{item.item.id}}" /></td>
-                                    <td valign="top"><a href="{% url 'productdetail' item.Product.ID %}">{{ item.Product.Name }} ({{ item.SKU.Color }})</a></td>
+                                    <td valign="top"><a href="{% url 'productdetail' item.Product.ID %}">{{ item.Product.Name }} - ({{ item.SKU.Color }})</a></td>
 
                                     <td valign="top">
                                         <select name="size_{{item.item.id}}" id="size_{{item.item.id}}">
@@ -82,7 +82,7 @@
                                         </select>
                                     </td>
                                     <td><input type="number" min="1" max="10" name="quantity" id="quantity" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
-                                    <td valign="top" id="Price">{{item.Product.Price}}</td>"
+                                    <td valign="top" id="Price">{{item.Product.Price}}</td>
                                     <td><input type="button" value="移除商品" onclick="location.href='{% url 'remove_item' item.item.id %}'"></td>
                                 </tr>
                             {% endfor %}
