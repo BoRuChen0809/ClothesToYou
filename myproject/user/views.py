@@ -261,9 +261,13 @@ class temp_product():
         for sku in SKUs:
             self.skus.append(sku)
 
-
-
-
+def remove_from_cart(request, item_ID):
+    if 'user_mail' not in request.session:
+        return redirect('login')
+    else:
+        item = Shopping_Car.objects.get(id = item_ID)
+        item.delete()
+        return redirect('mycart')
 
 
 
