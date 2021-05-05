@@ -56,7 +56,6 @@
                                 <!--<td>勾選</td>-->
                                 <td>商品圖片</td>
                                 <td>名稱</td>
-                                <td>顏色</td>
                                 <td>尺寸</td>
                                 <td>數量</td>
                                 <td>單價</td>
@@ -69,18 +68,8 @@
                                         <label for="want2buy_{{item.item.id}}">勾選</label><br>
                                     </td>-->
                                     <td><img src="{{item.SKU.Picture.url}}" alt="" height="160" width="auto" id="show_{{item.item.id}}" /></td>
-                                    <td valign="top"><a href="{% url 'productdetail' item.Product.ID %}">{{ item.Product.Name }}</a></td>
-                                    <td valign="top">
-                                        <select name="color_{{item.item.id}}" id="color_{{item.item.id}}">
-                                            {% for sku in item.skus %}
-                                                {% if sku.Color == item.SKU.Color%}
-                                                    <option value={{sku.Color}} selected>{{sku.Color}}</option>
-                                                {% else %}
-                                                    <option value={{sku.Color}}>{{sku.Color}}</option>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </select>
-                                    </td>
+                                    <td valign="top"><a href="{% url 'productdetail' item.Product.ID %}">{{ item.Product.Name }} ({{ item.SKU.Color }})</a></td>
+
                                     <td valign="top">
                                         <select name="size_{{item.item.id}}" id="size_{{item.item.id}}">
                                             {% for size in item.sizes%}
