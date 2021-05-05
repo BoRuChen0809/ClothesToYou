@@ -189,11 +189,15 @@ def product_detail(request, product_ID):
 
             if "add" in request.POST:
                 items = Shopping_Car.objects.filter(User=user)
+                can_add = True
                 for item in items:
-                    if item.Product != store:
-                        new_item = Shopping_Car(User=user, Product=store, Quantity=quantity)
-                        new_item.save()
-                        print("加入購物車")
+                    if item.Product.sku == store.sku:
+                        can_add = False
+
+                if can_add:
+                    new_item = Shopping_Car(User=user, Product=store, Quantity=quantity)
+                    new_item.save()
+                    print("加入購物車")
 
             elif "buy" in request.POST:
                 print("直接購買")

@@ -56,13 +56,25 @@ def create_sku_id(choices):
     for c in choices:
         print(colors[c])
 
-
+def compute(a,b,c):
+    if (4*a*c)>b**2:
+        return "Your equation has no root"
+    elif a==0:
+        x = -c/b
+        return x
+    else:
+        d = ((b**2)-(4*a*c))**0.5
+        x1 = (-b+d)/(2*a)
+        x2 = (-b-d)/(2*a)
+        return x1,x2
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print_hi('PyCharm')
 
-    create_sku_id(['紅', '橙', '青', '藍', '綠', '灰', '黑'])
+    #create_sku_id(['紅', '橙', '青', '藍', '綠', '灰', '黑'])
+    a,b,c = map(float,input("輸入a,b,c: ").split())
 
+    print(compute(a,b,c))
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
