@@ -108,10 +108,11 @@
                             <thead>
                                 <tr>
                                     <td width="10%">ID</td>
-                                    <td width="30%">顏色</td>
-                                    <td width="20%">庫存量</td>
+                                    <td width="20%">顏色</td>
+                                    <td width="10%"></td>
+                                    <td width="30%">庫存量</td>
                                     <td width="20%">商品圖片</td>
-                                    <td width="20%">功能</td>
+                                    <td width="10%">功能</td>
                                 </tr>
                             </thead>
                             <tbody id="tableBody"></tbody>
@@ -199,13 +200,15 @@
         <script type="text/template" id="tr_tmpl">
             <td class="Id">1</td>
             <td class="Color"><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" /></td>
-            <td class='Quantity'><label for="{{c.0}}_{{s.0}}_stored">{{s.0}}</label>
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"></td>
+
+
+            <td>{% for s in size %} <label>{{s.0}}</label> {% endfor %}</td>
+            <td class='Quantity'>
+                {% for s in size %}
+                <input type="number" min="0" name="{{s.0}}_stored" id="{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
+                {% endfor %}
+            </td>
+
             <td class='Picture'><input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data"></td>
             <td><a class="delete" href="javascript:void(0)">移除</a></td>
         </script>
