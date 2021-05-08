@@ -107,11 +107,11 @@
                             <table class="table">
                             <thead>
                                 <tr>
-                                    <td width="10%">ID</td>
+                                    <td width="5%">ID</td>
                                     <td width="20%">顏色</td>
-                                    <td width="10%"></td>
-                                    <td width="30%">庫存量</td>
-                                    <td width="20%">商品圖片</td>
+                                    <td width="15%" align="right">尺寸&庫存量</td>
+                                    <td width="25%"></td>
+                                    <td width="25%">商品圖片</td>
                                     <td width="10%">功能</td>
                                 </tr>
                             </thead>
@@ -202,7 +202,7 @@
             <td class="Color"><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" /></td>
 
 
-            <td>{% for s in size %} <label>{{s.0}}</label> {% endfor %}</td>
+            <td>{% for s in size %} <label style="font-size: 1.42rem">{{s.0}}</label> {% endfor %}</td>
             <td class='Quantity'>
                 {% for s in size %}
                 <input type="number" min="0" name="{{s.0}}_stored" id="{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
@@ -230,11 +230,40 @@
                     function reIndex() {
                         var rows = $("tbody tr");
                         var cols = $("input#color_names");
+
+                        var XS = $("input#XS_stored");
+                        var S = $("input#S_stored");
+                        var M = $("input#M_stored");
+                        var L = $("input#L_stored");
+                        var XL = $("input#XL_stored");
+                        var XXL = $("input#XXL_stored");
+
+                        var pic = $("input#image");
+
+                        const size = [XS, S, M, L, XL, XXL];
+                        const size_name = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
                         rows.each(function (i, row) {
                             cols.each(function (row, col) {
                                 $(col).find(".Color").html(i + 1);
                                 col.id = "names_" + i;
+                                col.name = "names_" + i;
                             });
+
+                            for (var j =0; j < size.length; j++) {
+                                var s = size[j];
+                                s.each(function (row, s) {
+                                    $(s).find(".Quantity").html(i + 1);
+                                    s.id = size_name[j] + "_" + i;
+                                    s.name = size_name[j] + "_" + i;
+                                });
+                            }
+
+                            pic.each(function (row, pics) {
+                                $(pics).find(".Picture").html(i + 1);
+                                pics.id = "image_" + i;
+                                pics.name = "image_" + i;
+                            });
+
                             $(row).find(".Id").html(i + 1);
                             row.id = "color_" + i;
                         });
