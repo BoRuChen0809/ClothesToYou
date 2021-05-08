@@ -191,6 +191,10 @@ colors_id = {"red":"01", "orange":"02", "yellow":"03", "pink":"04",
 
 def addproduct(request):
     if request.POST:
+        print(request.POST)
+        print(request.FILES)
+    """
+        if request.POST:
         c_id = request.session['supplier_id']
         supplier = Supplier.objects.get(S_ID=c_id)
 
@@ -232,6 +236,10 @@ def addproduct(request):
 
 
         return render(request, 'supplier_addproduct.html',context)
+    :param request: 
+    :return: 
+    """
+
 
     genre_choices = Product.GENRE_CHOICES
     category_choices = Product.CATEGORY_CHOICES

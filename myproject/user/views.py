@@ -230,11 +230,15 @@ def mycart(request):
         user = Clothes2You_User.objects.get(Mail=mail)
         shopping_items = Shopping_Car.objects.filter(User=user)
         items=[]
+        suppliers = []
         for item in shopping_items:
             item = temp_product(item)
             items.append(item)
+            suppliers.append(item.Supplier)
 
-        context = {'items': items}
+        suppliers = set(suppliers)
+
+        context = {'items': items, 'suppliers': suppliers}
         return render(request, 'user_shopcart.html', context)
 
 class temp_product():
@@ -249,6 +253,7 @@ class temp_product():
         self.setSizes(self.SKU)
         self.skus = []
         self.setSKUs(self.Product)
+        self.Supplier = self.Product.Brand
 
     def setSizes(self,sku):
         S = Stored.objects.filter(sku=sku)

@@ -75,6 +75,7 @@
                                 {% endfor %}
                             </select>
                             <div><input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category" /></div>
+
                             <label>尺寸</label>
                             <div class="col-2 col-12-small">
                                 {% for s in size %}
@@ -101,13 +102,10 @@
                                 </table>
                             </div>
                             {% endfor %}
-                            <div class="col-6 col-12-medium">
-                                <div><input type="submit" value="確認上架" /></div>
-                            </div>
-                        </form>
 
-                        <button class="btn btn-primary" id="addRow">新增顏色</button>
-                        <table class="table">
+
+                            <button type="button" class="btn btn-primary" id="addRow">新增顏色</button>
+                            <table class="table">
                             <thead>
                                 <tr>
                                     <td width="5%">ID</td>
@@ -120,7 +118,15 @@
                                 </tr>
                             </thead>
                             <tbody id="tableBody"></tbody>
-                        </table>
+                            </table>
+
+                            <div class="col-6 col-12-medium">
+                                <div><input type="submit" value="確認上架" /></div>
+                            </div>
+
+                        </form>
+
+
                     </div>
                 </div>
             </div>
@@ -213,11 +219,11 @@
                                   <label for=xxl>XXL</label>
             </td>
             <td class='Quantity'><input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-            <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"></td>
+            <input type="number" min="1" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="1">
+            <input type="number" min="1" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="1">
+            <input type="number" min="1" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="1">
+            <input type="number" min="1" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="1">
+            <input type="number" min="1" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="1"></td>
             <td class='Picture'><input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data"></td>
             <td><a data-mode='edit' class="action" href="javascript:void(0)">修改</a></td>
             <td><a class="delete" href="javascript:void(0)">移除</a></td>

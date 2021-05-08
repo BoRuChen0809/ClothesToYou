@@ -51,6 +51,9 @@
                 </form>
                 <div class="content">{% csrf_token %}
                     <form method="post">
+                        {% for supplier in suppliers %}
+                        <div>{{supplier.C_Name}}</div>
+
                         <table>
                             <tr align="center" valign="top">
                                 <!--<td>勾選</td>-->
@@ -61,8 +64,10 @@
                                 <td>單價</td>
                                 <td>保留/移除</td>
                             </tr>
-                            {% for item in items %}
-                                <tr align="center" valign="top">
+
+                                {% for item in items %}
+                                    {% if item.Supplier == supplier %}
+                                        <tr align="center" valign="top">
                                     <!--<td>
                                         <input type="checkbox" id="want2buy_{{item.item.id}}" name="want2buy_{{item.item.id}}" value="True" onchange = "totalprice()">
                                         <label for="want2buy_{{item.item.id}}">勾選</label><br>
@@ -85,11 +90,20 @@
                                     <td valign="top" id="Price">{{item.Product.Price}}</td>
                                     <td><input type="button" value="移除商品" onclick="location.href='{% url 'remove_item' item.item.id %}'"></td>
                                 </tr>
+                                    {% endif %}
+
+
                             {% endfor %}
+
+
+
                         </table>
+
                       <label id = "total_sum">總金額：NT$ 0元</label>
                       <div style="text-align:right"> <input type="submit" value="前去結帳"> </div>
+                        {% endfor %}
                     </form>
+
                 </div>
             </div>
         </section>
