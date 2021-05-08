@@ -49,14 +49,14 @@
                         </div>
                     </div>
                 </form>
-                <div class="content">{% csrf_token %}
-                    <form method="post">
+                <div class="content">
+                    <form method="post" action="{% url 'checkout' %}">{% csrf_token %}
                         {% for supplier in suppliers %}
                         <div>{{supplier.C_Name}}</div>
 
                         <table>
                             <tr align="center" valign="top">
-                                <!--<td>勾選</td>-->
+                                <td>勾選</td>
                                 <td>商品圖片</td>
                                 <td>名稱</td>
                                 <td>尺寸</td>
@@ -68,10 +68,10 @@
                                 {% for item in items %}
                                     {% if item.Supplier == supplier %}
                                         <tr align="center" valign="top">
-                                    <!--<td>
-                                        <input type="checkbox" id="want2buy_{{item.item.id}}" name="want2buy_{{item.item.id}}" value="True" onchange = "totalprice()">
-                                        <label for="want2buy_{{item.item.id}}">勾選</label><br>
-                                    </td>-->
+                                    <td>
+                                        <input type="checkbox" id="{{item.item.id}}" name="want2buy" value="{{item.item.id}}" onchange = "totalprice()">
+                                        <label for="{{item.item.id}}"></label><br>
+                                    </td>
                                     <td><img src="{{item.SKU.Picture.url}}" alt="" height="160" width="auto" id="show_{{item.item.id}}" /></td>
                                     <td valign="top"><a href="{% url 'productdetail' item.Product.ID %}">{{ item.Product.Name }} - ({{ item.SKU.Color }})</a></td>
 

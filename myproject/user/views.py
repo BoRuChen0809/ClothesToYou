@@ -274,7 +274,11 @@ def remove_from_cart(request, item_ID):
         item.delete()
         return redirect('mycart')
 
-
+def checkout(request):
+    if request.POST:
+        print(request.POST)
+        print(request.POST.getlist("want2buy"))
+    return render(request, 'user_orders.html')
 
 
 
