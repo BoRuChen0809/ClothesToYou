@@ -100,7 +100,7 @@
                                         <td><input type="number" min="0" max="10" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="0" onchange = "totalprice()"></td>
                                     {% endif %}
 
-                                    <td valign="top" id="Price_{{item.item.id}}">{{item.Product.Price}}</td>
+                                            <td><label id="Price_{{item.item.id}}" value ="{{item.Product.Price}}">{{item.Product.Price}}</label></td>
                                     <td><input type="button" value="移除商品" onclick="location.href='{% url 'remove_item' item.item.id %}'"></td>
                                 </tr>
                                     {% endif %}
@@ -168,8 +168,20 @@
         <script src="{% static 'js/main.js' %}"></script>
         <script>
             function totalprice() {
-                var total = document.getElementById('Price').textContent * document.getElementById('quantity').value;
-                document.getElementById('total_sum').innerText = "總金額：NT$ " + total + "元";
+                var total = 0;
+                var chk = document.getElementsByTagName("input");
+                    for (var i =0; i< chk.length;i++){
+                        if(chk[i].name.substring(0,8) == "want2buy"){
+                            if(chk[i].checked){
+                                var quan_id = "quantity_" + chk[i].value.toString();
+                                var Price_id = "Price_" + chk[i].value.toString();
+                                //var quantity = document.getElementById(quan_id).value;
+                                //var Price = parseInt(document.getElementById(Price_id).innerText);
+                                total += document.getElementById(quan_id).value * parseInt(document.getElementById(Price_id).innerText);
+                            }
+                        }
+                    }
+                document.getElementById("total_sum").innerText = "總金額：NT$ " + total + "元";
             }
         </script>
     </body>
