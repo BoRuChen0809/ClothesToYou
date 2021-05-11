@@ -73,8 +73,10 @@ if __name__ == '__main__':
     print_hi('PyCharm')
 
     #create_sku_id(['紅', '橙', '青', '藍', '綠', '灰', '黑'])
-    a,b,c = map(float,input("輸入a,b,c: ").split())
+    #a,b,c = map(float,input("輸入a,b,c: ").split())
 
-    print(compute(a,b,c))
+    #print(compute(a,b,c))
+
+
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

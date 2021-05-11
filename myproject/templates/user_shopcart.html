@@ -76,6 +76,8 @@
                                     <td valign="top"><a href="{% url 'productdetail' item.Product.ID %}">{{ item.Product.Name }} - ({{ item.SKU.Color }})</a></td>
 
                                     <td valign="top">
+                                        {{item.Stored.Size}}
+                                        <!--
                                         <select name="size_{{item.item.id}}" id="size_{{item.item.id}}">
                                             {% for size in item.sizes%}
                                                 {% if size == item.Stored.Size %}
@@ -85,9 +87,20 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </select>
+                                        -->
                                     </td>
-                                    <td><input type="number" min="1" max="10" name="quantity" id="quantity" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
-                                    <td valign="top" id="Price">{{item.Product.Price}}</td>
+
+                                    {% if item.Stored.stored < 10 and item.item.Quantity > item.Stored.stored %}
+                                        <td><input type="number" min="0" max="{{item.Stored.stored}}" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="0" onchange = "totalprice()"></td>
+                                    {% elif item.Stored.stored < 10 and item.item.Quantity <= item.Stored.stored %}
+                                        <td><input type="number" min="0" max="{{item.Stored.stored}}" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
+                                    {% elif item.item.Quantity <= item.Stored.stored %}
+                                        <td><input type="number" min="0" max="10" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
+                                    {% elif item.item.Quantity > item.Stored.stored %}
+                                        <td><input type="number" min="0" max="10" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="0" onchange = "totalprice()"></td>
+                                    {% endif %}
+
+                                    <td valign="top" id="Price_{{item.item.id}}">{{item.Product.Price}}</td>
                                     <td><input type="button" value="移除商品" onclick="location.href='{% url 'remove_item' item.item.id %}'"></td>
                                 </tr>
                                     {% endif %}

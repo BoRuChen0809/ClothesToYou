@@ -277,8 +277,15 @@ def remove_from_cart(request, item_ID):
 def checkout(request):
     if request.POST:
         print(request.POST)
-        print(request.POST.getlist("want2buy"))
-    return render(request, 'user_orders.html')
+        wantbuy_list = request.POST.getlist("want2buy")
+        for index in wantbuy_list:
+            i = int(index)
+            item = Shopping_Car.objects.get(id = index)
+            print(item.Product,end="")
+            print(item.Quantity)
+
+    return redirect('mycart')
+    #return render(request, 'user_orders.html')
 
 
 
