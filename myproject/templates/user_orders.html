@@ -39,18 +39,26 @@
             <div class="inner">
                 <div class="content">
                     <form>
-                    <label>訂購人資料</label>
-                    <div> <input readonly type="text" name="user_name" id="user_name" placeholder="使用者姓名" value={{user.Name}}> </div>
-                    <div> <input readonly type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
-                    <div> <input readonly type="text" name="user_email" id="user_email" placeholder="電子郵件" value={{user.Mail}}> </div>
-                    <br>
-                    <label>收貨人資料</label>
-                    <div> <input type="text" name="order_name" id="order_name" placeholder="收貨人姓名"> </div>
-                    <div> <input type="text" name="order_phone" id="order_phone" placeholder="電話號碼"> </div>
-                    <div> <input type="text" name="order_email" id="order_email" placeholder="電子郵件"> </div>
+                        <div class="row">
+                        <div class="col-6 col-12-medium">
+                        <label>訂購人資料</label>
+                        <div> <input readonly type="text" name="user_name" id="user_name" placeholder="使用者姓名" value={{user.Name}}> </div>
+                        <div> <input readonly type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
+                        <div> <input readonly type="text" name="user_email" id="user_email" placeholder="電子郵件" value={{user.Mail}}> </div>
+                        <br>
+                        </div>
+                            <div class="col-6 col-12-medium">
+                        <label>收貨人資料</label>
+                        <div> <input type="text" name="order_name" id="order_name" placeholder="收貨人姓名"> </div>
+                        <div> <input type="text" name="order_phone" id="order_phone" placeholder="電話號碼"> </div>
+                        <div> <input type="text" name="order_email" id="order_email" placeholder="電子郵件"> </div>
                         <div> <input type="text" name="order_address" id="order_address" placeholder="貨運地址"> </div>
-                    <br>
-                    <label>付款方式</label>
+                        <br>
+                        <input type="checkbox" id="same" name="same">
+                        <label for="same">同訂購人資料</label><br>
+                            </div></div>
+                        <hr>
+                        <label>付款方式</label>
                         <div> <input type="text" name="visa_id" id="visa_id" placeholder="卡號： XXXX-XXXX-XXXX-XXXX"> </div>
                         <div> <input type="text" name="visa_secure" id="visa_secure" placeholder="安全碼： XXX"> </div>
                         <div> <input type="text" name="visa_date" id="visa_date" placeholder="有效日期： XX/XX"> </div>
