@@ -278,13 +278,23 @@ def checkout(request):
     if request.POST:
         print(request.POST)
         wantbuy_list = request.POST.getlist("want2buy")
-        for index in wantbuy_list:
-            i = int(index)
-            item = Shopping_Car.objects.get(id = index)
-            print(item.Product,end="")
-            print(item.Quantity)
 
-    return redirect('mycart')
+        for index in wantbuy_list:
+            quantity_index = 'quantity_' + index
+            i = int(index)
+            quantity = int(request.POST[quantity_index])
+            item = Shopping_Car.objects.get(id=i)
+            item.Quantity = quantity
+            item.save()
+        if 'save' in request.POST:
+            print("修改")
+            return redirect('mycart')
+        elif 'checkout' in request.POST:
+            print("去結帳")
+            return redirect('mycart')
+
+
+
     #return render(request, 'user_orders.html')
 
 
