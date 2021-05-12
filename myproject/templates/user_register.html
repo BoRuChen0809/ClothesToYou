@@ -46,7 +46,7 @@
 						<div> <input type="password" name="user_password" id="user_password" value="" placeholder="密碼"> </div>
 						<div> <input type="password" name="password_check" id="password_check" value="" placeholder="密碼確認"> </div>
 						<div> <input type="text" name="user_phone" id="user_phone" value="" placeholder="電話號碼"> </div>
-						<div> <input type="submit" value="送出資料">  <hr> 已經有帳號嗎了? <a href="{% url 'login' %}">登入</a> </div>
+						<div> <input type="submit" value="送出資料" style = "float:right">  <hr> 已經有帳號嗎了? <a href="{% url 'login' %}">登入</a> </div>
 					</form>
 					{% for warn in warning%}
 					<div> {{warn}} </div>

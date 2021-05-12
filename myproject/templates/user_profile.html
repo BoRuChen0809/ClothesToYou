@@ -50,6 +50,7 @@
                             <hr>
                             <div> <input type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
                             <div> <input type="text" name="user_address" id="user_address" placeholder="貨運地址" value={{user.Address}}> </div>
+                            <label>您的性別</label>
                             {% if user.Gender == genrer_tuple.0.1 %}
                             <input type="radio" id="radio-alpha" name="radio" value={{genrer_tuple.0.1}} checked>
                             {% else %}
@@ -68,7 +69,7 @@
                             <input type="radio" id="radio-gamma" name="radio" value={{genrer_tuple.2.1}}>
                             {% endif %}
                             <label for="radio-gamma">{{genrer_tuple.2.0}}</label>
-                            <div><input type="submit" value="修改資訊"></div>
+                            <div><input type="submit" value="修改資訊" style="float:right"></div>
                         </form>
                         <div>{{warn_1}}</div>
                     </div>
@@ -78,7 +79,8 @@
                             <div> <input type="password" name="user_password" id="user_password" value="" placeholder="目前密碼"> </div>
                             <div> <input type="password" name="new_user_password" id="new_user_password" value="" placeholder="新的密碼"> </div>
                             <div> <input type="password" name="new_password_check" id="new_password_check" value="" placeholder="請再輸入一次新的密碼"> </div>
-                            <div> <input type="submit" value="更改密碼"> </div>
+                            <label></label>
+                            <div> <input type="submit" value="更改密碼" style="float:right"> </div>
                         </form>
                         <div>{{warn_2}}</div>
                     </div>
