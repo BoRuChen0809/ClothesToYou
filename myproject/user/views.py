@@ -9,6 +9,7 @@ from supplier.models import Product, SKU, Stored, Supplier
 from django.shortcuts import render, redirect
 from django.core import serializers
 from django.contrib.postgres import search
+from datetime import datetime as dt
 # Create your views here.
 
 
@@ -270,14 +271,19 @@ def remove_from_cart(request, item_ID):
     if 'user_mail' not in request.session:
         return redirect('login')
     else:
-        item = Shopping_Car.objects.get(id = item_ID)
+        item = Shopping_Car.objects.get(id=item_ID)
         item.delete()
         return redirect('mycart')
 
 def checkout(request):
-    if request.POST:
+    if 'user_mail' not in request.session:
+        return redirect('login')
+    elif request.POST:
         print(request.POST)
         wantbuy_list = request.POST.getlist("want2buy")
+
+        if len(wantbuy_list)<=0:
+            return redirect('mycart')
 
         for index in wantbuy_list:
             quantity_index = 'quantity_' + index
@@ -286,12 +292,21 @@ def checkout(request):
             item = Shopping_Car.objects.get(id=i)
             item.Quantity = quantity
             item.save()
+
         if 'save' in request.POST:
-            print("修改")
             return redirect('mycart')
         elif 'checkout' in request.POST:
             print("去結帳")
-            return redirect('mycart')
+
+
+            mail = request.session['user_mail']
+            user = Clothes2You_User.objects.get(Mail=mail)
+
+            datetime = dt.now()
+            order_date = datetime.strftime("%Y%m%d")
+
+            context = {'wantbuy_list': wantbuy_list, 'user': user}
+            return render(request, 'user_orders.html', context)
 
 
 
