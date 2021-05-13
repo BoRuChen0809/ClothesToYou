@@ -54,8 +54,8 @@
                         <div> <input type="text" name="receiver_email" id="receiver_email" placeholder="電子郵件"> </div>
                         <div> <input type="text" name="receiver_address" id="receiver_address" placeholder="貨運地址"> </div>
                         <br>
-                        <input type="checkbox" id="sync_user" name="sync_user" onchange="sync_user()">
-                        <label for="sync_user">同訂購人資料</label><br>
+                        <input type="checkbox" id="same" name="same" onchange="same_user()">
+                        <label for="same">同訂購人資料</label><br>
                             </div></div>
                         <hr>
                         <label>付款方式</label>
@@ -114,11 +114,29 @@
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
         <script>
-            function sync_user(){
-                    document.getElementById("receiver_name").innerText = document.getElementById("user_name").innerText;
-                    document.getElementById("receiver_phone").innerText = document.getElementById("user_phone").innerText;
-                    document.getElementById("receiver_email").innerText = document.getElementById("user_email").innerText;
-                }
+            function same_user(){
+                    var re_name = document.getElementById("receiver_name");
+                    var re_phone = document.getElementById("receiver_phone");
+                    var re_email = document.getElementById("receiver_email");
+                    var checkBox = document.getElementById("same");
+
+                    if (checkBox.checked == true){
+                        re_name.readOnly = true;
+                        re_phone.readOnly = true;
+                        re_email.readOnly = true;
+                        re_name.value = document.getElementById("user_name").value;
+                        re_phone.value = document.getElementById("user_phone").value;
+                        re_email.value = document.getElementById("user_email").value;
+                        document.getElementById("receiver_address").value = '{{user.Address}}';
+                    }
+                    else{
+                        re_name.readOnly = false;
+                        re_phone.readOnly = false;
+                        re_email.readOnly = false;
+                    }
+
+            }
+
         </script>
     </body>
 </html>
