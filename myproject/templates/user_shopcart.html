@@ -52,17 +52,18 @@
                 <div class="content">
                     <form method="post" action="{% url 'checkout' %}">{% csrf_token %}
                         {% for supplier in suppliers %}
-                        <div>{{supplier.C_Name}}</div>
 
                         <table>
+                            <thead style="background-color: lightblue">
                             <tr align="center" valign="top">
-                                <td>勾選</td>
+                                <td>{{supplier.C_Name}}</td>
                                 <td>商品圖片</td>
                                 <td>名稱</td>
                                 <td>尺寸</td>
                                 <td>數量</td>
                                 <td>單價</td>
                                 <td>保留/移除</td>
+                                </thead>
                             </tr>
 
                                 {% for item in items %}
@@ -111,11 +112,11 @@
 
 
                         </table>
-                        <div> <label id = "total_sum" style="position:relative;text-align:right">總金額：NT$ 0元</label></div>
-                        <hr>
-                        <div> <input type="submit" value="前去結帳" style="float:right" name="checkout"> </div>
-                        <div> <input type="submit" value="儲存變更" style="float:left" name="save"> </div>
+
                         {% endfor %}
+                        <div> <label id = "total_sum" style="position:relative;text-align:right">總金額：NT$ 0元</label></div>
+                        <div> <input type="submit" value="前去結帳" style="float:right" name="checkout"> </div>
+                        <div> <input type="submit" value="儲存變更" name="save"> </div>
                     </form>
 
                 </div>
@@ -170,17 +171,15 @@
             function totalprice() {
                 var total = 0;
                 var chk = document.getElementsByTagName("input");
-                    for (var i =0; i< chk.length;i++){
-                        if(chk[i].name.substring(0,8) == "want2buy"){
-                            if(chk[i].checked){
-                                var quan_id = "quantity_" + chk[i].value.toString();
-                                var Price_id = "Price_" + chk[i].value.toString();
-                                //var quantity = document.getElementById(quan_id).value;
-                                //var Price = parseInt(document.getElementById(Price_id).innerText);
-                                total += document.getElementById(quan_id).value * parseInt(document.getElementById(Price_id).innerText);
-                            }
+                for (var i =0; i< chk.length;i++){
+                    if(chk[i].name.substring(0,8) == "want2buy"){
+                        if(chk[i].checked){
+                            var quan_id = "quantity_" + chk[i].value.toString();
+                            var Price_id = "Price_" + chk[i].value.toString();
+                            total += document.getElementById(quan_id).value * parseInt(document.getElementById(Price_id).innerText);
                         }
                     }
+                }
                 document.getElementById("total_sum").innerText = "總金額：NT$ " + total + "元";
             }
         </script>
