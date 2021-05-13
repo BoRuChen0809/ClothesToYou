@@ -54,8 +54,8 @@
                         <div> <input type="text" name="receiver_email" id="receiver_email" placeholder="電子郵件"> </div>
                         <div> <input type="text" name="receiver_address" id="receiver_address" placeholder="貨運地址"> </div>
                         <br>
-                        <input type="checkbox" id="same" name="same">
-                        <label for="same">同訂購人資料</label><br>
+                        <input type="checkbox" id="sync_user" name="sync_user" onchange="sync_user()">
+                        <label for="sync_user">同訂購人資料</label><br>
                             </div></div>
                         <hr>
                         <label>付款方式</label>
@@ -113,5 +113,12 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
+        <script>
+            function sync_user(){
+                    document.getElementById("receiver_name").innerText = document.getElementById("user_name").innerText;
+                    document.getElementById("receiver_phone").innerText = document.getElementById("user_phone").innerText;
+                    document.getElementById("receiver_email").innerText = document.getElementById("user_email").innerText;
+                }
+        </script>
     </body>
 </html>
