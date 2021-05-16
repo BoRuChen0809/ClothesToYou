@@ -280,6 +280,9 @@ def checkout(request):
         return redirect('login')
     elif request.POST:
         print(request.POST)
+
+        
+
         wantbuy_list = request.POST.getlist("want2buy")
 
         if len(wantbuy_list)<=0:
@@ -305,12 +308,11 @@ def checkout(request):
             datetime = dt.now()
             order_date = datetime.strftime("%Y%m%d")
 
+
             context = {'wantbuy_list': wantbuy_list, 'user': user}
             return render(request, 'user_orders.html', context)
 
-
-
-    #return render(request, 'user_orders.html')
+    return redirect('mycart')
 
 
 
