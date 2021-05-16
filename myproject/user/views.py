@@ -281,7 +281,7 @@ def checkout(request):
     elif request.POST:
         print(request.POST)
 
-        
+
 
         wantbuy_list = request.POST.getlist("want2buy")
 
@@ -367,6 +367,9 @@ def check_pwd_match(pwd, c_pwd):
 def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
+
+def orderdetails(request):
+    return render(request, 'user_order_details.html')
 
 
 
