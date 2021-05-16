@@ -32,60 +32,34 @@
             </ul>
         </nav>
         <div id="heading" >
-            <h1>訂單資訊</h1>
+            <h1>歷史訂單追蹤</h1>
         </div>
-    <section id="main" class="wrapper">
-        <div class="inner">
-            <div class="content">
-                <form>
-                    <div class="row">
-                        <div class="col-4 col-12-medium">
-                            <h3>訂購人資訊</h3>
-                            <label>訂購人姓名：{{user.Name}}</label>
-                            <label>訂購人電話：{{user.Phone_1}}</label>
-                            <label>訂購人電子郵件：{{user.Mail}}</label>
-                        </div>
-                        <div class="col-4 col-12-medium">
-                            <h3>收件人資訊</h3>
-                            <label>訂購人姓名：</label>
-                            <label>訂購人電話：</label>
-                            <label>訂購人電子郵件：</label>
-                            <label>訂購人地址：</label>
-                        </div>
-                        <div class="col-4 col-12-medium">
-                            <h3>付款資訊</h3>
-                            <label>卡號：</label>
-                            <label>安全碼：</label>
-                            <label>有效日期：</label>
-                        </div>
-                    </div>
-                    <h3>訂購商品</h3>
-                    <table>
-                        <thead style="background-color: lightblue">
+        <section id="main" class="wrapper">
+            <div class="inner">
+                <div class="content">
+                    <form>
+                        <table>
+                            <thead style="background-color: lightblue">
+                                <tr>
+                                    <td>交易日期</td>
+                                    <td>訂單編號</td>
+                                    <td>狀態</td>
+                                    <td>金額</td>
+                                </tr>
+                            </thead>
                             <tr>
-                                <td>{{supplier.C_Name}}</td>
-                                <td>名稱</td>
-                                <td>尺寸</td>
-                                <td>數量</td>
-                                <td>單價</td>
+                                <td>日期</td>
+                                <td>編號</td>
+                                <td>狀態</td>
+                                <td>金額</td>
                             </tr>
-                        </thead>
-                        <tr>
-                            <td> - </td>
-                            <td>名稱</td>
-                            <td>尺寸</td>
-                            <td>數量</td>
-                            <td>單價</td>
-                        </tr>
-                    </table>
-                    <div> <label>總金額：</label> </div>
-                    <div> <input type="submit" value="儲存PDF" name="save" style = "float:right"> </div>
-                </form>
+                        </table>
+                    </form>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
+<!-- Footer -->
         <footer id="footer">
             <div class="inner">
                 <div class="content">
