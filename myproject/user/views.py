@@ -4,8 +4,9 @@ import re,bcrypt
 from PIL import Image
 from django.contrib.postgres.search import SearchVector
 from django.template import loader
-from .models import Clothes2You_User, UserManager, Shopping_Car
+from .models import Clothes2You_User, UserManager, Shopping_Car, Order, Order_Detail
 from supplier.models import Product, SKU, Stored, Supplier
+from supplier.models import *
 from django.shortcuts import render, redirect
 from django.core import serializers
 from django.contrib.postgres import search
@@ -261,7 +262,6 @@ class temp_product():
         for s in S:
             if s.Size not in self.sizes:
                 self.sizes.append(s.Size)
-
     def setSKUs(self,product):
         SKUs = SKU.objects.filter(Product=product)
         for sku in SKUs:
@@ -279,40 +279,87 @@ def checkout(request):
     if 'user_mail' not in request.session:
         return redirect('login')
     elif request.POST:
-        print(request.POST)
-
-
-
         wantbuy_list = request.POST.getlist("want2buy")
+        wantbuy_list = list(map(int,wantbuy_list))
 
         if len(wantbuy_list)<=0:
             return redirect('mycart')
 
+        supplier_set = set()
         for index in wantbuy_list:
-            quantity_index = 'quantity_' + index
-            i = int(index)
+            quantity_index = 'quantity_' + str(index)
             quantity = int(request.POST[quantity_index])
-            item = Shopping_Car.objects.get(id=i)
+            item = Shopping_Car.objects.get(id=index)
+            supplier_set.add(item.Product.sku.Product.Brand)
             item.Quantity = quantity
             item.save()
 
         if 'save' in request.POST:
             return redirect('mycart')
         elif 'checkout' in request.POST:
-            print("去結帳")
-
-
             mail = request.session['user_mail']
             user = Clothes2You_User.objects.get(Mail=mail)
+            items = Shopping_Car.objects.filter(User=user)
 
-            datetime = dt.now()
-            order_date = datetime.strftime("%Y%m%d")
+            for item in items:
+                if item.id in wantbuy_list:
+                    item.Selected = True
+                else:
+                    item.Selected = False
+                item.save()
 
-
-            context = {'wantbuy_list': wantbuy_list, 'user': user}
+            context = {'user': user}
             return render(request, 'user_orders.html', context)
 
     return redirect('mycart')
+
+def orderdetails(request):
+    if request.POST:
+        supplier_set = set()
+        mail = request.session['user_mail']
+        user = Clothes2You_User.objects.get(Mail=mail)
+        items = Shopping_Car.objects.filter(User=user).filter(Selected=True)
+
+        r_name = request.POST['receiver_name']
+        r_phone = request.POST['receiver_phone']
+        r_email = request.POST['receiver_email']
+        r_address = request.POST['receiver_address']
+        datetime = dt.now()
+        order_date = datetime.strftime("%y%m%d")
+
+        for item in items:
+            supplier_set.add(item.Product.sku.Product.Brand)
+
+        show_orders = []
+        total = 0
+        for s in supplier_set:
+            Orders = Order.objects.filter(DateTime__date=dt.today())
+            num = len(Orders) + 1
+            number = '{0:08d}'.format(num)
+            order_id = order_date + number
+            order = Order(ID=order_id, User=user, Supplier=s, State='準備中', Receiver=r_name, Mail=r_email, Phone=r_phone, Address=r_address, Total_Price=0)
+            order.save()
+            total_price = 0
+            for item in items:
+                if item.Product.sku.Product.Brand == s:
+                    price = item.Quantity * item.Product.sku.Product.Price
+                    detail = Order_Detail(ID=order, Stored=item.Product, Quantity=item.Quantity, Price=price)
+                    detail.save()
+                    total_price += price
+            order.Total_Price = total_price
+            total += total_price
+            order.save()
+
+            show_orders.append(temp_order(order))
+
+        context = {'user': user, 'orders': show_orders, 'total_price': total}
+        return render(request, 'user_order_details.html',context)
+
+class temp_order():
+    def __init__(self, order):
+        self.order = order
+        self.supplier = self.order.Supplier
+        self.details = Order_Detail.objects.filter(ID=order)
 
 
 
@@ -320,7 +367,6 @@ def checkout(request):
 def searchlist(request):
     products = Product.objects.all()
     context = {'products':products}
-
     return render(request, 'user_search.html', context)
 
 
@@ -368,8 +414,6 @@ def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
 
-def orderdetails(request):
-    return render(request, 'user_order_details.html')
 
 
 

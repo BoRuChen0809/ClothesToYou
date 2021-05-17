@@ -69,9 +69,16 @@
                                 {% for item in items %}
                                     {% if item.Supplier == supplier %}
                                         <tr align="center" valign="top">
+
                                     <td>
+                                        {% if item.item.Selected %}
+                                        <input type="checkbox" id="{{item.item.id}}" name="want2buy" value="{{item.item.id}}" onchange = "totalprice()" checked>
+                                        <label for="{{item.item.id}}"></label><br>
+                                        {% else %}
                                         <input type="checkbox" id="{{item.item.id}}" name="want2buy" value="{{item.item.id}}" onchange = "totalprice()">
                                         <label for="{{item.item.id}}"></label><br>
+                                        {% endif %}
+
                                     </td>
                                     <td><img src="{{item.SKU.Picture.url}}" alt="" height="160" width="auto" id="show_{{item.item.id}}" /></td>
                                     <td valign="top"><a href="{% url 'productdetail' item.Product.ID %}">{{ item.Product.Name }} - ({{ item.SKU.Color }})</a></td>
@@ -92,13 +99,13 @@
                                     </td>
 
                                     {% if item.Stored.stored < 10 and item.item.Quantity > item.Stored.stored %}
-                                        <td><input type="number" min="0" max="{{item.Stored.stored}}" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="0" onchange = "totalprice()"></td>
+                                        <td><input type="number" min="1" max="{{item.Stored.stored}}" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="0" onchange = "totalprice()"></td>
                                     {% elif item.Stored.stored < 10 and item.item.Quantity <= item.Stored.stored %}
-                                        <td><input type="number" min="0" max="{{item.Stored.stored}}" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
+                                        <td><input type="number" min="1" max="{{item.Stored.stored}}" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
                                     {% elif item.item.Quantity <= item.Stored.stored %}
-                                        <td><input type="number" min="0" max="10" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
+                                        <td><input type="number" min="1" max="10" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
                                     {% elif item.item.Quantity > item.Stored.stored %}
-                                        <td><input type="number" min="0" max="10" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="0" onchange = "totalprice()"></td>
+                                        <td><input type="number" min="1" max="10" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="0" onchange = "totalprice()"></td>
                                     {% endif %}
 
                                             <td><label id="Price_{{item.item.id}}" value ="{{item.Product.Price}}">{{item.Product.Price}}</label></td>

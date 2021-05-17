@@ -38,7 +38,7 @@
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
-                    <form>
+                    <form action="{% url 'confirm' %}" method="post"> {% csrf_token %}
                         <div class="row">
                         <div class="col-6 col-12-medium">
                         <label>訂購人資料</label>
