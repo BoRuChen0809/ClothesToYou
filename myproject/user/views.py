@@ -233,14 +233,16 @@ def mycart(request):
         shopping_items = Shopping_Car.objects.filter(User=user)
         items=[]
         suppliers = []
+        total = 0
         for item in shopping_items:
-            item = temp_product(item)
-            items.append(item)
-            suppliers.append(item.Supplier)
-
+            temp_item = temp_product(item)
+            items.append(temp_item)
+            suppliers.append(temp_item.Supplier)
+            if item.Selected:
+                total += item.Quantity * item.Product.sku.Product.Price
         suppliers = set(suppliers)
 
-        context = {'items': items, 'suppliers': suppliers}
+        context = {'items': items, 'suppliers': suppliers, 'total':total}
         return render(request, 'user_shopcart.html', context)
 
 class temp_product():
@@ -279,6 +281,7 @@ def checkout(request):
     if 'user_mail' not in request.session:
         return redirect('login')
     elif request.POST:
+        print(request.POST)
         wantbuy_list = request.POST.getlist("want2buy")
         wantbuy_list = list(map(int,wantbuy_list))
 
@@ -349,9 +352,8 @@ def orderdetails(request):
             order.Total_Price = total_price
             total += total_price
             order.save()
-
             show_orders.append(temp_order(order))
-
+        items.delete()
         context = {'user': user, 'orders': show_orders, 'total_price': total}
         return render(request, 'user_order_details.html',context)
 
