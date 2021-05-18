@@ -372,8 +372,20 @@ def searchlist(request):
     return render(request, 'user_search.html', context)
 
 def orderspage(request):
-    return render(request, 'user_orders_page.html')
+    mail = request.session['user_mail']
+    user = Clothes2You_User.objects.get(Mail=mail)
+    orders = Order.objects.filter(User=user)
+    context = {'orders': orders}
 
+    return render(request, 'user_orders_page.html', context)
+
+def orderdetail(request, order_ID):
+    mail = request.session['user_mail']
+    user = Clothes2You_User.objects.get(Mail=mail)
+    order = Order.objects.get(ID=order_ID)
+    details = Order_Detail.objects.filter(ID=order)
+    context = {'user': user, 'order': order, 'details': details}
+    return render(request, 'user_order_trace.html', context)
 
 #有問題rerturn True
 def check_name(str):

@@ -45,19 +45,25 @@
                                     <td>交易日期</td>
                                     <td>訂單編號</td>
                                     <td>狀態</td>
-                                    <td>金額</td>
-                                    <td></td>
+                                    <td>總金額</td>
+                                    <td>詳細內容</td>
                                     <td></td>
                                 </tr>
                             </thead>
-                            <tr>
-                                <td>日期</td>
-                                <td>編號</td>
-                                <td>狀態</td>
-                                <td>金額</td>
-                                <td> <a href="#">訂單詳情</a> </td>
-                                <td> <div> <input type="submit" value="取消訂單" name="save" style = "float:right"> </div> </td>
-                            </tr>
+                            {% for order in orders %}
+                                <tr>
+                                    <td>{{order.DateTime}}</td>
+                                    <td>{{order.ID}}</td>
+                                    <td>{{order.State}}</td>
+                                    <td>NT.{{order.Total_Price}}</td>
+                                    <td><a href="{% url 'trace_detail' order.ID %}">訂單詳情</a></td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+
+
+
+
                         </table>
                     </form>
                 </div>
