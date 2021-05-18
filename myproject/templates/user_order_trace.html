@@ -4,38 +4,38 @@
     templated.co @templatedco
     Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
     -->
-{% load static %}
 <html>
-	<head>
-		<title>Clothes to You</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<link rel="stylesheet" href="{% static '/css/main.css' %}" />
-	</head>
-	<body class="is-preload">
-		<!-- Header -->
+    <head>
+        {% load static %}
+        <title>Clothes to You</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    </head>
+    <body class="is-preload">
+        <!-- Header -->
         <header id="header">
-            <a class="logo" href="{% url 'sindex' %}">Clothes to You</a>
+            <a class="logo" href="{% url 'index' %}">Clothes to You</a>
             <nav>
                 <a href="#menu">Menu</a>
             </nav>
         </header>
-		<!-- Nav -->
-			<nav id="menu">
-				<ul class="links">
-                    <li><a href="{% url 'sindex' %}">首頁</a></li>
-                    <li><a href="{% url 'sprofile' %}">後臺管理</a></li>
-                    <li><a href="{% url 'addproduct' %}">上架商品</a></li>
-                    <li><a href="{% url 'slogout' %}">登出</a></li>
-				</ul>
-			</nav>
-        <!-- Heading -->
+        <!-- Nav -->
+        <nav id="menu">
+            <ul class="links">
+                <li><a href="{% url 'index' %}">首頁</a></li>
+                <li><a href="{% url 'profile' %}">會員中心</a></li>
+                <li><a href="{% url 'orderspage' %}">訂單記錄</a></li>
+                <Li><a href="{% url 'mycart' %}">購物車</a></Li>
+                <li><a href="{% url 'logout'%}">登出</a></li>
+            </ul>
+        </nav>
         <div id="heading" >
-            <h1>訂單追蹤</h1>
+            <h1>訂單資訊</h1>
         </div>
-        <section id="main" class="wrapper">
+    <section id="main" class="wrapper">
         <div class="inner">
             <div class="content">
                 <form>
@@ -55,15 +55,11 @@
                         </div>
                         <div class="col-4 col-12-medium">
                             <h3>付款資訊</h3>
-                            <label>卡號(末4碼)：</label>
+                            <label>卡號(末四碼)：</label>
                         </div>
                     </div>
                     <h3>訂單狀態</h3>
-                    <select name="STATE_CHOICES id="STATE_CHOICES">
-                                {% for s in STATE_CHOICES %}
-                                <option value="{{s.0}}">{{s.0}}</option>
-                                {% endfor %}
-                            </select>
+                    <label>訂單準備中</label>
                     <h3>訂購商品</h3>
                     {% for order in orders %}
                     <table>
@@ -89,13 +85,15 @@
 
                     </table>
                     {% endfor %}
+                    <div> <h3>訂單狀態：</h3> </div>
                     <div> <label>總金額：{{total_price}}</label> </div>
-                    <div> <input type="submit" value="同意取消訂單" name="save" style = "float:right"> </div>
+                    <div> <input type="submit" value="取消訂單" name="save" style = "float:right"> </div>
                 </form>
             </div>
         </div>
     </section>
-        <!-- Footer -->
+
+    <!-- Footer -->
         <footer id="footer">
             <div class="inner">
                 <div class="content">
