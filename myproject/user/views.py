@@ -371,8 +371,8 @@ def searchlist(request):
     context = {'products':products}
     return render(request, 'user_search.html', context)
 
-
-
+def orderspage(request):
+    return render(request, 'user_orders_page.html')
 
 
 #有問題rerturn True

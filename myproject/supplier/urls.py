@@ -13,5 +13,6 @@ urlpatterns = [
     path('changesprofile/', views.changesprofile, name='changesprofile'),
     path('profileimg', views.profileimg, name='profileimg'),
     path('addproduct/', views.addproduct, name='addproduct'),
-    path('editproduct/<str:product_ID>', views.editproduct, name='editproduct')
+    path('editproduct/<str:product_ID>', views.editproduct, name='editproduct'),
+    path('sordertrace', views.sordertrace, name='sordertrace')
 ]

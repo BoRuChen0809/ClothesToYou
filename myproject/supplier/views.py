@@ -329,6 +329,9 @@ def editproduct(request, product_ID):
                'color_selected': color_selected, 'sku': skus, 'stored':stored_list}
     return render(request, 'supplier_editproduct.html', context)
 
+def sordertrace(request):
+    return render(request, 'supplier_order_trace.html')
+
 # ************************* Functions ***************************** #
 def splitext(file):
     filename = file.split('.')
@@ -416,4 +419,6 @@ def check_pwd_match(pwd, c_pwd):
 def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
+
+
 

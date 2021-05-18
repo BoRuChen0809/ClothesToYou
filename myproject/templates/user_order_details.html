@@ -54,9 +54,11 @@
                         </div>
                         <div class="col-4 col-12-medium">
                             <h3>付款資訊</h3>
-                            <label>卡號：</label>
+                            <label>卡號(末四碼)：</label>
                         </div>
                     </div>
+                    <h3>訂單狀態</h3>
+                    <label>訂單準備中</label>
                     <h3>訂購商品</h3>
                     {% for order in orders %}
                     <table>
@@ -84,6 +86,7 @@
                     {% endfor %}
 
                     <div> <label>總金額：{{total_price}}</label> </div>
+                    <div> <input type="submit" value="取消訂單" name="save"> </div>
                     <div> <input type="submit" value="儲存PDF" name="save" style = "float:right"> </div>
                 </form>
             </div>
