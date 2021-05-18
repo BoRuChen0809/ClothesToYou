@@ -48,49 +48,41 @@
                         </div>
                         <div class="col-4 col-12-medium">
                             <h3>收件人資訊</h3>
-                            <label>訂購人姓名：{{orders.0.order.Receiver}}</label>
-                            <label>訂購人電話：{{orders.0.order.Phone}}</label>
-                            <label>訂購人電子郵件：{{orders.0.order.Mail}}</label>
-                            <label>訂購人地址：{{orders.0.order.Address}}</label>
+                            <label>收件人姓名：{{orders.0.order.Receiver}}</label>
+                            <label>收件人電話：{{orders.0.order.Phone}}</label>
+                            <label>收件人電子郵件：{{orders.0.order.Mail}}</label>
+                            <label>收件人地址：{{orders.0.order.Address}}</label>
                         </div>
-                        <div class="col-4 col-12-medium">
-                            <h3>付款資訊</h3>
-                            <label>卡號(末4碼)：</label>
+                        <div class ="col-4 col-12-medium">
+                            <h3>訂單狀態</h3>
+                    <select name="STATE_CHOICES" id="STATE_CHOICES" style="width=33%">
+                        {% for s in STATE_CHOICES %}
+                        <option value="{{s.0}}">{{s.0}}</option>
+                        {% endfor %}
+                    </select>
                         </div>
                     </div>
-                    <h3>訂單狀態</h3>
-                    <select name="STATE_CHOICES id="STATE_CHOICES">
-                                {% for s in STATE_CHOICES %}
-                                <option value="{{s.0}}">{{s.0}}</option>
-                                {% endfor %}
-                            </select>
                     <h3>訂購商品</h3>
-                    {% for order in orders %}
                     <table>
                         <thead style="background-color: lightblue">
                             <tr>
-                                <td>{{order.supplier.C_Name}}</td>
                                 <td>名稱</td>
                                 <td>尺寸</td>
                                 <td>數量</td>
                                 <td>單價</td>
                             </tr>
                         </thead>
-
-                        {% for detail in order.details %}
                         <tr>
-                            <td> - </td>
                             <td>{{detail.Stored.sku}}</td>
                             <td>{{detail.Stored.Size}}</td>
                             <td>{{detail.Quantity}}</td>
                             <td>{{detail.Price}}</td>
                         </tr>
-                        {% endfor %}
 
                     </table>
-                    {% endfor %}
                     <div> <label>總金額：{{total_price}}</label> </div>
-                    <div> <input type="submit" value="同意取消訂單" name="save" style = "float:right"> </div>
+                    <div> <input type="submit" value="同意取消訂單" name="save" style = "float:left"> </div>
+                    <div> <input type="submit" value="確認" name="save" style = "float:right"> </div>
                 </form>
             </div>
         </div>
