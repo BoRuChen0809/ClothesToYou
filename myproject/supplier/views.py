@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from .models import Supplier, Product, SKU, Stored
-
+from user.models import Order, Order_Detail
 
 # *********************** views ******************************** #
 def sindex(request):
@@ -95,8 +95,10 @@ def sprofile(request):
     c_id = request.session['supplier_id']
     supplier = Supplier.objects.get(S_ID=c_id)
     products = Product.objects.filter(Brand=supplier)
-    context = {'supplier':supplier, 'products':products}
-    return render(request, 'supplier_profile.html',context)
+    orders = Order.objects.filter(Supplier=supplier)
+
+    context = {'supplier': supplier, 'products': products, 'orders': orders}
+    return render(request, 'supplier_profile.html', context)
 
 def changesprofile(request):
     if request.POST:
@@ -329,8 +331,12 @@ def editproduct(request, product_ID):
                'color_selected': color_selected, 'sku': skus, 'stored':stored_list}
     return render(request, 'supplier_editproduct.html', context)
 
-def sordertrace(request):
-    return render(request, 'supplier_order_trace.html')
+def sordertrace(request, order_ID):
+    order = Order.objects.get(ID=order_ID)
+    details = Order_Detail.objects.filter(ID=order_ID)
+    choices = Order.STATE_CHOICES
+    context = {'order': order, 'details': details, 'choices': choices}
+    return render(request, 'supplier_order_trace.html', context)
 
 # ************************* Functions ***************************** #
 def splitext(file):

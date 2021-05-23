@@ -107,12 +107,14 @@
                                 <td>狀態</td>
                                 <td>訂單資訊更新</td>
                             </tr>
+                            {% for order in orders %}
                             <tr>
-                                <td>2021/05/18</td>
-                                <td>User</td>
-                                <td>準備中</td>
-                                <td><a href="#">更新訂單</a></td>
+                                <td>{{order.DateTime.date}}</td>
+                                <td>{{order.User.Name}}</td>
+                                <td>{{order.State}}</td>
+                                <td><a href="{% url 'sordertrace' order.ID %}">更新訂單狀態</a></td>
                             </tr>
+                            {% endfor %}
                         </table>
                     </form>
                 </div>
