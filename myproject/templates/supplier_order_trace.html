@@ -64,6 +64,8 @@
                             {% endif %}
                         {% endfor %}
                     </select>
+                    <div> <input type="submit" value="修改狀態" name="save" style = "float:left"> </div>
+
                         </div>
                     </div>
                     <h3>訂購商品</h3>
@@ -86,8 +88,9 @@
                         {% endfor %}
                     </table>
                     <div> <label>總金額：{{order.Total_Price}}</label> </div>
-                    <div> <input type="submit" value="同意取消訂單" name="save" style = "float:left"> </div>
-                    <div> <input type="submit" value="儲存" name="save" style = "float:right"> </div>
+                    <label> </label>
+                    <div> <textarea readonly name="cancel_description" id="cancel_description" placeholder="字數上限為100個字" rows="2"></textarea> </div>
+                    <div> <input type="submit" value="同意取消訂單" name="save" style = "float:right"> </div>
                 </form>
             </div>
         </div>
