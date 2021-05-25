@@ -338,8 +338,7 @@ def sordertrace(request, order_ID):
     context = {'order': order, 'details': details, 'choices': choices}
     return render(request, 'supplier_order_trace.html', context)
 
-def supdateorder(request, order_ID):
-    order = Order.objects.get(ID=order_ID)
+def supdateorder(request):
 
     if request.POST:
         print(request.POST)

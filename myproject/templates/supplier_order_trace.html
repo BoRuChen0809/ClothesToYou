@@ -43,7 +43,8 @@
         <section id="main" class="wrapper">
         <div class="inner">
             <div class="content">
-                <form action="{% url 'supdateorder' order.ID %}" method="post"> {% csrf_token %}
+                <form action="{% url 'supdateorder' %}" method="post"> {% csrf_token %}
+                    <input type="hidden" value="{{order.ID}}">
                     <div class="row">
                         <div class="col-4 col-12-medium">
                             <h3>訂購人資訊</h3>
