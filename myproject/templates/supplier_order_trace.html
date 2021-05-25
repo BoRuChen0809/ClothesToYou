@@ -55,16 +55,23 @@
                         </div>
                         <div class ="col-4 col-12-medium">
                             <h3>訂單狀態</h3>
-                    <select name="STATE_CHOICES" id="STATE_CHOICES" style="width=33%">
-                        {% for s in choices %}
-                            {% if order.State == s.0 %}
-                                <option value="{{s.0}}" selected>{{s.0}}</option>
+                            {% if order.State == "申請取消中" %}
+                            {{order.State}}
                             {% else %}
-                                <option value="{{s.0}}">{{s.0}}</option>
+                            <select name="STATE_CHOICES" id="STATE_CHOICES" style="width=33%">
+                                {% for s in choices %}
+                                    {% if order.State == s.0 %}
+                                    <option value="{{s.0}}" selected>{{s.0}}</option>
+                                    {% else %}
+                                    <option value="{{s.0}}">{{s.0}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                            <div> <input type="submit" value="修改狀態" name="save" style = "float:left"> </div>
                             {% endif %}
-                        {% endfor %}
-                    </select>
-                    <div> <input type="submit" value="修改狀態" name="save" style = "float:left"> </div>
+
+
+
 
                         </div>
                     </div>
