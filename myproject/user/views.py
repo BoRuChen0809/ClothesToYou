@@ -11,6 +11,7 @@ from django.shortcuts import render, redirect
 from django.core import serializers
 from django.contrib.postgres import search
 from datetime import datetime as dt
+from datetime import timedelta as delay
 # Create your views here.
 
 
@@ -386,6 +387,41 @@ def orderdetail(request, order_ID):
     details = Order_Detail.objects.filter(ID=order)
     context = {'user': user, 'order': order, 'details': details}
     return render(request, 'user_order_trace.html', context)
+
+def cancelorder(request, order_ID):
+    date = dt.now().date()
+    days7 = delay(days=8)
+    date = date + days7
+    order = Order.objects.get(ID=order_ID)
+    print(date)
+    print(order.DateTime.date())
+    num = (date - order.DateTime.date()).days
+    if (num <= 7) and (num>=0) :
+        order.State = '取消'
+        order.save()
+        return redirect('orderspage')
+    else:
+        return redirect('reason', order_ID=order_ID)
+
+
+def cancelreason(request, order_ID):
+    order = Order.objects.get(ID=order_ID)
+    if request.POST:
+        cancel_description = request.POST['cancel_description']
+        print(cancel_description)
+        order.State = "申請取消中"
+        order.Remark = cancel_description
+        order.save()
+        return redirect('orderspage')
+
+    context = {'order': order}
+    return render(request, 'user_cancel_order.html', context)
+
+
+
+
+
+
 
 #有問題rerturn True
 def check_name(str):

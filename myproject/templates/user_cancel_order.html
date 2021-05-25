@@ -40,7 +40,7 @@
 				<div class="content">
 					<!-- Elements -->
 					<h3>請填入取消原因</h3>
-					<form action="" method="post">{% csrf_token %}
+					<form action="{% url 'reason' order.ID %}" method="post">{% csrf_token %}
 						<div> <textarea name="cancel_description" id="cancel_description" placeholder="字數上限為100個字" rows="2" maxlength="100"></textarea> </div>
                         <div> <input type="submit" value="提出申請" style="float:right"> </div>
 					</form>
