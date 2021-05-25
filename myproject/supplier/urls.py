@@ -14,5 +14,6 @@ urlpatterns = [
     path('profileimg', views.profileimg, name='profileimg'),
     path('addproduct/', views.addproduct, name='addproduct'),
     path('editproduct/<str:product_ID>', views.editproduct, name='editproduct'),
-    path('sordertrace/<str:order_ID>', views.sordertrace, name='sordertrace')
+    path('sordertrace/<str:order_ID>', views.sordertrace, name='sordertrace'),
+    path('supdateorder/<str:order_ID>', views.supdateorder, name='supdateorder'),
 ]
