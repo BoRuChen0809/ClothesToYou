@@ -334,7 +334,7 @@ def editproduct(request, product_ID):
 def sordertrace(request, order_ID):
     order = Order.objects.get(ID=order_ID)
     details = Order_Detail.objects.filter(ID=order_ID)
-    choices = Order.STATE_CHOICES
+    choices = ['準備中', '已出貨', '已到貨', '取消', '完成']
     context = {'order': order, 'details': details, 'choices': choices}
     return render(request, 'supplier_order_trace.html', context)
 

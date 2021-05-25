@@ -61,14 +61,15 @@
                         <div class ="col-4 col-12-medium">
                             <h3>訂單狀態</h3>
                             {% if order.State == "申請取消中" %}
-                            {{order.State}}
+                            <div>{{order.State}}</div>
+                            <div><input type="text" value="{{order.Remark}}"></div>
                             {% else %}
                             <select name="STATE_CHOICES" id="STATE_CHOICES" style="width=33%" onchange="show()">
                                 {% for s in choices %}
-                                    {% if order.State == s.0 %}
-                                    <option value="{{s.0}}" selected>{{s.0}}</option>
+                                    {% if order.State == s %}
+                                    <option value="{{s.0}}" selected>{{s}}</option>
                                     {% else %}
-                                    <option value="{{s.0}}">{{s.0}}</option>
+                                    <option value="{{s.0}}">{{s}}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
@@ -99,9 +100,14 @@
                     <label> </label>
                     <div id="cancel">
                         <div> <textarea name="cancel_description" id="cancel_description" placeholder="字數上限為100個字" rows="2"></textarea> </div>
+                    </div>
+
+                    {% if order.State == "申請取消中" %}
+                    <div>
                         <div> <input type="submit" value="不同意取消訂單" name="save" style = "float:right"> </div>
                         <div> <input type="submit" value="同意取消訂單" name="save" style = "float:right" > </div>
                     </div>
+                    {% endif %}
                 </form>
             </div>
         </div>
@@ -155,8 +161,9 @@
             function show() {
                 if(document.getElementById('STATE_CHOICES').value == "取消"){
                     document.getElementById('cancel').style.display = 'block';
-                }else
+                }else{
                     document.getElementById('cancel').style.display = 'none';
+                }
             }
         </script>
     </body>
