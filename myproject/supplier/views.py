@@ -341,15 +341,28 @@ def sordertrace(request, order_ID):
 def supdateorder(request):
 
     if request.POST:
-        print(request.POST)
+        #print(request.POST)
+        order_ID = request.POST['order_ID']
+        order = Order.objects.get(ID=order_ID)
         if 'agree' in request.POST:
-            print("agree")
+            #print("agree")
+            order.State = "取消"
+            order.Remark = order.Remark + "\n" + "申請取消獲准"
         elif 'disagree' in request.POST:
-            print("disagree")
+            #print("disagree")
+            order.State = "準備中"
+            order.Remark = "申請取消遭拒"
         elif 'save' in request.POST:
-            print("save")
+            #print("save")
+            new_state = request.POST['STATE_CHOICES']
+            if new_state == "取消":
+                print("取消")
+                cancel_description = request.POST['cancel_description']
+                order.Remark = cancel_description
+            order.State = new_state
+        order.save()
 
-    return render(request, 'supplier_order_trace.html')
+    return redirect('sprofile')
 
 # ************************* Functions ***************************** #
 def splitext(file):
