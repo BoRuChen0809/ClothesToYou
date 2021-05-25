@@ -6,11 +6,8 @@
     -->
 {% load static %}
 <html>
-<style>
-    #cancel{
-        display : none;
-    }
-</style>
+
+
 	<head>
 		<title>Clothes to You</title>
 		<meta charset="utf-8" />
@@ -64,7 +61,7 @@
                             <div>{{order.State}}</div>
                             <div><input type="text" value="{{order.Remark}}"></div>
                             {% else %}
-                            <select name="STATE_CHOICES" id="STATE_CHOICES" style="width=33%" onchange="show()">
+                            <select name="STATE_CHOICES" id="STATE_CHOICES" onchange="show()">
                                 {% for s in choices %}
                                     {% if order.State == s %}
                                     <option value="{{s.0}}" selected>{{s}}</option>
