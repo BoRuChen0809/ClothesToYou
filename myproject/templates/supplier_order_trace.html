@@ -43,7 +43,7 @@
         <section id="main" class="wrapper">
         <div class="inner">
             <div class="content">
-                <form>
+                <form action="{% url 'supdateorder' order.ID %}" method="post"> {% csrf_token %}
                     <div class="row">
                         <div class="col-4 col-12-medium">
                             <h3>訂購人資訊</h3>
@@ -62,14 +62,20 @@
                             <h3>訂單狀態</h3>
                             {% if order.State == "申請取消中" %}
                             <div>{{order.State}}</div>
-                            <div><input type="text" value="{{order.Remark}}"></div>
+                            <div><textarea rows="4" cols="50">{{order.Remark}}</textarea></div>
+                            {% if order.State == "申請取消中" %}
+                            <div>
+                            <div> <input type="submit" value="不同意取消訂單" name="disagree" style = "float:right"> </div>
+                            <div> <input type="submit" value="同意取消訂單" name="agree" style = "float:right" > </div>
+                            </div>
+                    {% endif %}
                             {% else %}
                             <select name="STATE_CHOICES" id="STATE_CHOICES" onchange="show()">
                                 {% for s in choices %}
                                     {% if order.State == s %}
-                                    <option value="{{s.0}}" selected>{{s}}</option>
+                                    <option value="{{s}}" selected>{{s}}</option>
                                     {% else %}
-                                    <option value="{{s.0}}">{{s}}</option>
+                                    <option value="{{s}}">{{s}}</option>
                                     {% endif %}
                                 {% endfor %}
                             </select>
@@ -99,15 +105,9 @@
                     <div> <label>總金額：{{order.Total_Price}}</label> </div>
                     <label> </label>
                     <div id="cancel">
+                        <div> <label>取消原因:</label></div>
                         <div> <textarea name="cancel_description" id="cancel_description" placeholder="字數上限為100個字" rows="2"></textarea> </div>
                     </div>
-
-                    {% if order.State == "申請取消中" %}
-                    <div>
-                        <div> <input type="submit" value="不同意取消訂單" name="save" style = "float:right"> </div>
-                        <div> <input type="submit" value="同意取消訂單" name="save" style = "float:right" > </div>
-                    </div>
-                    {% endif %}
                 </form>
             </div>
         </div>
