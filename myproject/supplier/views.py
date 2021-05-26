@@ -101,7 +101,9 @@ def sprofile(request):
     return render(request, 'supplier_profile.html', context)
 
 def changesprofile(request):
-    if request.POST:
+    if 'supplier_id' not in request.session:
+        return redirect('slogin')
+    elif request.POST:
         warning_list = {}
 
         principal = request.POST['supplier_name']
@@ -332,15 +334,19 @@ def editproduct(request, product_ID):
     return render(request, 'supplier_editproduct.html', context)
 
 def sordertrace(request, order_ID):
-    order = Order.objects.get(ID=order_ID)
-    details = Order_Detail.objects.filter(ID=order_ID)
-    choices = ['準備中', '已出貨', '已到貨', '取消', '完成']
-    context = {'order': order, 'details': details, 'choices': choices}
-    return render(request, 'supplier_order_trace.html', context)
+    if 'supplier_id' not in request.session:
+        return redirect('slogin')
+    else:
+        order = Order.objects.get(ID=order_ID)
+        details = Order_Detail.objects.filter(ID=order_ID)
+        choices = ['準備中', '已出貨', '已到貨', '取消', '完成']
+        context = {'order': order, 'details': details, 'choices': choices}
+        return render(request, 'supplier_order_trace.html', context)
 
 def supdateorder(request):
-
-    if request.POST:
+    if 'supplier_id' not in request.session:
+        return redirect('slogin')
+    elif request.POST:
         #print(request.POST)
         order_ID = request.POST['order_ID']
         order = Order.objects.get(ID=order_ID)
@@ -360,7 +366,7 @@ def supdateorder(request):
                 cancel_description = request.POST['cancel_description']
                 order.Remark = cancel_description
             order.State = new_state
-        order.save()
+            order.save()
 
     return redirect('sprofile')
 

@@ -104,14 +104,14 @@
                             {% endfor %}-->
 
                             <hr>
-                            <button type="button" class="btn btn-primary" id="addRow">新增顏色</button>
+                            <button type="button" class="btn btn-primary" id="addRow">新增款式</button>
                             <table class="table">
                             <thead>
                                 <tr>
-                                    <td width="10%" align="left">ID</td>
-                                    <td width="20%" align="left">顏色</td>
-                                    <td width="15%" align="left">尺寸&庫存量</td>
-                                    <td width="15%" align="left"></td>
+                                    <td width="17.5%" align="left">ID</td>
+                                    <td width="17.5%" align="left">顏色</td>
+                                    <td width="12.5%" align="left">尺寸&庫存量</td>
+                                    <td width="12.5%" align="left"></td>
                                     <td width="30%" align="left">商品圖片</td>
                                     <td width="10%" align="left">功能</td>
                                 </tr>
@@ -205,10 +205,12 @@
                     var trHtml = $("#tr_tmpl").html();
                     var tr = $("<tr>" + trHtml + "</tr>");
                     $("#tableBody").append(tr);
-                    document.getElementById("product_style_number").value = index+1;
+                    index += 1;
+                    document.getElementById("product_style_number").value = index;
 
                     tr.find("a.delete").on("click", function () {
-                        document.getElementById("product_style_number").value = index+1;
+                        index -= 1;
+                        document.getElementById("product_style_number").value = index;
                         tr.remove();
                         reIndex();
                     });
