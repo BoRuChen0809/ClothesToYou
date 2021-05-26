@@ -194,9 +194,46 @@ colors_id = {"red":"01", "orange":"02", "yellow":"03", "pink":"04",
           "gray":"09", "black":"10", "white":"11", "brown":"12"}
 
 def addproduct(request):
-    if request.POST:
+    if 'supplier_id' not in request.session:
+        return redirect('slogin')
+    elif request.POST:
         print(request.POST)
         print(request.FILES)
+        c_id = request.session['supplier_id']
+        supplier = Supplier.objects.get(S_ID=c_id)
+        product_name = request.POST['product_name']
+        product_price = request.POST['product_price']
+        genre = request.POST['genre']
+        category = request.POST['category']
+        sales_category = request.POST['product_sales_category']
+        product_description = request.POST['product_description']
+
+
+        product_id = c_id + create_product_id(supplier)
+        print(product_id)
+
+        product = Product(ID=product_id, Name=product_name, Brand=supplier, Price=int(product_price),
+                          Genre=genre, Category=category, Sale_Category=sales_category, Description=product_description)
+
+        #product.save()
+        sizes = request.POST.getlist('size')
+        style_num = int(request.POST['product_style_number'])
+        print(style_num)
+        for index in range(style_num):
+            index_str = str(index)
+            sku_id = request.POST['id_'+index_str]
+            sku_name = request.POST['names_'+index_str]
+            img = request.FILES['image_'+index_str]
+            filename = sku_id + '.' + splitext(img.name)
+            img.name = filename
+            Sku = SKU(SKU_ID=sku_id, Product=product, Color=sku_name, Picture=img)
+            #Sku.save()
+            for s in sizes:
+                stored = request.POST[s+index_str]
+                Stored = Stored(sku=Sku, Size=s, stored=stored)
+                #Stored.save()
+
+
     """
         if request.POST:
         c_id = request.session['supplier_id']
@@ -375,19 +412,13 @@ def splitext(file):
     filename = file.split('.')
     return filename[-1]
 def create_product_id(supplier):
+    num = 0
     try:
-        num = len(Product.objects.filter(Brand=Supplier))
+        num = len(Product.objects.filter(Brand=supplier))
         num += 1
-        if 9999 > num >= 1000:
-            return str(num)
-        elif 1000 > num >= 100:
-            return '0'+str(num)
-        elif 100 > num >= 10:
-            return '00'+str(num)
-        else:
-            return '000'+str(num)
     except:
-        return '0001'
+        num += 1
+    return '{0:012d}'.format(num)
 def hashpwd(pwd):
     salt = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)

@@ -63,7 +63,7 @@
                         <form action="{% url 'addproduct' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div><input type="text" name="product_name" id="product_name" placeholder="商品名稱" /></div>
-                            <div><input type="text" name="product_style_number" id="product_style_number" placeholder="商品名稱" /></div>
+                            <div><input type="hidden" name="product_style_number" id="product_style_number"/></div>
                             <div><input type="text" name="product_price" id="product_price" placeholder="售價" /></div>
                             <select name="genre" id="genre">
                                 {% for g in genre %}

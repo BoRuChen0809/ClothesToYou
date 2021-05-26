@@ -18,7 +18,7 @@ class Supplier(models.Model):
         return self.C_Name
 
 class Product(models.Model):
-    ID = models.CharField(max_length=30, default=None, primary_key=True)
+    ID = models.CharField(max_length=20, default=None, primary_key=True)
     Name = models.CharField(max_length=50, default=None)
     Price = models.IntegerField(default=None)
     Brand = models.ForeignKey(Supplier, default=None, on_delete=models.CASCADE)
@@ -38,12 +38,12 @@ def product_pic_url(instance, filename):
     return 'products/{0}/{1}/{2}/{3}'.format(instance.Product.Genre, instance.Product.Category, instance.Product.ID,filename)
 
 class SKU(models.Model):
-    SKU_ID = models.CharField(max_length=35, default=None, primary_key=True)
+    SKU_ID = models.CharField(max_length=25, default=None, primary_key=True)
     Product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
     COLOR_CHOICES = (("red", "紅"), ("orange", "橙"), ("yellow", "黃"), ("pink", "粉紅"),
                      ("cyan", "青"), ("blue", "藍"), ("purple", "紫"), ("green", "綠"),
                      ("gray", "灰"), ("black", "黑"), ("white", "白"), ("brown", "咖啡"))
-    Color = models.CharField(max_length=8, choices=COLOR_CHOICES, default=None)
+    Color = models.CharField(max_length=100, choices=COLOR_CHOICES, default=None)
     Picture = models.ImageField(upload_to=product_pic_url)
 
     def __str__(self):
