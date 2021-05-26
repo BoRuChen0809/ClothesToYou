@@ -107,12 +107,12 @@
                             <table class="table">
                             <thead>
                                 <tr>
-                                    <td width="5%">ID</td>
-                                    <td width="20%">顏色</td>
-                                    <td width="15%" align="right">尺寸&庫存量</td>
-                                    <td width="25%"></td>
-                                    <td width="25%">商品圖片</td>
-                                    <td width="10%">功能</td>
+                                    <td width="10%" align="left">ID</td>
+                                    <td width="20%" align="left">顏色</td>
+                                    <td width="15%" align="left">尺寸&庫存量</td>
+                                    <td width="15%" align="left"></td>
+                                    <td width="30%" align="left">商品圖片</td>
+                                    <td width="10%" align="left">功能</td>
                                 </tr>
                             </thead>
                             <tbody id="tableBody"></tbody>
@@ -182,7 +182,7 @@
         <script src="{% static 'js/main.js' %}"></script>
 
         <script type="text/template" id="tr_tmpl">
-            <td class="Id"><input type="text" name="color_id" id="color_id" placeholder="01"></td>
+            <td class="Id"><input type="text" name="color_id" id="color_id" placeholder="01" ></td>
             <td class="Color"><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" /></td>
 
 
@@ -239,6 +239,7 @@
                                 $(col).find(".Id").html(i + 1);
                                 col.id = "id_" + i;
                                 col.name = "id_" + i;
+                                col.value = i+1;
                             });
 
                             for (var j =0; j < size.length; j++) {
