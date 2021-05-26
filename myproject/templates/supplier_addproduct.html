@@ -7,22 +7,22 @@
 {% load static %}
 <style>
     .collapsible {
-        background-color: #ffffff;
-        color: white;
-        cursor: pointer;
-        width: 33%;
-        border: none;
-        text-align: center;
-        outline: none;
-        font-size: 16px;
+    background-color: #ffffff;
+    color: white;
+    cursor: pointer;
+    width: 33%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 16px;
     }
     .active,
     .collapsible:hover {
-        background-color: #ececec;
+    background-color: #ececec;
     }
     .inner_content {
-        display: none;
-        overflow: hidden;
+    display: none;
+    overflow: hidden;
     }
 </style>
 <html>
@@ -59,10 +59,10 @@
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
-                    <div class="col-6 col-12-small">
                         <form action="{% url 'addproduct' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div><input type="text" name="product_name" id="product_name" placeholder="商品名稱" /></div>
+                            <div><input type="hidden" name="product_style_number" id="product_style_number"/></div>
                             <div><input type="text" name="product_price" id="product_price" placeholder="售價" /></div>
                             <select name="genre" id="genre">
                                 {% for g in genre %}
@@ -85,45 +85,42 @@
                             </div>
                             <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
                             <!--<label>顏色</label>
-                            {% for c in color %}
-                            <button type="button" class="collapsible">{{c.1}}色</button>
-                            <div class="inner_content">
-                                <input type="checkbox" id="{{c.0}}" name="color" value="{{c.0}}" />
-                                <label for="{{c.0}}">{{c.1}}色</label>
-                                <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data" />
-                                <table>
-                                    {% for s in size %}
-                                    <tr>
-                                        <td>{{s.0}} 庫存</td>
-                                        <td><input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0" /></td>
-                                    </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                            {% endfor %}-->
-
+                                {% for c in color %}
+                                <button type="button" class="collapsible">{{c.1}}色</button>
+                                <div class="inner_content">
+                                    <input type="checkbox" id="{{c.0}}" name="color" value="{{c.0}}" />
+                                    <label for="{{c.0}}">{{c.1}}色</label>
+                                    <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data" />
+                                    <table>
+                                        {% for s in size %}
+                                        <tr>
+                                            <td>{{s.0}} 庫存</td>
+                                            <td><input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0" /></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                                {% endfor %}-->
                             <hr>
-                            <button type="button" class="btn btn-primary" id="addRow">新增顏色</button>
+                            <button type="button" class="btn btn-primary" id="addRow">新增款式</button>
                             <table class="table">
-                            <thead>
-                                <tr>
-                                    <td width="5%">ID</td>
-                                    <td width="20%">顏色</td>
-                                    <td width="15%" align="right">尺寸&庫存量</td>
-                                    <td width="25%"></td>
-                                    <td width="25%">商品圖片</td>
-                                    <td width="10%">功能</td>
-                                </tr>
-                            </thead>
-                            <tbody id="tableBody"></tbody>
+                                <thead>
+                                    <tr>
+                                        <td width="17.5%" align="left">ID</td>
+                                        <td width="17.5%" align="left">顏色</td>
+                                        <td width="12.5%" align="left">尺寸&庫存量</td>
+                                        <td width="12.5%" align="left"></td>
+                                        <td width="30%" align="left">商品圖片</td>
+                                        <td width="10%" align="left">功能</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody"></tbody>
                             </table>
-
                             <div class="col-6 col-12-medium">
                                 <div><input type="submit" value="確認上架" style="float:right"/></div>
                             </div>
                         </form>
                     </div>
-                </div>
             </div>
         </section>
         <!-- Footer -->
@@ -180,25 +177,8 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-        <script>
-            var coll = document.getElementsByClassName("collapsible");
-            var i;
-
-            for (i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function () {
-                    this.classList.toggle("active");
-                    var inner_content = this.nextElementSibling;
-                    if (inner_content.style.display === "block") {
-                        inner_content.style.display = "none";
-                    } else {
-                        inner_content.style.display = "block";
-                    }
-                });
-            }
-        </script>
-
         <script type="text/template" id="tr_tmpl">
-            <td class="Id">1</td>
+            <td class="Id"><input type="text" name="color_id" id="color_id" placeholder="01" ></td>
             <td class="Color"><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" /></td>
 
 
@@ -212,15 +192,19 @@
             <td class='Picture'><input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data"></td>
             <td><a class="delete" href="javascript:void(0)">移除</a></td>
         </script>
-
         <script>
+            var index = 0;
             $(document).ready(function () {
                 $("#addRow").on("click", function () {
                     var trHtml = $("#tr_tmpl").html();
                     var tr = $("<tr>" + trHtml + "</tr>");
                     $("#tableBody").append(tr);
+                    index += 1;
+                    document.getElementById("product_style_number").value = index;
 
                     tr.find("a.delete").on("click", function () {
+                        index -= 1;
+                        document.getElementById("product_style_number").value = index;
                         tr.remove();
                         reIndex();
                     });
@@ -229,7 +213,9 @@
 
                     function reIndex() {
                         var rows = $("tbody tr");
+                        var id = $("input#color_id");
                         var cols = $("input#color_names");
+
 
                         var XS = $("input#XS_stored");
                         var S = $("input#S_stored");
@@ -249,6 +235,13 @@
                                 col.name = "names_" + i;
                             });
 
+                            id.each(function (row, col) {
+                                $(col).find(".Id").html(i + 1);
+                                col.id = "id_" + i;
+                                col.name = "id_" + i;
+                                col.value = i+1;
+                            });
+
                             for (var j =0; j < size.length; j++) {
                                 var s = size[j];
                                 s.each(function (row, s) {
@@ -264,8 +257,9 @@
                                 pics.name = "image_" + i;
                             });
 
-                            $(row).find(".Id").html(i + 1);
-                            row.id = "color_" + i;
+                            //$(row).find(".Id").html(i + 1);
+                            //row.id = "id_" + i;
+                            //row.name = "id_" + i;
                         });
                     }
 
