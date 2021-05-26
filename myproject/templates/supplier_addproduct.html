@@ -180,25 +180,9 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-        <script>
-            var coll = document.getElementsByClassName("collapsible");
-            var i;
-
-            for (i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function () {
-                    this.classList.toggle("active");
-                    var inner_content = this.nextElementSibling;
-                    if (inner_content.style.display === "block") {
-                        inner_content.style.display = "none";
-                    } else {
-                        inner_content.style.display = "block";
-                    }
-                });
-            }
-        </script>
 
         <script type="text/template" id="tr_tmpl">
-            <td class="Id">1</td>
+            <td class="Id"><input type="text" name="color_id" id="color_id" placeholder="01"></td>
             <td class="Color"><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" /></td>
 
 
@@ -229,7 +213,9 @@
 
                     function reIndex() {
                         var rows = $("tbody tr");
+                        var id = $("input#color_id");
                         var cols = $("input#color_names");
+
 
                         var XS = $("input#XS_stored");
                         var S = $("input#S_stored");
@@ -249,6 +235,12 @@
                                 col.name = "names_" + i;
                             });
 
+                            id.each(function (row, col) {
+                                $(col).find(".Id").html(i + 1);
+                                col.id = "id_" + i;
+                                col.name = "id_" + i;
+                            });
+
                             for (var j =0; j < size.length; j++) {
                                 var s = size[j];
                                 s.each(function (row, s) {
@@ -264,8 +256,9 @@
                                 pics.name = "image_" + i;
                             });
 
-                            $(row).find(".Id").html(i + 1);
-                            row.id = "color_" + i;
+                            //$(row).find(".Id").html(i + 1);
+                            //row.id = "id_" + i;
+                            //row.name = "id_" + i;
                         });
                     }
 
