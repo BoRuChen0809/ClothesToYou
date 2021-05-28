@@ -61,29 +61,34 @@
                 <div class="content">
                         <form action="{% url 'addproduct' %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <div><input type="text" name="product_name" id="product_name" placeholder="商品名稱" /></div>
-                            <div><input type="hidden" name="product_style_number" id="product_style_number"/></div>
-                            <div><input type="text" name="product_price" id="product_price" placeholder="售價" /></div>
-                            <select name="genre" id="genre">
-                                {% for g in genre %}
-                                <option value="{{g.0}}">{{g.0}}</option>
-                                {% endfor %}
-                            </select>
-                            <select name="category" id="category">
-                                {% for c in category %}
-                                <option value="{{c.0}}">{{c.0}}</option>
-                                {% endfor %}
-                            </select>
-                            <div><input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category" /></div>
-
-                            <label>尺寸</label>
-                            <div class="col-2 col-12-small">
-                                {% for s in size %}
-                                <input type="checkbox" id="{{s.0}}" value="{{s.0}}" name="size" />
-                                <label for="{{s.0}}">{{s.0}}</label>
-                                {% endfor %}
+                            <div class ="row">
+                                <div class="col-6 col-12-medium">
+                                    <div><input type="text" name="product_name" id="product_name" placeholder="商品名稱" /></div>
+                                    <div><input type="hidden" name="product_style_number" id="product_style_number"/></div>
+                                    <div><input type="text" name="product_price" id="product_price" placeholder="售價" /></div>
+                                    <select name="genre" id="genre">
+                                        {% for g in genre %}
+                                        <option value="{{g.0}}">{{g.0}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="category" id="category">
+                                        {% for c in category %}
+                                        <option value="{{c.0}}">{{c.0}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div><input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category" /></div>
+                                </div>
+                                <div class="col-6 col-12-medium">
+                                    <label>尺寸</label>
+                                    <div class="col-2 col-12-small">
+                                        {% for s in size %}
+                                        <input type="checkbox" id="{{s.0}}" value="{{s.0}}" name="size" />
+                                        <label for="{{s.0}}">{{s.0}}</label>
+                                        {% endfor %}
+                                    </div>
+                                    <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
+                                </div>
                             </div>
-                            <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
                             <!--<label>顏色</label>
                                 {% for c in color %}
                                 <button type="button" class="collapsible">{{c.1}}色</button>
