@@ -229,7 +229,7 @@ def addproduct(request):
             Sku = SKU(SKU_ID=sku_id, Product=product, Color=sku_name, Picture=img)
             #Sku.save()
             for s in sizes:
-                stored = request.POST[s+index_str]
+                stored = request.POST[s+"_"+index_str]
                 store = Stored(sku=Sku, Size=s, stored=stored)
                 #store.save()
 
