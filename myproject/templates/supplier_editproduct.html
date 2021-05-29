@@ -69,6 +69,7 @@
                         <div class ="row">
                             <div class="col-6 col-12-medium">
                                 <div><input type="text" name="product_name" id="product_name" placeholder="商品名稱" value="{{product.Name}}" /></div>
+                                <div><input type="hidden" name="product_style_number" id="product_style_number"/></div>
                                 <div><input type="text" name="product_price" id="product_price" placeholder="售價" value="{{product.Price}}" /></div>
                                 <select name="genre" id="genre">
                                     {% for g in genre %} {% if product.Genre == g.0 %}
@@ -252,7 +253,6 @@
             }
         </script>
         -->
-
         <script type="text/template" id="tr_tmpl">
             <td class="Id"><input type="text" name="color_id" id="color_id" placeholder="01" ></td>
             <td class="Color"><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" /></td>
@@ -260,12 +260,10 @@
 
             <td>{% for s in size %} <label style="font-size: 1.42rem">{{s.0}}</label> {% endfor %}</td>
             <td class='Quantity'>
-                {% for s in size %}
                 <input type="number" min="0" name="{{s.0}}_stored" id="{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
-                {% endfor %}
             </td>
 
-            <td class='Picture'><input type="file" id="image_{{c.0}}" name="image_{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
+            <td class='Picture'><input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data">
                 <div><img src="{{Sku.Picture.url}}" alt="" height="300" width="auto" id="show{{Sku.Color}}" /></div>
             </td>
             <td><a class="delete" href="javascript:void(0)">移除</a></td>
