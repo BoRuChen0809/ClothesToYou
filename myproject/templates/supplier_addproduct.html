@@ -194,7 +194,7 @@
                 {% endfor %}
             </td>
 
-            <td class='Picture'><input type="file" id="image_{{c.0}}" name="image_{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data"></td>
+            <td class='Picture'><input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data"></td>
             <td><a class="delete" href="javascript:void(0)">移除</a></td>
         </script>
         <script>
@@ -246,6 +246,7 @@
                                 col.name = "id_" + i;
                                 col.value = i+1;
                             });
+
 
                             for (var j =0; j < size.length; j++) {
                                 var s = size[j];
