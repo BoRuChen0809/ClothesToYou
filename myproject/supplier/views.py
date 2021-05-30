@@ -394,11 +394,11 @@ class Style():
         style["color"] = self.sku.Color
         style["image_url"] = self.image_url
         for s in Stored.SIZE_CHOICES:
-            print(s[0])
+
             for stored in self.stores:
                 if stored.Size == s[0]:
                     style[s[0]] = stored.stored
-                    print(stored.stored)
+
                     break
                 else:
                     style[s[0]] = 0
