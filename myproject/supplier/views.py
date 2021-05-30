@@ -1,9 +1,12 @@
+import json
 import re
 
 import bcrypt
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from pytz import unicode
+from urllib.parse import unquote
 from .models import Supplier, Product, SKU, Stored
 from user.models import Order, Order_Detail
 
@@ -215,7 +218,7 @@ def addproduct(request):
         product = Product(ID=product_id, Name=product_name, Brand=supplier, Price=int(product_price),
                           Genre=genre, Category=category, Sale_Category=sales_category, Description=product_description)
 
-        #product.save()
+        product.save()
         sizes = request.POST.getlist('size')
         style_num = int(request.POST['product_style_number'])
         print(style_num)
@@ -227,11 +230,11 @@ def addproduct(request):
             filename = sku_id + '.' + splitext(img.name)
             img.name = filename
             Sku = SKU(SKU_ID=sku_id, Product=product, Color=sku_name, Picture=img)
-            #Sku.save()
+            Sku.save()
             for s in sizes:
                 stored = request.POST[s+"_"+index_str]
                 store = Stored(sku=Sku, Size=s, stored=stored)
-                #store.save()
+                store.save()
 
 
     """
@@ -351,24 +354,53 @@ def editproduct(request, product_ID):
     for s in stored:
         size_selected.append(s.Size)
 
-    color_selected = []
-    for c in skus:
-        color_selected.append(c.Color)
-
-    stored_list = []
+    style_list = []
     for sku in skus:
-        stored_list.append(Stored.objects.filter(sku=sku))
+        style = Style(sku)
+        style_list.append(style.dict)
 
+    style_json = json.dumps(style_list)
+    print(style_json)
 
     genre_choices = Product.GENRE_CHOICES
     category_choices = Product.CATEGORY_CHOICES
     color_choices = SKU.COLOR_CHOICES
     size_choices = Stored.SIZE_CHOICES
 
-    context = {'product': product,  'size_selected': size_selected, 'genre': genre_choices,
-               'category': category_choices, 'color': color_choices, 'size': size_choices,
-               'color_selected': color_selected, 'sku': skus, 'stored':stored_list}
+    context = {'product': product,  'size_selected': size_selected, 'genre': genre_choices, 'json_style': style_json,
+               'category': category_choices, 'color': color_choices, 'size': size_choices, 'style_list': style_list}
     return render(request, 'supplier_editproduct.html', context)
+
+class Style():
+    def __init__(self, sku):
+        self.stores = Stored.objects.filter(sku=sku)
+        self.sku = sku
+        self.image_url = self.get_image_url(self.sku.Picture.url)
+        self.dict = self.to_dict()
+
+    def get_image_url(self,url):
+        url = unquote(url, encoding='UTF-8')
+        return url
+
+    def sku_id_process(self):
+        spu_id = self.sku.Product.ID
+        sku_id = self.sku.SKU_ID
+        return sku_id.replace(spu_id, "")
+
+
+    def to_dict(self):
+        style = dict()
+        style["sku_id"] = self.sku_id_process()
+        style["color"] = self.sku.Color
+        style["image_url"] = self.image_url
+        for stored in self.stores:
+            for s in Stored.SIZE_CHOICES:
+                if stored.Size == s[0]:
+                    style[s[0]] = stored.stored
+                    break
+                else:
+                    style[s[0]] = 0
+        return style
 
 def sordertrace(request, order_ID):
     if 'supplier_id' not in request.session:
