@@ -5,26 +5,6 @@
     Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
     -->
 {% load static %}
-<style>
-    .collapsible {
-    background-color: #ffffff;
-    color: white;
-    cursor: pointer;
-    width: 33%;
-    border: none;
-    text-align: center;
-    outline: none;
-    font-size: 16px;
-    }
-    .active,
-    .collapsible:hover {
-    background-color: #ececec;
-    }
-    .inner_content {
-    display: none;
-    overflow: hidden;
-    }
-</style>
 <html>
     <head>
         <title>Clothes to You</title>
@@ -89,23 +69,6 @@
                                     <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
                                 </div>
                             </div>
-                            <!--<label>顏色</label>
-                                {% for c in color %}
-                                <button type="button" class="collapsible">{{c.1}}色</button>
-                                <div class="inner_content">
-                                    <input type="checkbox" id="{{c.0}}" name="color" value="{{c.0}}" />
-                                    <label for="{{c.0}}">{{c.1}}色</label>
-                                    <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data" />
-                                    <table>
-                                        {% for s in size %}
-                                        <tr>
-                                            <td>{{s.0}} 庫存</td>
-                                            <td><input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0" /></td>
-                                        </tr>
-                                        {% endfor %}
-                                    </table>
-                                </div>
-                                {% endfor %}-->
                             <hr>
                             <button type="button" class="btn btn-primary" id="addRow">新增款式</button>
                             <table class="table">
