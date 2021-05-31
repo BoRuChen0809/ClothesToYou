@@ -43,7 +43,7 @@ class SKU(models.Model):
     COLOR_CHOICES = (("red", "紅"), ("orange", "橙"), ("yellow", "黃"), ("pink", "粉紅"),
                      ("cyan", "青"), ("blue", "藍"), ("purple", "紫"), ("green", "綠"),
                      ("gray", "灰"), ("black", "黑"), ("white", "白"), ("brown", "咖啡"))
-    Color = models.CharField(max_length=100, choices=COLOR_CHOICES, default=None)
+    Color = models.CharField(max_length=100, default=None)
     Picture = models.ImageField(upload_to=product_pic_url)
 
     def __str__(self):

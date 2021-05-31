@@ -200,8 +200,6 @@ def addproduct(request):
     if 'supplier_id' not in request.session:
         return redirect('slogin')
     elif request.POST:
-        print(request.POST)
-        print(request.FILES)
         c_id = request.session['supplier_id']
         supplier = Supplier.objects.get(S_ID=c_id)
         product_name = request.POST['product_name']
@@ -211,9 +209,7 @@ def addproduct(request):
         sales_category = request.POST['product_sales_category']
         product_description = request.POST['product_description']
 
-
         product_id = c_id + create_product_id(supplier)
-        print(product_id)
 
         product = Product(ID=product_id, Name=product_name, Brand=supplier, Price=int(product_price),
                           Genre=genre, Category=category, Sale_Category=sales_category, Description=product_description)
@@ -221,12 +217,11 @@ def addproduct(request):
         product.save()
         sizes = request.POST.getlist('size')
         style_num = int(request.POST['product_style_number'])
-        print(style_num)
         for index in range(style_num):
             index_str = str(index)
-            sku_id = request.POST['id_'+index_str]
-            sku_name = request.POST['names_'+index_str]
-            img = request.FILES['image_'+index_str]
+            sku_id = product.ID + request.POST['Id_'+index_str]
+            sku_name = request.POST['Color_'+index_str]
+            img = request.FILES['Picture_'+index_str]
             filename = sku_id + '.' + splitext(img.name)
             img.name = filename
             Sku = SKU(SKU_ID=sku_id, Product=product, Color=sku_name, Picture=img)
@@ -294,6 +289,7 @@ def addproduct(request):
 
 def editproduct(request, product_ID):
     if request.POST:
+        num = int(request.POST['product_style_number'])
         product = Product.objects.get(ID=product_ID)
         product.Name = request.POST['product_name']
         product.Price = int(request.POST['product_price'])
@@ -302,14 +298,54 @@ def editproduct(request, product_ID):
         product.Sale_Category = request.POST['product_sales_category']
         product.Description = request.POST['product_description']
         product.save()
-        color = request.POST.getlist('color')
         sizes = request.POST.getlist('size')
 
-        sku = SKU.objects.filter(Product=product)
+        skus = SKU.objects.filter(Product=product)
+        for i in range(num):
+            sku_id = product.ID + request.POST['Id_'+str(i)]
+            color = request.POST['Color_'+str(i)]
+            image_id = 'Picture_'+str(i)
+            img = None
+            if image_id in request.FILES:
+                img = request.FILES[image_id]
+                filename = sku_id + '.' + splitext(img.name)
+                img.name = filename
+            else:
+                img = None
 
-        for c in color:
-            sku_id = product.ID + colors_id[c]
-            str = 'image' + c
+            try:
+                sku = skus.objects.get(SKU_ID=sku_id)
+                sku.Color = color
+                if img is not None:
+                    sku.Picture = img
+                print(img)
+                sku.save()
+                storeds = Stored.objects.filter(sku=sku)
+                for size in sizes:
+                    try:
+                        stored = storeds.get(Size=size)
+                        stored.stored = int(request.POST[size+"_"+str(i)])
+                        stored.save()
+                        storeds.exclude(Size=size)
+                    except:
+                        stored = Stored(sku=sku, Size=size, stored=int(request.POST[size+"_"+str(i)]))
+                        stored.save()
+                storeds.delete()
+
+            except:
+                sku = SKU(SKU_ID=sku_id, Color=color, Picture=img, Product=product)
+                sku.save()
+                for size in sizes:
+                    stored = Stored(sku=sku, Size=size, stored=int(request.POST[size + "_" + str(i)]))
+                    stored.save()
+            skus = skus.exclude(SKU_ID=sku_id)
+        skus.delete()
+
+        return redirect('sprofile')
+        '''
+        for i in range(num):
+            sku_id = product.ID + request.POST["id_"+str(i)]
+            str = 'image_' + str(i)
             if str in request.FILES:
                 img = request.FILES[str]
                 filename = sku_id + '.' + splitext(img.name)
@@ -344,7 +380,7 @@ def editproduct(request, product_ID):
                     s = Stored(sku=Sku, Size=size, stored=num)
                 s.save()
         return redirect('sprofile')
-
+        '''
 
     product = Product.objects.get(ID=product_ID)
     skus = SKU.objects.filter(Product=product)
@@ -361,7 +397,6 @@ def editproduct(request, product_ID):
 
     style_json = json.dumps(style_list)
     print(style_json)
-
     genre_choices = Product.GENRE_CHOICES
     category_choices = Product.CATEGORY_CHOICES
     color_choices = SKU.COLOR_CHOICES
