@@ -146,22 +146,39 @@
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
         <script type="text/template" id="tr_tmpl">
-            <td class="Id"><input type="text" name="color_id" id="color_id" placeholder="01" ></td>
-            <td class="Color"><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" /></td>
+            <td><input type="text" name="color_id" id="color_id" placeholder="01" class = "Id"></td>
+            <td><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" class="Color"/></td>
 
 
             <td>{% for s in size %} <label style="font-size: 1.42rem">{{s.0}}</label> {% endfor %}</td>
-            <td class='Quantity'>
+            <td>
                 {% for s in size %}
-                <input type="number" min="0" name="{{s.0}}_stored" id="{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
+                <input type="number" min="0" name="{{s.0}}_stored" id="{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0" class = "{{s.0}}_stored">
                 {% endfor %}
             </td>
 
-            <td class='Picture'><input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data"></td>
+            <td><input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data"  class='Picture'></td>
             <td><a class="delete" href="javascript:void(0)">移除</a></td>
         </script>
         <script>
             var index = 0;
+            function reIndex(){
+
+                const class_collection = ['Id', 'Color', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'Picture'];
+                var table_body = document.getElementById("tableBody");
+                var arrays = table_body.getElementsByTagName("tr");
+
+                for (var i = 0; i < arrays.length; i++) {
+                    var inputs = arrays[i].getElementsByTagName("input");
+                    //alert(inputs.length);
+                    for (var j=0; j < inputs.length; j++){
+                        inputs[j].id = class_collection[j] + "_" + i;
+                        inputs[j].name = class_collection[j] + "_" + i;
+                    }
+                }
+
+                //alert(class_color_id.length);
+            }
             $(document).ready(function () {
                 $("#addRow").on("click", function () {
                     var trHtml = $("#tr_tmpl").html();
@@ -179,6 +196,7 @@
 
                     reIndex();
 
+                    /*
                     function reIndex() {
                         var rows = $("tbody tr");
                         var id = $("input#color_id");
@@ -231,6 +249,7 @@
                             //row.name = "id_" + i;
                         });
                     }
+                    */
 
                     // Getting the table element
 

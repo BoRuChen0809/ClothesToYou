@@ -179,6 +179,22 @@
         </script>
         <script>
             var index = 0;
+
+            function reIndex() {
+                const class_collection = ['Id', 'Color', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'Picture'];
+                var table_body = document.getElementById("tableBody");
+                var arrays = table_body.getElementsByTagName("tr");
+
+                for (var i = 0; i < arrays.length; i++) {
+                    var inputs = arrays[i].getElementsByTagName("input");
+                    //alert(inputs.length);
+                    for (var j = 0; j < inputs.length; j++) {
+                        inputs[j].id = class_collection[j] + "_" + i;
+                        inputs[j].name = class_collection[j] + "_" + i;
+                    }
+                }
+            }
+
             $(document).ready(function () {
                 $("#addRow").on("click", function () {
                     var trHtml = $("#tr_tmpl").html();
@@ -196,6 +212,7 @@
 
                     reIndex();
 
+                    /*
                     function reIndex() {
                         var rows = $("tbody tr");
                         var id = $("input#color_id");
@@ -254,6 +271,7 @@
                             //row.name = "id_" + i;
                         });
                     }
+                    */
 
                     // Getting the table element
 
@@ -280,32 +298,35 @@
         function load_data(){
             const element = document.querySelector("#addRow");
             var List = {{ json_style|safe }};
-            for (var list_number in List) {
-                var id_field = "id_" + list_number;
-                var color_field = "names_" + list_number;
+            for (var number = 0; number < List.length; number ++) {
 
-                var XS_field = "XS_" + list_number;
-                var S_field = "S_" + list_number;
-                var M_field = "M_" + list_number;
-                var L_field = "L_" + list_number;
-                var XL_field = "XL_" + list_number;
-                var XXL_field = "XXL_" + list_number;
+                var id_field = "Id_" + number;
+                var color_field = "Color_" + number;
 
-                var img_url = "img_" + list_number;
+                var XS_field = "XS_" + number;
+                var S_field = "S_" + number;
+                var M_field = "M_" + number;
+                var L_field = "L_" + number;
+                var XL_field = "XL_" + number;
+                var XXL_field = "XXL_" + number;
+
+                var img_url = "Picture_" + number;
 
                 element.click();
-                document.getElementById(id_field).value = JSON.parse(JSON.stringify(List[list_number].sku_id));
-                document.getElementById(color_field).value = JSON.parse(JSON.stringify(List[list_number].color));
 
-                document.getElementById(XS_field).value = JSON.parse(JSON.stringify(List[list_number].XS));
-                document.getElementById(S_field).value = JSON.parse(JSON.stringify(List[list_number].S));
-                document.getElementById(M_field).value = JSON.parse(JSON.stringify(List[list_number].M));
-                document.getElementById(L_field).value = JSON.parse(JSON.stringify(List[list_number].L));
-                document.getElementById(XL_field).value = JSON.parse(JSON.stringify(List[list_number].XL));
-                document.getElementById(XXL_field).value = JSON.parse(JSON.stringify(List[list_number].XXL));
+                document.getElementById(id_field).value = JSON.parse(JSON.stringify(List[number].sku_id));
+                document.getElementById(color_field).value = JSON.parse(JSON.stringify(List[number].color));
 
-                document.getElementById(img_url).src = List[list_number].image_url;
+                document.getElementById(XS_field).value = JSON.parse(JSON.stringify(List[number].XS));
+                document.getElementById(S_field).value = JSON.parse(JSON.stringify(List[number].S));
+                document.getElementById(M_field).value = JSON.parse(JSON.stringify(List[number].M));
+                document.getElementById(L_field).value = JSON.parse(JSON.stringify(List[number].L));
+                document.getElementById(XL_field).value = JSON.parse(JSON.stringify(List[number].XL));
+                document.getElementById(XXL_field).value = JSON.parse(JSON.stringify(List[number].XXL));
+
+                document.getElementById(img_url).src = List[number].image_url;
             }
+
         }
     </script>
     </body>
