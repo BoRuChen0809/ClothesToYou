@@ -161,19 +161,19 @@
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
         <script type="text/template" id="tr_tmpl">
-            <td class="Id"><input type="text" name="color_id" id="color_id" placeholder="01" ></td>
-            <td class="Color"><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" /></td>
+            <td><input type="text" name="color_id" id="color_id" placeholder="01" class="Id"></td>
+            <td><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" class="Color"/></td>
 
 
             <td>{% for s in size %} <label style="font-size: 1.42rem">{{s.0}}</label> {% endfor %}</td>
-            <td class='Quantity'>
+            <td>
                 {% for s in size %}
-                <input type="number" min="0" name="{{s.0}}_stored" id="{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0">
+                <input type="number" min="0" name="{{s.0}}_stored" id="{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0" class = "{{s.0}}_stored">
                 {% endfor %}
             </td>
 
-            <td class='Picture'><input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                <div><img src="" alt="" height="250" width="auto" id="show_img" /></div>
+            <td><input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data"class='Picture'>
+                <div><img src="" height="250" width="auto" id="show_img"/></div>
             </td>
             <td><a class="delete" href="javascript:void(0)">移除</a></td>
         </script>
@@ -185,14 +185,18 @@
                 var table_body = document.getElementById("tableBody");
                 var arrays = table_body.getElementsByTagName("tr");
 
+
                 for (var i = 0; i < arrays.length; i++) {
                     var inputs = arrays[i].getElementsByTagName("input");
+                    var pic = document.getElementsByTagName("img");
                     //alert(inputs.length);
                     for (var j = 0; j < inputs.length; j++) {
                         inputs[j].id = class_collection[j] + "_" + i;
                         inputs[j].name = class_collection[j] + "_" + i;
                     }
+                    pic[i].id = "show_img_" + i;
                 }
+
             }
 
             $(document).ready(function () {
@@ -310,7 +314,7 @@
                 var XL_field = "XL_" + number;
                 var XXL_field = "XXL_" + number;
 
-                var img_url = "Picture_" + number;
+                var img_url = "show_img_" + number;
 
                 element.click();
 
@@ -326,7 +330,6 @@
 
                 document.getElementById(img_url).src = List[number].image_url;
             }
-
         }
     </script>
     </body>
