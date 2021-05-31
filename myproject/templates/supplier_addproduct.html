@@ -185,7 +185,7 @@
                     var tr = $("<tr>" + trHtml + "</tr>");
                     $("#tableBody").append(tr);
                     index += 1;
-                    document.getElementsById("product_style_number").value = index;
+                    document.getElementById("product_style_number").value = index;
 
                     tr.find("a.delete").on("click", function () {
                         index -= 1;
