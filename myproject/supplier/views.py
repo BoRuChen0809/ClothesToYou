@@ -429,10 +429,12 @@ def supdateorder(request):
             #print("agree")
             order.State = "取消"
             order.Remark = order.Remark + "\n" + "申請取消獲准"
+            order.save()
         elif 'disagree' in request.POST:
             #print("disagree")
             order.State = "準備中"
             order.Remark = "申請取消遭拒"
+            order.save()
         elif 'save' in request.POST:
             #print("save")
             new_state = request.POST['STATE_CHOICES']
