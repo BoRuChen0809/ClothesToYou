@@ -83,11 +83,10 @@
                     </table>
                     <div> <h3>訂單狀態：{{order.State}}</h3> </div>
                     <div> <label>總金額：{{order.Total_Price}}</label> </div>
+                    <div> <label>備註:{{order.Remark}}</label> </div>
 
-                    {% if order.State == "取消"%}
-
-                    {% else %}
-                    <div> <input type="button" value="取消訂單" onclick="location.href='{% url 'cancel' order.ID %}'" style = "float:right"></div>
+                    {% if order.State == "準備中" %}
+                        <div> <input type="button" value="取消訂單" onclick="location.href='{% url 'cancel' order.ID %}'" style = "float:right"></div>
                     {% endif %}
 
                 </form>
