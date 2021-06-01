@@ -3,7 +3,6 @@ import re
 
 import bcrypt
 from django.shortcuts import render, redirect
-
 # Create your views here.
 from pytz import unicode
 from urllib.parse import unquote
@@ -192,10 +191,6 @@ def changespwd(request):
         return redirect('slogin')
     return redirect('sprofile')
 
-colors_id = {"red":"01", "orange":"02", "yellow":"03", "pink":"04",
-          "cyan":"05", "blue":"06", "purple":"07", "green":"08",
-          "gray":"09", "black":"10", "white":"11", "brown":"12"}
-
 def addproduct(request):
     if 'supplier_id' not in request.session:
         return redirect('slogin')
@@ -217,6 +212,7 @@ def addproduct(request):
         product.save()
         sizes = request.POST.getlist('size')
         style_num = int(request.POST['product_style_number'])
+
         for index in range(style_num):
             index_str = str(index)
             sku_id = product.ID + request.POST['Id_'+index_str]
@@ -289,6 +285,8 @@ def addproduct(request):
 
 def editproduct(request, product_ID):
     if request.POST:
+        print(request.POST)
+        print(request.FILES)
         num = int(request.POST['product_style_number'])
         product = Product.objects.get(ID=product_ID)
         product.Name = request.POST['product_name']
@@ -301,110 +299,81 @@ def editproduct(request, product_ID):
         sizes = request.POST.getlist('size')
 
         skus = SKU.objects.filter(Product=product)
+        print(skus)
+
         for i in range(num):
-            sku_id = product.ID + request.POST['Id_'+str(i)]
-            color = request.POST['Color_'+str(i)]
-            image_id = 'Picture_'+str(i)
-            img = None
-            if image_id in request.FILES:
-                img = request.FILES[image_id]
-                filename = sku_id + '.' + splitext(img.name)
-                img.name = filename
-            else:
+            id_field = "Id_" + str(i)
+            sku_id = (product.ID + request.POST[id_field])
+
+            color_field = "Color_" + str(i)
+            color = (request.POST[color_field])
+
+            img_field = "Picture_" + str(i)
+            if img_field in request.POST:
                 img = None
+            else:
+                img = request.FILES[img_field]
 
             try:
-                sku = skus.objects.get(SKU_ID=sku_id)
+                sku = skus.get(SKU_ID=sku_id)
                 sku.Color = color
                 if img is not None:
                     sku.Picture = img
-                print(img)
                 sku.save()
                 storeds = Stored.objects.filter(sku=sku)
-                for size in sizes:
+                for s in sizes:
+                    q = int(request.POST[s + "_" + str(i)])
                     try:
-                        stored = storeds.get(Size=size)
-                        stored.stored = int(request.POST[size+"_"+str(i)])
-                        stored.save()
-                        storeds.exclude(Size=size)
+                        store = storeds.get(Size=s)
+                        store.stored = q
+                        store.save()
                     except:
-                        stored = Stored(sku=sku, Size=size, stored=int(request.POST[size+"_"+str(i)]))
-                        stored.save()
+                        store = Stored(sku=sku, Size=s, stored=q)
+                        store.save()
+                    storeds = storeds.exclude(Size=s)
                 storeds.delete()
 
+
             except:
-                sku = SKU(SKU_ID=sku_id, Color=color, Picture=img, Product=product)
+                sku = SKU(SKU_ID=sku_id, Color=color, Product=product)
+                if img is not None:
+                    sku.Picture = img
                 sku.save()
-                for size in sizes:
-                    stored = Stored(sku=sku, Size=size, stored=int(request.POST[size + "_" + str(i)]))
-                    stored.save()
+                for s in sizes:
+                    q = int(request.POST[s+"_"+str(i)])
+                    store = Stored(sku=sku, Size=s, stored=q)
+                    store.save()
+
+
+
             skus = skus.exclude(SKU_ID=sku_id)
         skus.delete()
-
         return redirect('sprofile')
-        '''
-        for i in range(num):
-            sku_id = product.ID + request.POST["id_"+str(i)]
-            str = 'image_' + str(i)
-            if str in request.FILES:
-                img = request.FILES[str]
-                filename = sku_id + '.' + splitext(img.name)
-                img.name = filename
-            else:
-                img = None
 
-            try:
-                old = sku.get(SKU_ID=sku_id)
-                if img is not None:
-                    old.Picture = img
-                    old.save()
-            except:
-                new = SKU(SKU_ID=sku_id, Product=product, Color=c, Picture=img)
-                new.save()
-                for s in sizes:
-                    stored = Stored(sku=new, Size=s, stored=0)
-                    stored.save()
-            sku = sku.exclude(SKU_ID=sku_id)
-        sku.delete()
+    else:
+        product = Product.objects.get(ID=product_ID)
+        skus = SKU.objects.filter(Product=product)
+        stored = Stored.objects.filter(sku=skus[0])
 
-        sku = SKU.objects.filter(Product=product)
-        for Sku in sku:
-            stored = Stored.objects.filter(sku=Sku)
-            for size in sizes:
-                num_id = Sku.Color + "_" + size + "_stored"
-                num = request.POST[num_id]
-                try:
-                    s = stored.get(Size=size)
-                    s.stored = num
-                except:
-                    s = Stored(sku=Sku, Size=size, stored=num)
-                s.save()
-        return redirect('sprofile')
-        '''
+        size_selected = []
+        for s in stored:
+            size_selected.append(s.Size)
 
-    product = Product.objects.get(ID=product_ID)
-    skus = SKU.objects.filter(Product=product)
-    stored = Stored.objects.filter(sku=skus[0])
+        style_list = []
+        for sku in skus:
+            style = Style(sku)
+            style_list.append(style.dict)
 
-    size_selected = []
-    for s in stored:
-        size_selected.append(s.Size)
+        style_json = json.dumps(style_list)
+        print(style_json)
+        genre_choices = Product.GENRE_CHOICES
+        category_choices = Product.CATEGORY_CHOICES
+        color_choices = SKU.COLOR_CHOICES
+        size_choices = Stored.SIZE_CHOICES
 
-    style_list = []
-    for sku in skus:
-        style = Style(sku)
-        style_list.append(style.dict)
-
-    style_json = json.dumps(style_list)
-    print(style_json)
-    genre_choices = Product.GENRE_CHOICES
-    category_choices = Product.CATEGORY_CHOICES
-    color_choices = SKU.COLOR_CHOICES
-    size_choices = Stored.SIZE_CHOICES
-
-    context = {'product': product,  'size_selected': size_selected, 'genre': genre_choices, 'json_style': style_json,
-               'category': category_choices, 'color': color_choices, 'size': size_choices, 'style_list': style_list}
-    return render(request, 'supplier_editproduct.html', context)
+        context = {'product': product,  'size_selected': size_selected, 'genre': genre_choices, 'json_style': style_json,
+                    'category': category_choices, 'color': color_choices, 'size': size_choices, 'style_list': style_list}
+        return render(request, 'supplier_editproduct.html', context)
 
 class Style():
     def __init__(self, sku):
