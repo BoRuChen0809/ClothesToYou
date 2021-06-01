@@ -38,7 +38,7 @@ def product_pic_url(instance, filename):
     return 'products/{0}/{1}/{2}/{3}'.format(instance.Product.Genre, instance.Product.Category, instance.Product.ID,filename)
 
 class SKU(models.Model):
-    SKU_ID = models.CharField(max_length=25, default=None, primary_key=True)
+    SKU_ID = models.CharField(max_length=100, default=None, primary_key=True)
     Product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
     COLOR_CHOICES = (("red", "紅"), ("orange", "橙"), ("yellow", "黃"), ("pink", "粉紅"),
                      ("cyan", "青"), ("blue", "藍"), ("purple", "紫"), ("green", "綠"),
