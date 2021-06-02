@@ -113,6 +113,42 @@
                         </div>
                         <hr>
                         <h2>商品詳細資訊</h2>
+						<h3>此商品暫無詳細資訊</h3>
+						
+						<!-- List all recommended items -->
+						<section class="wrapper">
+						
+						<hr>
+						<h2>為您推薦</h2>
+						<section>
+    						{% for item in recommendations %}
+          						<div class="col-5 col-12-medium">
+              						<!-- 圖案/文字垂直排列 -->
+              						<!--
+              						<a href="{{ item.product_obj.get_absolute_url }}">
+                  						<img height="350" width="auto" src='{% if item.product_picture %}{{ item.product_picture.url }}{% endif %}'>
+              						</a>
+              						<br>
+              						&emsp;&emsp;&emsp;&emsp;&nbsp;
+              						<a href="{{ item.product_obj.get_absolute_url }}">
+                  						{{ item.product_name }}
+              						</a>
+              						-->
+              						
+              						<!-- 圖案/文字水平排列 -->
+              						<a href="{{ item.product_obj.get_absolute_url }}">
+                  						<img height="350" width="auto" src='{% if item.product_picture %}{{ item.product_picture.url }}{% endif %}'>
+              						</a>
+              						<h3>
+                  						<a href="{{ item.product_obj.get_absolute_url }}">
+                      						&emsp;&emsp;{{ item.product_name }}<br>
+                      						&emsp;&emsp;$NTD {{ item.product_price }}
+                  						</a>
+                  					</h3>
+                                </div>
+                                <br>
+                            {% endfor %}
+						</section>
                     </form>
                 </div>
             </div>
