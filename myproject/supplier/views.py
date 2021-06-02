@@ -459,7 +459,14 @@ def splitext(file):
 def create_product_id(supplier):
     num = 0
     try:
-        num = len(Product.objects.filter(Brand=supplier))
+        products = Product.objects.filter(Brand=supplier)
+        num = len(products)
+        for i in range(num):
+            str_num = '{0:012d}'.format(num+1)
+            try:
+                product = products.get(ID=supplier.S_ID+str_num)
+            except:
+                return str_num
         num += 1
     except:
         num += 1
