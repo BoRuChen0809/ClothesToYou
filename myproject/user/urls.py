@@ -21,6 +21,7 @@ urlpatterns = [
     path('orderdetail/<str:order_ID>', views.orderdetail, name='trace_detail'),
     path('cancelorder/<str:order_ID>', views.cancelorder, name='cancel'),
     path('cancelreason/<str:order_ID>', views.cancelreason, name='reason'),
+    path('products/<str:category>', views.showproduct_by_tag, name='category'),
 
     path('search', views.search, name='search'),
     path('searchlist', views.searchlist, name='searchlist'),

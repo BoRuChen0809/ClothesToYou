@@ -1,5 +1,6 @@
 
 import re,bcrypt
+from urllib.parse import unquote
 
 from PIL import Image
 from django.contrib.postgres.search import SearchVector
@@ -417,11 +418,28 @@ def cancelreason(request, order_ID):
     context = {'order': order}
     return render(request, 'user_cancel_order.html', context)
 
+def showproduct_by_tag(request, category):
+    products = Product.objects.filter(Category=category)
+    products_list = []
+    for product in products:
+        temp = temp_product(product)
+        products_list.append(temp_product(product))
+        print(temp.Pic)
 
+    context = {'products': products_list}
+    return render(request, 'user_search.html', context)
 
+class temp_product():
+    def __init__(self, product):
+        self.product = product
+        self.Pic = self.setPic()
 
-
-
+    def setPic(self):
+        skus = SKU.objects.filter(Product=self.product)
+        for sku in skus:
+            if sku.Picture is not None:
+                return unquote(sku.Picture.url, encoding='UTF-8')
+                break
 
 #有問題rerturn True
 def check_name(str):
