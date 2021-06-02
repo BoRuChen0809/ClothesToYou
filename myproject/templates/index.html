@@ -110,6 +110,26 @@
 				</div>
 			</div>
 		</section>
+		
+		<!-- List all items -->
+		<section class="wrapper">
+        {% for item in items %}
+			<div class="col-5 col-12-medium">
+                <img height="500" width="500" src='{% if item.sku.Picture %}{{item.sku.Picture.url}}{% else %}{% static "images/pic01.jpg" %}{% endif %}' alt="商品圖片" id="show{{Sku.Color}}" />
+			</div>
+            <h3>
+            <!-- &emsp;&emsp;{{ item.Name }}<br> -->
+                <a href="{{ item.product.get_absolute_url }}">
+                    &emsp;&emsp;{{ item.Name }}<br>
+                    &emsp;&emsp;NT$ {{ item.Price }}
+                </a>
+            </h3>
+            <!--
+            <label>&emsp;&emsp;商品標籤 {{product.Sale_Category}}</label>
+            -->
+        {% endfor %}
+		</section>
+		
 		<!-- CTA -->
 		<section id="cta" class="wrapper">
 			<div class="inner">

@@ -14,12 +14,38 @@ from django.contrib.postgres import search
 from datetime import datetime as dt
 from datetime import timedelta as delay
 # Create your views here.
-
+import os
+from user.modules.image_search.image_search import ReverseImageSearch
+from user.modules.get_current_time import get_current_time
+from supplier.models import Product
+from user.recommender import Recommender
 
 # **************************** views ***************************** #
 
 def index(request):
+	"""
+	# origin:
     return render(request, 'index.html')
+	"""
+	
+	# 6/2:
+	#return render(request, 'index.html')
+    #'''
+    products = Product.objects.all()
+    #sku_list = [prod.sku_set.first() for prod in Product.objects.all()]
+    skus = [prod.sku_set.first() for prod in products]
+    #context = {'products': products, 'skus': skus}
+    items = list()
+    for prod in products:
+        curr_item = dict()
+        curr_item["Name"] = prod.Name
+        curr_item["Price"] = prod.Price
+        curr_item["sku"] = prod.sku_set.first()
+        curr_item["product"] = prod
+        items.append(curr_item)
+    #context = {'products': products}
+    context = {'items': items}
+    return render(request, 'index.html', context)
 
 def register(request):
     if request.POST:
@@ -179,7 +205,13 @@ def product_detail(request, product_ID):
             if s.Size not in sizes:
                 sizes.append(s.Size)
     context = {'product': product, 'skus': skus, 'sizes': sizes}
-    if request.POST:
+    
+	# get recommendations related to current product (Item-based)
+    r = Recommender()
+    recommendations = r.get_recommendations(product_ID, 4)
+    context["recommendations"] = recommendations
+	
+	if request.POST:
         if 'user_mail' not in request.session:
             return redirect('login')
         else:
@@ -208,20 +240,47 @@ def product_detail(request, product_ID):
 
     return render(request, 'user_product.html', context)
 
-
-
-
 def search(request):
-    if 'image' in request.FILES:
+    # image search
+    if "image" in request.FILES:
+        ''' 1. 將當前上傳圖片放到 ./media/search_images '''
         image = request.FILES['image']
         print(type(image))
-        pic = Image.open(image)
+        #<class 'django.core.files.uploadedfile.InMemoryUploadedFile'>
+        
+        upload_img = Image.open(image)
+        #upload_img.show()
+        input_img_dir = "./media/search_images"
+        if not os.path.exists(input_img_dir):
+            os.mkdir(input_img_dir)
+        current_time = get_current_time()
+        upload_img_path = os.path.abspath(f"{input_img_dir}/{current_time}.jpg")
+        upload_img.save(upload_img_path)
+        print(f"上傳圖片已保存到: {upload_img_path}")
+        
+        method = "v2"  # method | choices: ("v0","v1","v2")
+        MAX_AMT = N = 100  # MAX_AMT must >= 30 | suggestion: 100
+        top_K = K = 50  # top_K must >= 10 | E.g., 20, 100, ...
+        #raw_img = "D:/MyPrograms/Clothes2U/DB/訓練圖片 DB/origin/dataset/test_data_to_classify/2/GU_咖啡色_洋裝類.jpg"
+        
+        ''' 2. 對當前上傳圖片，用 模擬(=>不是上架商品)的圖片DB 進行圖片搜尋 '''
+        simulative_img_db_path = "C:/Users/user/Desktop/ClothesToYou-v3/myproject/media/img_db_3"
+        ris = ReverseImageSearch(method, MAX_AMT, top_K, upload_img_path, simulative_img_db_path)
+        similar_image_paths = ris.exec_reverse_image_search()
+        similar_image_paths = [f"/{'/'.join(path_.split('/')[6:])}" for path_ in similar_image_paths]
+        print("Top similar images:", *(path_ for path_ in similar_image_paths), sep='\n', end='\n'*2)
 
-    elif 'search' in request.POST:
-        Text = request.POST['search']
-
-
-
+        return render(request,
+                      'user_search.html',
+                      {"img_paths": similar_image_paths})
+    
+    # text search
+    elif "search" in request.POST:
+        text = request.POST['search']
+        print(f"親愛的用戶，您剛剛搜尋的字詞為：\"{text}\"")
+        yy, MM, dd, HH, mm, ss = get_current_time().split('_')
+        print(f"今天是: {yy}年 {MM}月 {dd}日")
+        print(f"現在時間是: {HH}點 {mm}分 {ss}秒")
     else:
         return redirect('index')
     return redirect('index')
@@ -314,11 +373,33 @@ def checkout(request):
                 item.save()
 
             context = {'user': user}
+
+            # Using Item2Item Recommender: 
+            # The recorded number of purchased products 
+            # need to be increased by 1 (in the co-occurence matrix)
+            r = Recommender()
+            
+            tmp_stored_list = [item.Product for item in items]
+            print("tmp_stored_list", tmp_stored_list, '\n')
+            
+            tmp_sku_list = [sorted_obj.sku for sorted_obj in tmp_stored_list]
+            print("tmp_sku_list", tmp_sku_list, '\n')
+            
+            purchased_products = [sku_obj.Product for sku_obj in tmp_sku_list]
+            print("purchased_products", purchased_products, '\n')
+            
+            # it (param of func: `products_bought`) needs Products 
+            # i.e., 
+            # Shopping_Car(user) => Stored(supplier) => SKU(supplier) => Product(supplier)
+            
+            purchased_products_IDs = [product.ID for product in purchased_products]
+            print("purchased_products_IDs", purchased_products_IDs, '\n')
+            r.products_bought(purchased_products_IDs)
             return render(request, 'user_orders.html', context)
 
     return redirect('mycart')
 
-def orderdetails(request):
+ def orderdetails(request):
     if request.POST:
         supplier_set = set()
         mail = request.session['user_mail']
@@ -371,7 +452,9 @@ class temp_order():
 def searchlist(request):
     products = Product.objects.all()
     context = {'products':products}
-    return render(request, 'user_search.html', context)
+    return render(request, 'user_search.html', context) 
+ 
+
 
 def orderspage(request):
     mail = request.session['user_mail']
@@ -429,6 +512,7 @@ def showproduct_by_tag(request, category):
     context = {'products': products_list}
     return render(request, 'user_search.html', context)
 
+
 class temp_product():
     def __init__(self, product):
         self.product = product
@@ -440,6 +524,9 @@ class temp_product():
             if sku.Picture is not None:
                 return unquote(sku.Picture.url, encoding='UTF-8')
                 break
+
+
+
 
 #有問題rerturn True
 def check_name(str):
