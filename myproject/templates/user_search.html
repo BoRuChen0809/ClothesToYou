@@ -74,8 +74,8 @@
                                     </tr>
                                     {% for product in products %}
                                     <tr align="center" valign="top">
-                                        <td><img src="{{product.Pic}}" alt="" height="100" width="auto" href='#'/></td>
-                                        <td valign="top"><a href="#">{{product.product.Name}}</a></td>
+                                        <td><img src="{{product.Pic}}" alt="" height="100" width="auto" href="{% url 'productdetail' product.product.ID %}"/></td>
+                                        <td valign="top"><a href="{% url 'productdetail' product.product.ID %}">{{product.product.Name}}</a></td>
                                         <td valign="top">{{product.product.Genre}}</td>
                                         <td valign="top">{{product.product.Category}}</td>
                                         <td valign="top">NT$ {{product.product.Price}}</td>
