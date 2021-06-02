@@ -120,7 +120,7 @@
 							    <img height="300" width="auto" src='{% if item.sku.Picture %}{{item.sku.Picture.url}}{% else %}{% static "images/pic01.jpg" %}{% endif %}' alt="商品圖片" id="show{{Sku.Color}}" />
 							    <h3>
 								    <!-- &emsp;&emsp;{{ item.Name }}<br> -->
-								    <a href="{{ item.product.get_absolute_url }}">&emsp;&emsp;{{ item.Name }}<br>&emsp;&emsp;NT$ {{ item.Price }}</a>
+								    <a href="{% url 'productdetail' item.product.ID %}">&emsp;&emsp;{{ item.Name }}<br>&emsp;&emsp;NT$ {{ item.Price }}</a>
 							    </h3>
 							    <!--
                         	    <label>&emsp;&emsp;商品標籤 {{product.Sale_Category}}</label>
