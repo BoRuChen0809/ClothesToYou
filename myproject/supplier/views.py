@@ -447,6 +447,11 @@ def supdateorder(request):
 
     return redirect('sprofile')
 
+def deleteproduct(request, product_ID):
+    product = Product.objects.get(ID=product_ID)
+    product.delete()
+    return redirect('sprofile')
+
 # ************************* Functions ***************************** #
 def splitext(file):
     filename = file.split('.')

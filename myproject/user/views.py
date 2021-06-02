@@ -100,7 +100,6 @@ def login(request):
                 request.session['user_mail'] = user.Mail
                 return redirect('profile')
             else:
-                # print("登入失敗")
                 context = {'failed': "帳號或密碼錯誤"}
                 return render(request, 'user_login.html', context)
         except:
