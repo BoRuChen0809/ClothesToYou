@@ -32,64 +32,45 @@
                 <li><a href="{% url 'logout'%}">登出</a></li>
             </ul>
         </nav>
-        <!-- Heading -->
         <div id="heading" >
-            <h1>使用者資料管理</h1>
+            <h1>歷史訂單查詢</h1>
         </div>
-
-        <!-- Main -->
         <section id="main" class="wrapper">
             <div class="inner">
-            <div class="content">
-                <!-- Elements -->
-                <div class="row">
-                    <div class="col-6 col-12-medium">
-                        <h3>使用者資料</h3>
-                        <form action="{% url 'changeprofile' %}" method="post">{% csrf_token %}
-                            <div> <input readonly type="text" name="user_name" id="user_name" placeholder="使用者姓名" value={{user.Name}}> </div>
-                            <div> <input readonly type="text" name="user_email" id="user_email" placeholder="電子郵件" value={{user.Mail}}> </div>
-                            <hr>
-                            <div> <input type="text" name="user_phone" id="user_phone" placeholder="電話號碼" value={{user.Phone_1}}> </div>
-                            <div> <input type="text" name="user_address" id="user_address" placeholder="貨運地址" value={{user.Address}}> </div>
-                            <label>您的性別</label>
-                            {% if user.Gender == genrer_tuple.0.1 %}
-                            <input type="radio" id="radio-alpha" name="radio" value={{genrer_tuple.0.1}} checked>
-                            {% else %}
-                            <input type="radio" id="radio-alpha" name="radio" value={{genrer_tuple.0.1}}>
-                            {% endif %}
-                            <label for="radio-alpha">{{genrer_tuple.0.0}}</label>
-                            {% if user.Gender == genrer_tuple.1.1 %}
-                            <input type="radio" id="radio-beta" name="radio" value={{genrer_tuple.1.1}} checked>
-                            {% else %}
-                            <input type="radio" id="radio-beta" name="radio" value={{genrer_tuple.1.1}}>
-                            {% endif %}
-                            <label for="radio-beta">{{genrer_tuple.1.0}}</label>
-                            {% if user.Gender == genrer_tuple.2.1 %}
-                            <input type="radio" id="radio-gamma" name="radio" value={{genrer_tuple.2.1}} checked>
-                            {% else %}
-                            <input type="radio" id="radio-gamma" name="radio" value={{genrer_tuple.2.1}}>
-                            {% endif %}
-                            <label for="radio-gamma">{{genrer_tuple.2.0}}</label>
-                            <div><input type="submit" value="修改資訊" style="float:right"></div>
-                        </form>
-                        <div>{{warn_1}}</div>
-                    </div>
-                    <div class="col-6 col-12-medium">
-                        <h3>密碼更改</h3>
-                        <form action="{% url 'changepwd' %}" method="post">{% csrf_token %}
-                            <div> <input type="password" name="user_password" id="user_password" value="" placeholder="目前密碼"> </div>
-                            <div> <input type="password" name="new_user_password" id="new_user_password" value="" placeholder="新的密碼"> </div>
-                            <div> <input type="password" name="new_password_check" id="new_password_check" value="" placeholder="請再輸入一次新的密碼"> </div>
-                            <label></label>
-                            <div> <input type="submit" value="更改密碼" style="float:right"> </div>
-                        </form>
-                        <div>{{warn_2}}</div>
-                    </div>
+                <div class="content">
+                    <form>
+                        <table>
+                            <thead style="background-color: lightblue">
+                                <tr>
+                                    <td>交易日期</td>
+                                    <td>訂單編號</td>
+                                    <td>狀態</td>
+                                    <td>總金額</td>
+                                    <td>詳細內容</td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            {% for order in orders %}
+                                <tr>
+                                    <td>{{order.DateTime}}</td>
+                                    <td>{{order.ID}}</td>
+                                    <td>{{order.State}}</td>
+                                    <td>NT.{{order.Total_Price}}</td>
+                                    <td><a href="{% url 'trace_detail' order.ID %}">訂單詳情</a></td>
+                                    <td></td>
+                                </tr>
+                            {% endfor %}
+
+
+
+
+                        </table>
+                    </form>
                 </div>
-			</div>
             </div>
         </section>
-        <!-- Footer -->
+
+<!-- Footer -->
         <footer id="footer">
             <div class="inner">
                 <div class="content">
@@ -134,6 +115,5 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-        <script>document.getElementsByClassName('tablinks')[0].click()</script>
     </body>
 </html>

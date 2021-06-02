@@ -27,6 +27,7 @@
             <ul class="links">
                 <li><a href="{% url 'index' %}">首頁</a></li>
                 <li><a href="{% url 'profile' %}">會員中心</a></li>
+                <li><a href="{% url 'orderspage' %}">訂單記錄</a></li>
                 <Li><a href="{% url 'mycart' %}">購物車</a></Li>
                 <li><a href="{% url 'logout'%}">登出</a></li>
             </ul>
@@ -49,28 +50,43 @@
                         </div>
                     </div>
                 </form>
-                <div class="content">{% csrf_token %}
-                    <form method="post">
+                <div class="content">
+                    <form method="post" action="{% url 'checkout' %}">{% csrf_token %}
+                        {% for supplier in suppliers %}
+
                         <table>
+                            <thead style="background-color: lightblue">
                             <tr align="center" valign="top">
-                                <!--<td>勾選</td>-->
+                                <td>{{supplier.C_Name}}</td>
                                 <td>商品圖片</td>
                                 <td>名稱</td>
                                 <td>尺寸</td>
                                 <td>數量</td>
                                 <td>單價</td>
                                 <td>保留/移除</td>
+                                </thead>
                             </tr>
-                            {% for item in items %}
-                                <tr align="center" valign="top">
-                                    <!--<td>
-                                        <input type="checkbox" id="want2buy_{{item.item.id}}" name="want2buy_{{item.item.id}}" value="True" onchange = "totalprice()">
-                                        <label for="want2buy_{{item.item.id}}">勾選</label><br>
-                                    </td>-->
+
+                                {% for item in items %}
+                                    {% if item.Supplier == supplier %}
+                                        <tr align="center" valign="top">
+
+                                    <td>
+                                        {% if item.item.Selected %}
+                                        <input type="checkbox" id="{{item.item.id}}" name="want2buy" value="{{item.item.id}}" onchange = "totalprice()" checked>
+                                        <label for="{{item.item.id}}"></label><br>
+                                        {% else %}
+                                        <input type="checkbox" id="{{item.item.id}}" name="want2buy" value="{{item.item.id}}" onchange = "totalprice()">
+                                        <label for="{{item.item.id}}"></label><br>
+                                        {% endif %}
+
+                                    </td>
                                     <td><img src="{{item.SKU.Picture.url}}" alt="" height="160" width="auto" id="show_{{item.item.id}}" /></td>
                                     <td valign="top"><a href="{% url 'productdetail' item.Product.ID %}">{{ item.Product.Name }} - ({{ item.SKU.Color }})</a></td>
 
                                     <td valign="top">
+                                        {{item.Stored.Size}}
+                                        <!--
                                         <select name="size_{{item.item.id}}" id="size_{{item.item.id}}">
                                             {% for size in item.sizes%}
                                                 {% if size == item.Stored.Size %}
@@ -80,16 +96,37 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </select>
+                                        -->
                                     </td>
-                                    <td><input type="number" min="1" max="10" name="quantity" id="quantity" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
-                                    <td valign="top" id="Price">{{item.Product.Price}}</td>
+
+                                    {% if item.Stored.stored < 10 and item.item.Quantity > item.Stored.stored %}
+                                        <td><input type="number" min="1" max="{{item.Stored.stored}}" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="0" onchange = "totalprice()"></td>
+                                    {% elif item.Stored.stored < 10 and item.item.Quantity <= item.Stored.stored %}
+                                        <td><input type="number" min="1" max="{{item.Stored.stored}}" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
+                                    {% elif item.item.Quantity <= item.Stored.stored %}
+                                        <td><input type="number" min="1" max="10" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="{{item.item.Quantity}}" onchange = "totalprice()"></td>
+                                    {% elif item.item.Quantity > item.Stored.stored %}
+                                        <td><input type="number" min="1" max="10" name="quantity_{{item.item.id}}" id="quantity_{{item.item.id}}" placeholder="數量" value="0" onchange = "totalprice()"></td>
+                                    {% endif %}
+
+                                            <td><label id="Price_{{item.item.id}}" value ="{{item.Product.Price}}">{{item.Product.Price}}</label></td>
                                     <td><input type="button" value="移除商品" onclick="location.href='{% url 'remove_item' item.item.id %}'"></td>
                                 </tr>
+                                    {% endif %}
+
+
                             {% endfor %}
+
+
+
                         </table>
-                      <label id = "total_sum">總金額：NT$ 0元</label>
-                      <div style="text-align:right"> <input type="submit" value="前去結帳"> </div>
+
+                        {% endfor %}
+                        <div> <label id = "total_sum" style="position:relative;text-align:right">總金額：NT$ {{total}}元</label></div>
+                        <div> <input type="submit" value="前去結帳" style="float:right" name="checkout"> </div>
+                        <div> <input type="submit" value="儲存變更" name="save"> </div>
                     </form>
+
                 </div>
             </div>
         </section>
@@ -140,8 +177,18 @@
         <script src="{% static 'js/main.js' %}"></script>
         <script>
             function totalprice() {
-                var total = document.getElementById('Price').textContent * document.getElementById('quantity').value;
-                document.getElementById('total_sum').innerText = "總金額：NT$ " + total + "元";
+                var total = 0;
+                var chk = document.getElementsByTagName("input");
+                for (var i =0; i< chk.length;i++){
+                    if(chk[i].name.substring(0,8) == "want2buy"){
+                        if(chk[i].checked){
+                            var quan_id = "quantity_" + chk[i].value.toString();
+                            var Price_id = "Price_" + chk[i].value.toString();
+                            total += document.getElementById(quan_id).value * parseInt(document.getElementById(Price_id).innerText);
+                        }
+                    }
+                }
+                document.getElementById("total_sum").innerText = "總金額：NT$ " + total + "元";
             }
         </script>
     </body>

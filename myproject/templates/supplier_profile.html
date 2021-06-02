@@ -39,7 +39,7 @@
         <section id="main" class="wrapper">
             <div class="inner">
             <div class="content">
-                <div class="tab">
+                <div class="tab" style="background-color: lightblue">
                     <button class="tablinks" onclick="clickHandle(event, 'Profile')">供應商資料</button>
                     <button class="tablinks" onclick="clickHandle(event, 'Manage')">商品管理</button>
                     <button class="tablinks" onclick="clickHandle(event, 'Order')">訂單管理</button>
@@ -71,7 +71,8 @@
                                 <div> <input type="text" name="supplier_phone" id="supplier_phone" placeholder="聯絡人電話" value={{supplier.Phone}}> </div>
                                 <div> <input type="text" name="supplier_email" id="supplier_email" placeholder="連絡人電子郵件" value={{supplier.Mail}}> </div>
                                 <div> <input type="text" name="company_address" id="company_address" placeholder="公司地址" value={{supplier.Address}}> </div>
-                                <div><input type="submit" value="修改資訊"></div>
+                                <label></label>
+                                <div><input type="submit" value="修改資訊" style="float:right"></div>
                             </form>
                             <div>{{warn_1}}</div>
                             <h3>密碼更改</h3>
@@ -79,7 +80,8 @@
                                 <div> <input type="password" name="supplier_password" id="supplier_password" value="" placeholder="目前密碼"> </div>
                                 <div> <input type="password" name="new_supplier_password" id="new_supplier_password" value="" placeholder="新的密碼"> </div>
                                 <div> <input type="password" name="new_password_check" id="new_password_check" value="" placeholder="請再輸入一次新的密碼"> </div>
-                                <div> <input type="submit" value="更改密碼"> </div>
+                                <label></label>
+                                <div> <input type="submit" value="更改密碼" style="float:right"> </div>
                             </form>
                             <div>{{warn_2}}</div>
                         </div>
@@ -99,7 +101,20 @@
                     <!-- <div class="row"> -->
                     <form>
                         <table>
-                            <tr><td>交易日期</td><td>客戶名稱</td> <td>商品名稱</td> <td>數量</td> <td>狀態</td><td>訂單資訊更新</td></tr>
+                            <tr>
+                                <td>交易日期</td>
+                                <td>客戶名稱</td>
+                                <td>狀態</td>
+                                <td>訂單資訊更新</td>
+                            </tr>
+                            {% for order in orders %}
+                            <tr>
+                                <td>{{order.DateTime.date}}</td>
+                                <td>{{order.User.Name}}</td>
+                                <td>{{order.State}}</td>
+                                <td><a href="{% url 'sordertrace' order.ID %}">更新訂單狀態</a></td>
+                            </tr>
+                            {% endfor %}
                         </table>
                     </form>
                 </div>

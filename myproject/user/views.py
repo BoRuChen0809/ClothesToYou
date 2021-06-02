@@ -1,11 +1,13 @@
 
 import re,bcrypt
+from urllib.parse import unquote
 
 from PIL import Image
 from django.contrib.postgres.search import SearchVector
 from django.template import loader
 from .models import Clothes2You_User, UserManager, Shopping_Car, Order, Order_Detail
 from supplier.models import Product, SKU, Stored, Supplier
+from supplier.models import *
 from django.shortcuts import render, redirect
 from django.core import serializers
 from django.contrib.postgres import search
@@ -291,11 +293,17 @@ def mycart(request):
         user = Clothes2You_User.objects.get(Mail=mail)
         shopping_items = Shopping_Car.objects.filter(User=user)
         items=[]
+        suppliers = []
+        total = 0
         for item in shopping_items:
-            item = temp_product(item)
-            items.append(item)
+            temp_item = temp_product(item)
+            items.append(temp_item)
+            suppliers.append(temp_item.Supplier)
+            if item.Selected:
+                total += item.Quantity * item.Product.sku.Product.Price
+        suppliers = set(suppliers)
 
-        context = {'items': items}
+        context = {'items': items, 'suppliers': suppliers, 'total':total}
         return render(request, 'user_shopcart.html', context)
 
 class temp_product():
@@ -310,13 +318,13 @@ class temp_product():
         self.setSizes(self.SKU)
         self.skus = []
         self.setSKUs(self.Product)
+        self.Supplier = self.Product.Brand
 
     def setSizes(self,sku):
         S = Stored.objects.filter(sku=sku)
         for s in S:
             if s.Size not in self.sizes:
                 self.sizes.append(s.Size)
-
     def setSKUs(self,product):
         SKUs = SKU.objects.filter(Product=product)
         for sku in SKUs:
@@ -326,7 +334,7 @@ def remove_from_cart(request, item_ID):
     if 'user_mail' not in request.session:
         return redirect('login')
     else:
-        item = Shopping_Car.objects.get(id = item_ID)
+        item = Shopping_Car.objects.get(id=item_ID)
         item.delete()
         return redirect('mycart')
 
@@ -337,7 +345,7 @@ def checkout(request):
         print(request.POST)
         wantbuy_list = request.POST.getlist("want2buy")
         wantbuy_list = list(map(int,wantbuy_list))
-    
+
         if len(wantbuy_list)<=0:
             return redirect('mycart')
 
@@ -356,7 +364,7 @@ def checkout(request):
             mail = request.session['user_mail']
             user = Clothes2You_User.objects.get(Mail=mail)
             items = Shopping_Car.objects.filter(User=user)
-            
+
             for item in items:
                 if item.id in wantbuy_list:
                     item.Selected = True
@@ -365,6 +373,7 @@ def checkout(request):
                 item.save()
 
             context = {'user': user}
+
             # Using Item2Item Recommender: 
             # The recorded number of purchased products 
             # need to be increased by 1 (in the co-occurence matrix)
@@ -390,14 +399,7 @@ def checkout(request):
 
     return redirect('mycart')
 
-def searchlist(request):
-    products = Product.objects.all()
-    context = {'products':products}
-. 
-    return render(request, 'user_search.html', context)
-
-'''
-def orderdetails(request):
+ def orderdetails(request):
     if request.POST:
         supplier_set = set()
         mail = request.session['user_mail']
@@ -437,10 +439,22 @@ def orderdetails(request):
         items.delete()
         context = {'user': user, 'orders': show_orders, 'total_price': total}
         return render(request, 'user_order_details.html',context)
+
+class temp_order():
+    def __init__(self, order):
+        self.order = order
+        self.supplier = self.order.Supplier
+        self.details = Order_Detail.objects.filter(ID=order)
+
+
+
+
 def searchlist(request):
     products = Product.objects.all()
     context = {'products':products}
-    return render(request, 'user_search.html', context)
+    return render(request, 'user_search.html', context) 
+ 
+
 
 def orderspage(request):
     mail = request.session['user_mail']
@@ -487,7 +501,32 @@ def cancelreason(request, order_ID):
     context = {'order': order}
     return render(request, 'user_cancel_order.html', context)
 
-'''
+def showproduct_by_tag(request, category):
+    products = Product.objects.filter(Category=category)
+    products_list = []
+    for product in products:
+        temp = temp_product(product)
+        products_list.append(temp_product(product))
+        print(temp.Pic)
+
+    context = {'products': products_list}
+    return render(request, 'user_search.html', context)
+
+
+class temp_product():
+    def __init__(self, product):
+        self.product = product
+        self.Pic = self.setPic()
+
+    def setPic(self):
+        skus = SKU.objects.filter(Product=self.product)
+        for sku in skus:
+            if sku.Picture is not None:
+                return unquote(sku.Picture.url, encoding='UTF-8')
+                break
+
+
+
 
 #有問題rerturn True
 def check_name(str):
@@ -529,6 +568,7 @@ def check_pwd_match(pwd, c_pwd):
 def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
+
 
 
 

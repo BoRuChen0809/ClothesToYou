@@ -1,60 +1,55 @@
 <!DOCTYPE HTML>
 <!--
-	Industrious by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
+    Industrious by TEMPLATED
+    templated.co @templatedco
+    Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+    -->
+{% load static %}
 <html>
 	<head>
-	{% load static %}
 		<title>Clothes to You</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-		<link rel="stylesheet" href="{% static 'css/main.css' %}" />
+		<link rel="stylesheet" href="{% static '/css/main.css' %}" />
 	</head>
 	<body class="is-preload">
 		<!-- Header -->
-		<header id="header">
-			<a class="logo" href="{% url 'index' %}">Clothes to You</a>
-			<nav>
-				<a href="#menu">Menu</a>
-			</nav>
-		</header>
+        <header id="header">
+            <a class="logo" href="{% url 'sindex' %}">Clothes to You</a>
+            <nav>
+                <a href="#menu">Menu</a>
+            </nav>
+        </header>
 		<!-- Nav -->
-		<nav id="menu">
-			<ul class="links">
-				<li><a href="{% url 'index' %}">首頁</a></li>
-				<li><a href="{% url 'login' %}">會員登入</a></li>
-				<li><a href="{% url 'register' %}">帳號註冊</a></li>
-			</ul>
-		</nav>
-		<!-- Heading -->
-		<div id="heading" >
-			<h1>使用者註冊</h1>
-		</div>
-		<!-- Main -->
-		<section id="main" class="wrapper">
+			<nav id="menu">
+				<ul class="links">
+                    <li><a href="{% url 'sindex' %}">首頁</a></li>
+                    <li><a href="{% url 'sprofile' %}">後臺管理</a></li>
+                    <li><a href="{% url 'addproduct' %}">上架商品</a></li>
+                    <li><a href="{% url 'slogout' %}">登出</a></li>
+				</ul>
+			</nav>
+        <!-- Heading -->
+        <div id="heading" >
+            <h1>取消訂單</h1>
+        </div>
+        <section id="main" class="wrapper">
 			<div class="inner">
 				<div class="content">
 					<!-- Elements -->
-					<h3>請填入必要資訊</h3>
-					<form action="{% url 'register' %}" method="post"> {% csrf_token %}
-						<div> <input type="text" name="user_name" id="user_name" value="" placeholder="使用者姓名"> </div>
-						<div> <input type="text" name="user_email" id="user_email" value="" placeholder="電子郵件"> </div>
-						<div> <input type="password" name="user_password" id="user_password" value="" placeholder="密碼"> </div>
-						<div> <input type="password" name="password_check" id="password_check" value="" placeholder="密碼確認"> </div>
-						<div> <input type="text" name="user_phone" id="user_phone" value="" placeholder="電話號碼"> </div>
-						<div> <input type="submit" value="送出資料" style = "float:right">  <hr> 已經有帳號嗎了? <a href="{% url 'login' %}">登入</a> </div>
+					<h3>請填入取消原因</h3>
+					<form action="{% url 'reason' order.ID %}" method="post">{% csrf_token %}
+						<div> <textarea name="cancel_description" id="cancel_description" placeholder="字數上限為100個字" rows="2" maxlength="100"></textarea> </div>
+                        <div> <input type="submit" value="提出申請" style="float:right"> </div>
 					</form>
-					{% for warn in warning%}
-					<div> {{warn}} </div>
-					{% endfor %}
+                    <h4>提交申請後，請等候供應商回應。</h4>
 				</div>
 			</div>
 		</section>
-		<!-- Footer -->
+
+    <!-- Footer -->
 		<footer id="footer">
 			<div class="inner">
 				<div class="content">
@@ -98,5 +93,12 @@
 		<script src="{% static 'js/breakpoints.min.js' %}"></script>
 		<script src="{% static 'js/util.js' %}"></script>
 		<script src="{% static 'js/main.js' %}"></script>
+		<script>
+			$(document).keyup(function(event){
+				if(event.keyCode ==13){
+					$("#登入").trigger("click");
+				}
+			});
+		</script>
 	</body>
 </html>

@@ -1,11 +1,13 @@
+import json
 import re
 
 import bcrypt
 from django.shortcuts import render, redirect
-
 # Create your views here.
+from pytz import unicode
+from urllib.parse import unquote
 from .models import Supplier, Product, SKU, Stored
-
+from user.models import Order, Order_Detail
 
 # *********************** views ******************************** #
 def sindex(request):
@@ -95,11 +97,15 @@ def sprofile(request):
     c_id = request.session['supplier_id']
     supplier = Supplier.objects.get(S_ID=c_id)
     products = Product.objects.filter(Brand=supplier)
-    context = {'supplier':supplier, 'products':products}
-    return render(request, 'supplier_profile.html',context)
+    orders = Order.objects.filter(Supplier=supplier)
+
+    context = {'supplier': supplier, 'products': products, 'orders': orders}
+    return render(request, 'supplier_profile.html', context)
 
 def changesprofile(request):
-    if request.POST:
+    if 'supplier_id' not in request.session:
+        return redirect('slogin')
+    elif request.POST:
         warning_list = {}
 
         principal = request.POST['supplier_name']
@@ -185,12 +191,45 @@ def changespwd(request):
         return redirect('slogin')
     return redirect('sprofile')
 
-colors_id = {"red":"01", "orange":"02", "yellow":"03", "pink":"04",
-          "cyan":"05", "blue":"06", "purple":"07", "green":"08",
-          "gray":"09", "black":"10", "white":"11", "brown":"12"}
-
 def addproduct(request):
-    if request.POST:
+    if 'supplier_id' not in request.session:
+        return redirect('slogin')
+    elif request.POST:
+        c_id = request.session['supplier_id']
+        supplier = Supplier.objects.get(S_ID=c_id)
+        product_name = request.POST['product_name']
+        product_price = request.POST['product_price']
+        genre = request.POST['genre']
+        category = request.POST['category']
+        sales_category = request.POST['product_sales_category']
+        product_description = request.POST['product_description']
+
+        product_id = c_id + create_product_id(supplier)
+
+        product = Product(ID=product_id, Name=product_name, Brand=supplier, Price=int(product_price),
+                          Genre=genre, Category=category, Sale_Category=sales_category, Description=product_description)
+
+        product.save()
+        sizes = request.POST.getlist('size')
+        style_num = int(request.POST['product_style_number'])
+
+        for index in range(style_num):
+            index_str = str(index)
+            sku_id = product.ID + request.POST['Id_'+index_str]
+            sku_name = request.POST['Color_'+index_str]
+            img = request.FILES['Picture_'+index_str]
+            filename = sku_id + '.' + splitext(img.name)
+            img.name = filename
+            Sku = SKU(SKU_ID=sku_id, Product=product, Color=sku_name, Picture=img)
+            Sku.save()
+            for s in sizes:
+                stored = request.POST[s+"_"+index_str]
+                store = Stored(sku=Sku, Size=s, stored=stored)
+                store.save()
+
+
+    """
+        if request.POST:
         c_id = request.session['supplier_id']
         supplier = Supplier.objects.get(S_ID=c_id)
 
@@ -232,6 +271,10 @@ def addproduct(request):
 
 
         return render(request, 'supplier_addproduct.html',context)
+    :param request: 
+    :return: 
+    """
+
 
     genre_choices = Product.GENRE_CHOICES
     category_choices = Product.CATEGORY_CHOICES
@@ -242,6 +285,9 @@ def addproduct(request):
 
 def editproduct(request, product_ID):
     if request.POST:
+        print(request.POST)
+        print(request.FILES)
+        num = int(request.POST['product_style_number'])
         product = Product.objects.get(ID=product_ID)
         product.Name = request.POST['product_name']
         product.Price = int(request.POST['product_price'])
@@ -250,95 +296,169 @@ def editproduct(request, product_ID):
         product.Sale_Category = request.POST['product_sales_category']
         product.Description = request.POST['product_description']
         product.save()
-        color = request.POST.getlist('color')
         sizes = request.POST.getlist('size')
 
-        sku = SKU.objects.filter(Product=product)
+        skus = SKU.objects.filter(Product=product)
+        print(skus)
 
-        for c in color:
-            sku_id = product.ID + colors_id[c]
-            str = 'image' + c
-            if str in request.FILES:
-                img = request.FILES[str]
-                filename = sku_id + '.' + splitext(img.name)
-                img.name = filename
-            else:
+        for i in range(num):
+            id_field = "Id_" + str(i)
+            sku_id = (product.ID + request.POST[id_field])
+
+            color_field = "Color_" + str(i)
+            color = (request.POST[color_field])
+
+            img_field = "Picture_" + str(i)
+            if img_field in request.POST:
                 img = None
+            else:
+                img = request.FILES[img_field]
 
             try:
-                old = sku.get(SKU_ID=sku_id)
+                sku = skus.get(SKU_ID=sku_id)
+                sku.Color = color
                 if img is not None:
-                    old.Picture = img
-                    old.save()
-            except:
-                new = SKU(SKU_ID=sku_id, Product=product, Color=c, Picture=img)
-                new.save()
+                    sku.Picture = img
+                sku.save()
+                storeds = Stored.objects.filter(sku=sku)
                 for s in sizes:
-                    stored = Stored(sku=new, Size=s, stored=0)
-                    stored.save()
-            sku = sku.exclude(SKU_ID=sku_id)
-        sku.delete()
+                    q = int(request.POST[s + "_" + str(i)])
+                    try:
+                        store = storeds.get(Size=s)
+                        store.stored = q
+                        store.save()
+                    except:
+                        store = Stored(sku=sku, Size=s, stored=q)
+                        store.save()
+                    storeds = storeds.exclude(Size=s)
+                storeds.delete()
 
-        sku = SKU.objects.filter(Product=product)
-        for Sku in sku:
-            stored = Stored.objects.filter(sku=Sku)
-            for size in sizes:
-                num_id = Sku.Color + "_" + size + "_stored"
-                num = request.POST[num_id]
-                try:
-                    s = stored.get(Size=size)
-                    s.stored = num
-                except:
-                    s = Stored(sku=Sku, Size=size, stored=num)
-                s.save()
+
+            except:
+                sku = SKU(SKU_ID=sku_id, Color=color, Product=product)
+                if img is not None:
+                    sku.Picture = img
+                sku.save()
+                for s in sizes:
+                    q = int(request.POST[s+"_"+str(i)])
+                    store = Stored(sku=sku, Size=s, stored=q)
+                    store.save()
+
+
+
+            skus = skus.exclude(SKU_ID=sku_id)
+        skus.delete()
         return redirect('sprofile')
 
+    else:
+        product = Product.objects.get(ID=product_ID)
+        skus = SKU.objects.filter(Product=product)
+        stored = Stored.objects.filter(sku=skus[0])
 
-    product = Product.objects.get(ID=product_ID)
-    skus = SKU.objects.filter(Product=product)
-    stored = Stored.objects.filter(sku=skus[0])
+        size_selected = []
+        for s in stored:
+            size_selected.append(s.Size)
 
-    size_selected = []
-    for s in stored:
-        size_selected.append(s.Size)
+        style_list = []
+        for sku in skus:
+            style = Style(sku)
+            style_list.append(style.dict)
 
-    color_selected = []
-    for c in skus:
-        color_selected.append(c.Color)
+        style_json = json.dumps(style_list)
+        print(style_json)
+        genre_choices = Product.GENRE_CHOICES
+        category_choices = Product.CATEGORY_CHOICES
+        color_choices = SKU.COLOR_CHOICES
+        size_choices = Stored.SIZE_CHOICES
 
-    stored_list = []
-    for sku in skus:
-        stored_list.append(Stored.objects.filter(sku=sku))
+        context = {'product': product,  'size_selected': size_selected, 'genre': genre_choices, 'json_style': style_json,
+                    'category': category_choices, 'color': color_choices, 'size': size_choices, 'style_list': style_list}
+        return render(request, 'supplier_editproduct.html', context)
+
+class Style():
+    def __init__(self, sku):
+        self.stores = Stored.objects.filter(sku=sku)
+        self.sku = sku
+        self.image_url = self.get_image_url(self.sku.Picture.url)
+        self.dict = self.to_dict()
+
+    def get_image_url(self,url):
+        url = unquote(url, encoding='UTF-8')
+        return url
+
+    def sku_id_process(self):
+        spu_id = self.sku.Product.ID
+        sku_id = self.sku.SKU_ID
+        return sku_id.replace(spu_id, "")
 
 
-    genre_choices = Product.GENRE_CHOICES
-    category_choices = Product.CATEGORY_CHOICES
-    color_choices = SKU.COLOR_CHOICES
-    size_choices = Stored.SIZE_CHOICES
+    def to_dict(self):
+        style = dict()
+        style["sku_id"] = self.sku_id_process()
+        style["color"] = self.sku.Color
+        style["image_url"] = self.image_url
+        for s in Stored.SIZE_CHOICES:
 
-    context = {'product': product,  'size_selected': size_selected, 'genre': genre_choices,
-               'category': category_choices, 'color': color_choices, 'size': size_choices,
-               'color_selected': color_selected, 'sku': skus, 'stored':stored_list}
-    return render(request, 'supplier_editproduct.html', context)
+            for stored in self.stores:
+                if stored.Size == s[0]:
+                    style[s[0]] = stored.stored
+
+                    break
+                else:
+                    style[s[0]] = 0
+        return style
+
+def sordertrace(request, order_ID):
+    if 'supplier_id' not in request.session:
+        return redirect('slogin')
+    else:
+        order = Order.objects.get(ID=order_ID)
+        details = Order_Detail.objects.filter(ID=order_ID)
+        choices = ['準備中', '已出貨', '已到貨', '取消', '完成']
+        context = {'order': order, 'details': details, 'choices': choices}
+        return render(request, 'supplier_order_trace.html', context)
+
+def supdateorder(request):
+    if 'supplier_id' not in request.session:
+        return redirect('slogin')
+    elif request.POST:
+        #print(request.POST)
+        order_ID = request.POST['order_ID']
+        order = Order.objects.get(ID=order_ID)
+        if 'agree' in request.POST:
+            #print("agree")
+            order.State = "取消"
+            order.Remark = order.Remark + "\n" + "申請取消獲准"
+            order.save()
+        elif 'disagree' in request.POST:
+            #print("disagree")
+            order.State = "準備中"
+            order.Remark = "申請取消遭拒"
+            order.save()
+        elif 'save' in request.POST:
+            #print("save")
+            new_state = request.POST['STATE_CHOICES']
+            if new_state == "取消":
+                print("取消")
+                cancel_description = request.POST['cancel_description']
+                order.Remark = cancel_description
+            order.State = new_state
+            order.save()
+
+    return redirect('sprofile')
 
 # ************************* Functions ***************************** #
 def splitext(file):
     filename = file.split('.')
     return filename[-1]
 def create_product_id(supplier):
+    num = 0
     try:
-        num = len(Product.objects.filter(Brand=Supplier))
+        num = len(Product.objects.filter(Brand=supplier))
         num += 1
-        if 9999 > num >= 1000:
-            return str(num)
-        elif 1000 > num >= 100:
-            return '0'+str(num)
-        elif 100 > num >= 10:
-            return '00'+str(num)
-        else:
-            return '000'+str(num)
     except:
-        return '0001'
+        num += 1
+    return '{0:012d}'.format(num)
 def hashpwd(pwd):
     salt = bcrypt.gensalt()
     hashed_pwd = bcrypt.hashpw(pwd.encode('utf-8'), salt)
@@ -408,4 +528,6 @@ def check_pwd_match(pwd, c_pwd):
 def check_phone(str):
     phone = re.compile(r"^09+\d{8}")
     return not phone.match(str)
+
+
 

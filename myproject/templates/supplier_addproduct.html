@@ -1,32 +1,10 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <!--
     Industrious by TEMPLATED
     templated.co @templatedco
     Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
     -->
 {% load static %}
-<style>
-.collapsible {
-  background-color: #FFFFFF;
-  color: white;
-  cursor: pointer;
-  width: 33%;
-  border: none;
-  text-align: center;
-  outline: none;
-  font-size: 16px;
-}
-
-.active, .collapsible:hover {
-  background-color: #ECECEC;
-}
-
-.inner_content {
-  display: none;
-  overflow: hidden;
-}
-</style>
-
 <html>
     <head>
         <title>Clothes to You</title>
@@ -54,61 +32,63 @@
             </ul>
         </nav>
         <!-- Heading -->
-        <div id="heading" >
+        <div id="heading">
             <h1>商品上架</h1>
         </div>
         <!-- Main -->
         <section id="main" class="wrapper">
             <div class="inner">
                 <div class="content">
-                <div class="col-6 col-12-small">
-                    <form action="{% url 'addproduct' %}" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div> <input type="text" name="product_name" id="product_name" placeholder="商品名稱"> </div>
-                        <div> <input type="text" name="product_price" id="product_price" placeholder="售價"> </div>
-                        <select name="genre" id="genre">
-                            {% for g in genre %}
-                            <option value={{g.0}}>{{g.0}}</option>
-                            {% endfor %}
-                        </select>
-                        <select name="category" id="category">
-                            {% for c in category %}
-                            <option value={{c.0}}>{{c.0}}</option>
-                            {% endfor %}
-                        </select>
-                        <div> <input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category"> </div>
-                        <label>尺寸</label>
-                        <div class="col-2 col-12-small">
-                            {% for s in size %}
-                            <input type="checkbox" id={{s.0}} value={{s.0}} name="size">
-                            <label for={{s.0}}>{{s.0}}</label>
-                            {% endfor %}
-                        </div>
-                        <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
-                        <hr>
-                        <label>顏色</label>
-                        {% for c in color %}
-                        <button type="button" class="collapsible">{{c.1}}色</button>
-                        <div class="inner_content">
-                            <input type="checkbox" id={{c.0}} name="color" value={{c.0}}>
-                            <label for={{c.0}}>{{c.1}}色</label>
-                            <input type="file" id="image{{c.0}}" name="image{{c.0}}" accept="image/png, image/jpeg" enctype="multipart/form-data">
-                            <table>
-                                {% for s in size %}
-                                <tr>
-                                    <td>{{s.0}} 庫存</td>
-                                    <td> <input type="number" min="0" name="{{c.0}}_{{s.0}}_stored" id="{{c.0}}_{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0"> </td>
-                                </tr>
-                                {% endfor %}
+                        <form action="{% url 'addproduct' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class ="row">
+                                <div class="col-6 col-12-medium">
+                                    <div><input type="text" name="product_name" id="product_name" placeholder="商品名稱" /></div>
+                                    <div><input type="hidden" name="product_style_number" id="product_style_number"/></div>
+                                    <div><input type="text" name="product_price" id="product_price" placeholder="售價" /></div>
+                                    <select name="genre" id="genre">
+                                        {% for g in genre %}
+                                        <option value="{{g.0}}">{{g.0}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="category" id="category">
+                                        {% for c in category %}
+                                        <option value="{{c.0}}">{{c.0}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div><input type="text" name="product_sales_category" id="product_sales_category" placeholder="Sales Category" /></div>
+                                </div>
+                                <div class="col-6 col-12-medium">
+                                    <label>尺寸</label>
+                                    <div class="col-2 col-12-small">
+                                        {% for s in size %}
+                                        <input type="checkbox" id="{{s.0}}" value="{{s.0}}" name="size" />
+                                        <label for="{{s.0}}">{{s.0}}</label>
+                                        {% endfor %}
+                                    </div>
+                                    <textarea name="product_description" id="product_description" placeholder="" rows="6"></textarea>
+                                </div>
+                            </div>
+                            <hr>
+                            <button type="button" class="btn btn-primary" id="addRow">新增款式</button>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td width="17.5%" align="left">ID</td>
+                                        <td width="17.5%" align="left">顏色</td>
+                                        <td width="12.5%" align="left">尺寸&庫存量</td>
+                                        <td width="12.5%" align="left"></td>
+                                        <td width="30%" align="left">商品圖片</td>
+                                        <td width="10%" align="left">功能</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody"></tbody>
                             </table>
-                        </div>
-                        {% endfor %}
-                        <div class="col-6 col-12-medium">
-                            <div><input type="submit" value="確認上架"></div>
-                        </div>
-                    </form>
+                            <div class="col-6 col-12-medium">
+                                <div><input type="submit" value="確認上架" style="float:right"/></div>
+                            </div>
+                        </form>
                     </div>
-                </div>
             </div>
         </section>
         <!-- Footer -->
@@ -117,13 +97,14 @@
                 <div class="content">
                     <section>
                         <h3>系統目的</h3>
-                        <p>我們的專題系統的目的主要在於<br>
-                            1.減少在外面的人流<br>
-                            2.改良網上的購物體驗<br>
-                            3.找尋商品的客製化<br>
-                            4.減少仿冒商品<br>
-                            5.增加商家的所得<br>
-                            6.減少商家的成本<br>
+                        <p>
+                            我們的專題系統的目的主要在於<br />
+                            1.減少在外面的人流<br />
+                            2.改良網上的購物體驗<br />
+                            3.找尋商品的客製化<br />
+                            4.減少仿冒商品<br />
+                            5.增加商家的所得<br />
+                            6.減少商家的成本<br />
                             7.有效利用商家的人力資源
                         </p>
                     </section>
@@ -137,16 +118,24 @@
                     <section>
                         <h4>關注我們</h4>
                         <ul class="plain">
-                            <li><a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
-                            <li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
-                            <li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
-                            <li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+                            <li>
+                                <a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="icon fa-github">&nbsp;</i>Github</a>
+                            </li>
                         </ul>
                     </section>
                 </div>
                 <div class="copyright">
-                    &copy; Clothes to You <a>國立臺灣科技大學</a>, 資訊管理系 <br>
-                    &copy; 模板來源 <a href = "https://templated.co/">templated.co</a>
+                    &copy; Clothes to You <a>國立臺灣科技大學</a>, 資訊管理系 <br />
+                    &copy; 模板來源 <a href="https://templated.co/">templated.co</a>
                 </div>
             </div>
         </footer>
@@ -156,21 +145,132 @@
         <script src="{% static 'js/breakpoints.min.js' %}"></script>
         <script src="{% static 'js/util.js' %}"></script>
         <script src="{% static 'js/main.js' %}"></script>
-        <script>
-            var coll = document.getElementsByClassName("collapsible");
-            var i;
+        <script type="text/template" id="tr_tmpl">
+            <td><input type="text" name="color_id" id="color_id" placeholder="01" class = "Id"></td>
+            <td><input type="text" name="color_names" id="color_names" placeholder="請輸入商品顏色" class="Color"/></td>
 
-            for (i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function() {
-                    this.classList.toggle("active");
-                    var inner_content = this.nextElementSibling;
-                    if (inner_content.style.display === "block") {
-                        inner_content.style.display = "none";
-                    } else {
-                        inner_content.style.display = "block";
+
+            <td>{% for s in size %} <label style="font-size: 1.42rem">{{s.0}}</label> {% endfor %}</td>
+            <td>
+                {% for s in size %}
+                <input type="number" min="0" name="{{s.0}}_stored" id="{{s.0}}_stored" placeholder="{{s.0}} 庫存" value="0" class = "{{s.0}}_stored">
+                {% endfor %}
+            </td>
+
+            <td><input type="file" id="image" name="image" accept="image/png, image/jpeg" enctype="multipart/form-data"  class='Picture'></td>
+            <td><a class="delete" href="javascript:void(0)">移除</a></td>
+        </script>
+        <script>
+            var index = 0;
+            function reIndex(){
+
+                const class_collection = ['Id', 'Color', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'Picture'];
+                var table_body = document.getElementById("tableBody");
+                var arrays = table_body.getElementsByTagName("tr");
+
+                for (var i = 0; i < arrays.length; i++) {
+                    var inputs = arrays[i].getElementsByTagName("input");
+                    //alert(inputs.length);
+                    for (var j=0; j < inputs.length; j++){
+                        inputs[j].id = class_collection[j] + "_" + i;
+                        inputs[j].name = class_collection[j] + "_" + i;
                     }
-                });
+                }
+
+                //alert(class_color_id.length);
             }
+            $(document).ready(function () {
+                $("#addRow").on("click", function () {
+                    var trHtml = $("#tr_tmpl").html();
+                    var tr = $("<tr>" + trHtml + "</tr>");
+                    $("#tableBody").append(tr);
+                    index += 1;
+                    document.getElementById("product_style_number").value = index;
+
+                    tr.find("a.delete").on("click", function () {
+                        index -= 1;
+                        document.getElementById("product_style_number").value = index;
+                        tr.remove();
+                        reIndex();
+                    });
+
+                    reIndex();
+
+                    /*
+                    function reIndex() {
+                        var rows = $("tbody tr");
+                        var id = $("input#color_id");
+                        var cols = $("input#color_names");
+
+
+                        var XS = $("input#XS_stored");
+                        var S = $("input#S_stored");
+                        var M = $("input#M_stored");
+                        var L = $("input#L_stored");
+                        var XL = $("input#XL_stored");
+                        var XXL = $("input#XXL_stored");
+
+                        var pic = $("input#image");
+
+                        const size = [XS, S, M, L, XL, XXL];
+                        const size_name = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+                        rows.each(function (i, row) {
+                            cols.each(function (row, col) {
+                                $(col).find(".Color").html(i + 1);
+                                col.id = "names_" + i;
+                                col.name = "names_" + i;
+                            });
+
+                            id.each(function (row, col) {
+                                $(col).find(".Id").html(i + 1);
+                                col.id = "id_" + i;
+                                col.name = "id_" + i;
+                                col.value = i+1;
+                            });
+
+
+                            for (var j =0; j < size.length; j++) {
+                                var s = size[j];
+                                s.each(function (row, s) {
+                                    $(s).find(".Quantity").html(i + 1);
+                                    s.id = size_name[j] + "_" + i;
+                                    s.name = size_name[j] + "_" + i;
+                                });
+                            }
+
+                            pic.each(function (row, pics) {
+                                $(pics).find(".Picture").html(i + 1);
+                                pics.id = "image_" + i;
+                                pics.name = "image_" + i;
+                            });
+
+                            //$(row).find(".Id").html(i + 1);
+                            //row.id = "id_" + i;
+                            //row.name = "id_" + i;
+                        });
+                    }
+                    */
+
+                    // Getting the table element
+
+                    // Looping over tables
+                    for (var i = 0; i < tables.length; i++) {
+                        // Get the ith table
+                        var table = tables[i];
+
+                        // Set the id dynamically
+                        table.setAttribute("id", i + 1);
+
+                        // The line below will also give id
+                        // dynamically to the tables
+                        //table.id = i+1;
+                    }
+                    var action = $(tr).find(".action");
+                    action.on("click", function () {
+                        onActionHandler();
+                    });
+                });
+            });
         </script>
     </body>
 </html>

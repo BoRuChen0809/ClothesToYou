@@ -44,7 +44,7 @@
 					<form action="{% url 'login' %}" method="post">{% csrf_token %}
 						<div> <input type="text" name="user_email" id="user_email" value="" placeholder="電子郵件"> </div>
 						<div> <input type="password" name="user_password" id="user_password" value="" placeholder="密碼"> </div>
-						<div> <input type="submit" value="登入">  <hr> 尚未擁有帳號嗎? <a href="{% url 'register' %}">註冊</a> </div>
+						<div> <input type="submit" value="登入" style="float:right">  <hr> 尚未擁有帳號嗎? <a href="{% url 'register' %}">註冊</a> </div>
 					</form>
 					<div>{{failed}}</div>
 				</div>

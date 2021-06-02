@@ -32,10 +32,30 @@ class Shopping_Car(models.Model):
     User = models.ForeignKey(Clothes2You_User, on_delete=models.CASCADE, default=None)
     Product = models.ForeignKey(Stored, on_delete=models.CASCADE, default=None)
     Quantity = models.IntegerField(default=None)
+    Selected = models.BooleanField(default=False)
+
+class Order(models.Model):
+    ID = models.CharField(primary_key=True, max_length=14)
+    User = models.ForeignKey(Clothes2You_User, on_delete=models.CASCADE, default=None)
+    Supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, default=None)
+    STATE_CHOICES = (('準備中', '準備中'), ('已出貨', '已出貨'), ('已到貨', '已到貨'), ('取消', '取消'), ('完成', '完成'), ('申請取消中', '申請取消中'))
+    State = models.CharField(max_length=10, choices=STATE_CHOICES, default='未送出')
+    DateTime = models.DateTimeField(auto_now_add=True)
+    Receiver = models.CharField(max_length=50, default=None)
+    Mail = models.EmailField(default=None)
+    Phone = models.CharField(max_length=12, default=None)
+    Address = models.CharField(max_length=100, default=None)
+    Total_Price = models.IntegerField(default=None)
+    Remark = models.CharField(max_length=200, default="")
+class Order_Detail(models.Model):
+    ID = models.ForeignKey(Order, on_delete=models.CASCADE, default=None)
+    Stored = models.ForeignKey(Stored, on_delete=models.CASCADE, default=None)
+    Quantity = models.IntegerField(default=None)
+    Price = models.IntegerField(default=None)
 
 class UserManager(Manager):
-    def createUser(mail,name,pwd,salt,phone1):
-        user = Clothes2You_User(Name=name,Mail=mail,PWD=pwd,Salt=salt,Phone_1=phone1)
+    def createUser(mail, name, pwd, salt, phone1):
+        user = Clothes2You_User(Name=name, Mail=mail, PWD=pwd, Salt=salt, Phone_1=phone1)
         user.save()
         '''
     def update(self,mail=None, phone1=None, address=None):
