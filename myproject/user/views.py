@@ -278,8 +278,8 @@ def search(request):
     elif "search" in request.POST:
         text = request.POST['search']
 
-        search_vector = SearchVector("name", weight='A')
-        search_vector += SearchVector("description", weight='B')
+        search_vector = SearchVector("Name", weight='A')
+        search_vector += SearchVector("Description", weight='B')
         search_query = SearchQuery(text)
         search_rank = SearchRank(search_vector,
                                  search_query)
@@ -500,7 +500,18 @@ def cancelorder(request, order_ID):
     else:
         return redirect('reason', order_ID=order_ID)
 
+def cancelreason(request, order_ID):
+    order = Order.objects.get(ID=order_ID)
+    if request.POST:
+        cancel_description = request.POST['cancel_description']
+        print(cancel_description)
+        order.State = "申請取消中"
+        order.Remark = cancel_description
+        order.save()
+        return redirect('orderspage')
 
+    context = {'order': order}
+    return render(request, 'user_cancel_order.html', context)
 
 
 def showproduct_by_tag(request, category):
