@@ -519,7 +519,7 @@ def showproduct_by_tag(request, category):
     products_list = []
     for product in products:
         temp = temp_productss(product)
-        products_list.append(temp_product(product))
+        products_list.append(temp_productss(product))
         print(temp.Pic)
 
     context = {'products': products_list}
