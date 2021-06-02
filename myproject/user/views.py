@@ -15,7 +15,7 @@ from datetime import datetime as dt
 from datetime import timedelta as delay
 # Create your views here.
 import os
-from user.modules.image_search.image_search import ReverseImageSearch
+from user.modules.image_search import ReverseImageSearch
 from user.modules.get_current_time import get_current_time
 from supplier.models import Product
 from user.recommender import Recommender
@@ -23,13 +23,13 @@ from user.recommender import Recommender
 # **************************** views ***************************** #
 
 def index(request):
-	"""
-	# origin:
+    """
+    # origin:
     return render(request, 'index.html')
-	"""
-	
-	# 6/2:
-	#return render(request, 'index.html')
+    """
+    
+    # 6/2:
+    #return render(request, 'index.html')
     #'''
     products = Product.objects.all()
     #sku_list = [prod.sku_set.first() for prod in Product.objects.all()]
@@ -206,12 +206,12 @@ def product_detail(request, product_ID):
                 sizes.append(s.Size)
     context = {'product': product, 'skus': skus, 'sizes': sizes}
     
-	# get recommendations related to current product (Item-based)
+    # get recommendations related to current product (Item-based)
     r = Recommender()
     recommendations = r.get_recommendations(product_ID, 4)
     context["recommendations"] = recommendations
-	
-	if request.POST:
+    
+    if request.POST:
         if 'user_mail' not in request.session:
             return redirect('login')
         else:
@@ -399,7 +399,7 @@ def checkout(request):
 
     return redirect('mycart')
 
- def orderdetails(request):
+def orderdetails(request):
     if request.POST:
         supplier_set = set()
         mail = request.session['user_mail']
@@ -505,7 +505,7 @@ def showproduct_by_tag(request, category):
     products = Product.objects.filter(Category=category)
     products_list = []
     for product in products:
-        temp = temp_product(product)
+        temp = temp_productss(product)
         products_list.append(temp_product(product))
         print(temp.Pic)
 
@@ -513,7 +513,7 @@ def showproduct_by_tag(request, category):
     return render(request, 'user_search.html', context)
 
 
-class temp_product():
+class temp_productss():
     def __init__(self, product):
         self.product = product
         self.Pic = self.setPic()

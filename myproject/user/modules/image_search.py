@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from sklearn.neighbors import NearestNeighbors 
 import matplotlib.pyplot as plt
-from user.modules.image_search.modules.get_probable_images_vgg16 import vgg16_get_probable_images
+from user.modules.get_probable_images_vgg16 import vgg16_get_probable_images
 
 # Suggestion: Use "v1" or "v2" as the reordering model,
 #             because the model of "v0" is already be used to
@@ -27,7 +27,7 @@ elif import_method == "v1":
 
 elif import_method == "v2":
     from tensorflow.keras.applications.resnet50 import preprocess_input
-    from user.modules.image_search.modules.v2_module import build_resnet_model
+    from user.modules.v2_module import build_resnet_model
     
 class ReverseImageSearch:
     def __init__(self, method, MAX_AMT, top_K, raw_img, img_db_path):
