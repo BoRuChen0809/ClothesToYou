@@ -3,7 +3,7 @@ import re,bcrypt
 from urllib.parse import unquote
 
 from PIL import Image
-from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.template import loader
 from .models import Clothes2You_User, UserManager, Shopping_Car, Order, Order_Detail
 from supplier.models import Product, SKU, Stored, Supplier
@@ -277,10 +277,23 @@ def search(request):
     # text search
     elif "search" in request.POST:
         text = request.POST['search']
-        print(f"親愛的用戶，您剛剛搜尋的字詞為：\"{text}\"")
-        yy, MM, dd, HH, mm, ss = get_current_time().split('_')
-        print(f"今天是: {yy}年 {MM}月 {dd}日")
-        print(f"現在時間是: {HH}點 {mm}分 {ss}秒")
+
+        search_vector = SearchVector("name", weight='A')
+        search_vector += SearchVector("description", weight='B')
+        search_query = SearchQuery(text)
+        search_rank = SearchRank(search_vector,
+                                 search_query)
+        # 加權查詢(+以 rank 排序)
+        results = Product.objects.annotate(
+            rank=search_rank
+        ).filter(rank__gte=0.000001) \
+            .order_by("-rank")
+
+        results_list = []
+        for results in results:
+            results_list.append(temp_productss(results))
+        context = {'products': results_list}
+        return render(request, 'user_search.html', context)
     else:
         return redirect('index')
     return redirect('index')
@@ -488,18 +501,7 @@ def cancelorder(request, order_ID):
         return redirect('reason', order_ID=order_ID)
 
 
-def cancelreason(request, order_ID):
-    order = Order.objects.get(ID=order_ID)
-    if request.POST:
-        cancel_description = request.POST['cancel_description']
-        print(cancel_description)
-        order.State = "申請取消中"
-        order.Remark = cancel_description
-        order.save()
-        return redirect('orderspage')
 
-    context = {'order': order}
-    return render(request, 'user_cancel_order.html', context)
 
 def showproduct_by_tag(request, category):
     products = Product.objects.filter(Category=category)
