@@ -37,7 +37,8 @@
         </div>
         <section id="main" class="wrapper">
             <div class="inner">
-                <form action="">
+                <form action="{% url 'search' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="row">
                         <div class="col-8 col-12-medium">
                             <input id="search" type="search" placeholder=" *(๑•̀ㅂ•́)و⚡" name="search">
